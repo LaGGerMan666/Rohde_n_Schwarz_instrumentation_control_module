@@ -14,7 +14,14 @@ MainWindow::MainWindow(QWidget *parent)
     ui->pb_Disconnect->setEnabled(false);
     ui->le_Command->setEnabled(false);
     ui->pb_Send->setEnabled(false);
+    ui->le_Frequency->setEnabled(false);
+    ui->le_Level->setEnabled(false);
+    ui->le_PEP->setEnabled(false);
+    ui->cb_FrequencyUnits->setEnabled(false);
+    ui->cb_LevelUnits->setEnabled(false);
+    ui->cb_PEPUnits_2->setEnabled(false);
     ui->statusbar->showMessage("Состояние: отключено.");
+
     // Настройка условия заполнения полей ввода
     QRegExp correctFrequence("^(\\d+(\\.\\d+)?)$");
     QRegExp correctPepAndLevel("^(-?\\d{1,4}(\\.\\d{1,3})?)$");
@@ -260,6 +267,12 @@ void MainWindow::slotError(QAbstractSocket::SocketError error)
         ui->pb_Connection->setEnabled(true);
         ui->pb_Disconnect->setEnabled(false);
         ui->pb_Send->setEnabled(false);
+        ui->le_Frequency->setEnabled(false);
+        ui->le_Level->setEnabled(false);
+        ui->le_PEP->setEnabled(false);
+        ui->cb_FrequencyUnits->setEnabled(false);
+        ui->cb_LevelUnits->setEnabled(false);
+        ui->cb_PEPUnits_2->setEnabled(false);
         ui->statusbar->showMessage("Состояние: отключено.");
     }
 
@@ -273,6 +286,12 @@ void MainWindow::slotConnected()
     ui->pb_Connection->setEnabled(false);
     ui->pb_Disconnect->setEnabled(true);
     ui->le_Command->setEnabled(true);
+    ui->le_Frequency->setEnabled(true);
+    ui->le_Level->setEnabled(true);
+    ui->le_PEP->setEnabled(true);
+    ui->cb_FrequencyUnits->setEnabled(true);
+    ui->cb_LevelUnits->setEnabled(true);
+    ui->cb_PEPUnits_2->setEnabled(true);
     ui->le_Command->setFocus();
 
     slotSendToServer("*IDN?");
@@ -328,6 +347,12 @@ void MainWindow::slotDisconnected()
     ui->pb_Connection->setEnabled(true);
     ui->pb_Disconnect->setEnabled(false);
     ui->pb_Send->setEnabled(false);
+    ui->le_Frequency->setEnabled(false);
+    ui->le_Level->setEnabled(false);
+    ui->le_PEP->setEnabled(false);
+    ui->cb_FrequencyUnits->setEnabled(false);
+    ui->cb_LevelUnits->setEnabled(false);
+    ui->cb_PEPUnits_2->setEnabled(false);
     ui->statusbar->showMessage("Состояние: отключено.");
 }
 
