@@ -9,7 +9,7 @@ MainWindow::MainWindow(QWidget *parent)
     ui->setupUi(this);
     tcpSocket = new QTcpSocket(this);
 
-    // Настроки активности виджетов
+    // Активность виджетов главного окна
     ui->te_Log->setReadOnly(true);
     ui->pb_Disconnect->setEnabled(false);
     ui->le_Command->setEnabled(false);
@@ -20,6 +20,7 @@ MainWindow::MainWindow(QWidget *parent)
     ui->cb_FrequencyUnits->setEnabled(false);
     ui->cb_LevelUnits->setEnabled(false);
     ui->cb_PEPUnits_2->setEnabled(false);
+    ui->mdiArea->setEnabled(false);
     ui->statusbar->showMessage("Состояние: отключено.");
 
     // Настройка условия заполнения полей ввода
@@ -261,6 +262,7 @@ void MainWindow::slotError(QAbstractSocket::SocketError error)
     }
     if(isDisconnected)
     {
+        // Активность виджетов главного окна
         ui->te_Log->append(strError);
         ui->le_Command->clear();
         ui->le_Command->setEnabled(false);
@@ -273,6 +275,7 @@ void MainWindow::slotError(QAbstractSocket::SocketError error)
         ui->cb_FrequencyUnits->setEnabled(false);
         ui->cb_LevelUnits->setEnabled(false);
         ui->cb_PEPUnits_2->setEnabled(false);
+        ui->mdiArea->setEnabled(false);
         ui->statusbar->showMessage("Состояние: отключено.");
     }
 
@@ -282,6 +285,8 @@ void MainWindow::slotError(QAbstractSocket::SocketError error)
 void MainWindow::slotConnected()
 {
     ui->te_Log->append(QTime::currentTime().toString() + " -  Соединение с SMW200A установлено.\n");
+
+    // Активность виджетов главного окна
     ui->pb_Send->setEnabled(true);
     ui->pb_Connection->setEnabled(false);
     ui->pb_Disconnect->setEnabled(true);
@@ -292,6 +297,7 @@ void MainWindow::slotConnected()
     ui->cb_FrequencyUnits->setEnabled(true);
     ui->cb_LevelUnits->setEnabled(true);
     ui->cb_PEPUnits_2->setEnabled(true);
+    ui->mdiArea->setEnabled(true);
     ui->le_Command->setFocus();
 
     slotSendToServer("*IDN?");
@@ -343,6 +349,7 @@ void MainWindow::slotDisconnected()
 {
     ui->te_Log->append(QTime::currentTime().toString() + " -  Соединение прервано.");
     ui->le_Command->clear();
+    // Активность виджетов главного окна
     ui->le_Command->setEnabled(false);
     ui->pb_Connection->setEnabled(true);
     ui->pb_Disconnect->setEnabled(false);
@@ -353,6 +360,7 @@ void MainWindow::slotDisconnected()
     ui->cb_FrequencyUnits->setEnabled(false);
     ui->cb_LevelUnits->setEnabled(false);
     ui->cb_PEPUnits_2->setEnabled(false);
+    ui->mdiArea->setEnabled(false);
     ui->statusbar->showMessage("Состояние: отключено.");
 }
 
