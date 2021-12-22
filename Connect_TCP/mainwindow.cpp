@@ -9,7 +9,7 @@ MainWindow::MainWindow(QWidget *parent)
     ui->setupUi(this);
     tcpSocket = new QTcpSocket(this);
     SMW200A = new RnSSCPI();
-    //SMW200A->SetFrequency("1", "dfsf");
+    SMW200A->SetFrequency("1", units::GHz);
 
     // Активность виджетов главного окна
     ui->te_Log->setReadOnly(true);
