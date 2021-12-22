@@ -71,6 +71,7 @@ private:
     QFile *log_commands;
     int countPressBut = 0;
     QMdiSubWindow *myFirstSubWin;
+    RnSSCPI *SMW200A;
 
 
 private:
