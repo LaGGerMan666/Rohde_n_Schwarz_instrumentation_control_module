@@ -7,6 +7,7 @@
 #define MIN_FREQ 100
 #define MAX_POW 30
 #define MIN_POW -145
+#define 
 
 
 // Это так, для себя. Не насмехайтесь(
