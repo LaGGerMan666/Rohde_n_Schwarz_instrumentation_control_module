@@ -271,12 +271,12 @@
             </item>
             <item>
              <property name="text">
-              <string>dBµV</string>
+              <string>dBUV</string>
              </property>
             </item>
             <item>
              <property name="text">
-              <string>nV</string>
+              <string>V</string>
              </property>
             </item>
            </widget>
@@ -342,12 +342,12 @@
             </item>
             <item>
              <property name="text">
-              <string>dBµV</string>
+              <string>dBUV</string>
              </property>
             </item>
             <item>
              <property name="text">
-              <string>nV</string>
+              <string>V</string>
              </property>
             </item>
            </widget>
