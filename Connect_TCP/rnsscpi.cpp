@@ -6,6 +6,12 @@ RnSSCPI::RnSSCPI()
 
 }
 
+QString RnSSCPI::GetError()
+{
+    QString command = "SYSTem:ERRor?";
+    return command + "\n";
+}
+
 QString RnSSCPI::SetFrequency(QString value, QString unit, int sour_hw)
 {
     QString command;
