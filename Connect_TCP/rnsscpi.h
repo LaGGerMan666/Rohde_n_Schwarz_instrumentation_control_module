@@ -5,8 +5,10 @@
 #include <math.h>
 #define MAX_FREQ 12750000000
 #define MIN_FREQ 100
-#define MAX_POW 30
-#define MIN_POW -145
+#define MAX_POW_DBM 30
+#define MIN_POW_DBM -145
+#define MIN_POW_V 12.57/pow(10,9)
+#define MAX_POW_V 7.071
 
 
 // Это так, для себя. Не насмехайтесь(
@@ -19,6 +21,8 @@ namespace units {
     const QString dBM = "dBM";
     const QString dBUV = "dBUV";
     const QString V = "V";
+    const QString mV = "mV";
+    const QString uV = "uV";
     const QString nV = "V";
 }
 
