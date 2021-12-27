@@ -65,7 +65,7 @@ private slots:
 
 private:
     QTcpSocket *tcpSocket;
-    QString SMW_ADDRESS = "172.16.13.41";
+    QString SMW_ADDRESS = "172.16.13.41"; //42
     quint16 SMW_PORT = 5025;
     QString response_From_Device;
     QFile *log_commands;

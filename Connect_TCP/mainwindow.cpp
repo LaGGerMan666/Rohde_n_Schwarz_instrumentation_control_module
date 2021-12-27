@@ -303,15 +303,15 @@ void MainWindow::slotConnected()
     ui->le_Command->setFocus();
 
     slotSendToServer("*IDN?");
-    slotSendToServer("*TST?");
-    if(response_From_Device == "0\n")
-    {
-        ui->te_Log->append("Проверка устройства прошла успешно!");
-    }
-    else
-    {
-        ui->te_Log->append("Возникли проблемы проверки устройства: " + response_From_Device);
-    }
+//    slotSendToServer("*TST?");
+//    if(response_From_Device == "0\n")
+//    {
+//        ui->te_Log->append("Проверка устройства прошла успешно!");
+//    }
+//    else
+//    {
+//        ui->te_Log->append("Возникли проблемы проверки устройства: " + response_From_Device);
+//    }
     slotSendToServer("SYSTEM:ERROR?");
     ui->statusbar->showMessage("Состояние: подключено.");
 

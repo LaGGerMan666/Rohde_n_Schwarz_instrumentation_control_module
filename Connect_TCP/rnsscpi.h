@@ -3,6 +3,7 @@
 
 #include <QString>
 #include <math.h>
+#include <QRegExp>
 #define MAX_FREQ 12750000000
 #define MIN_FREQ 100
 #define MAX_POW_DBM 30
@@ -35,11 +36,12 @@ class RnSSCPI
         bool isError;
         QString response_From_Device;
 
-
     public:
         RnSSCPI();
         void ListenToDevice(QString answer);
-        QString GetError();
+        QString Get_Last_Response();
+        QString Send_Request_Error();
+        void Response_Handling(QString answer);
         QString SetFrequency(QString value, QString unit = units::Hz, int sour_hw = 1);
         QString SetFrequency(double value, QString unit = units::Hz, int sour_hw = 1);
         QString SetPower(QString value, QString unit = units::dBM, int sour_hw = 1);

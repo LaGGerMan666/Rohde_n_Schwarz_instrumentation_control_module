@@ -6,10 +6,30 @@ RnSSCPI::RnSSCPI()
 
 }
 
-QString RnSSCPI::GetError()
+QString RnSSCPI::Get_Last_Response()
+{
+    QString result;
+    !response_From_Device.isEmpty() ? result = response_From_Device :  result = "Ответа от устройства еще не было";
+    response_From_Device.clear();
+    return result;
+}
+
+QString RnSSCPI::Send_Request_Error()
 {
     QString command = "SYSTem:ERRor?";
     return command + "\n";
+}
+
+void RnSSCPI::Response_Handling(QString answer)
+{
+    QRegExp searchNewLine("^(.+)\\n$");
+//    QRegExp checkNoError("^(0,\"No error\")\\n$");
+    if(!answer.isEmpty())
+    {
+        searchNewLine.indexIn(answer);
+        response_From_Device = searchNewLine.cap(1);
+    }
+
 }
 
 QString RnSSCPI::SetFrequency(QString value, QString unit, int sour_hw)
