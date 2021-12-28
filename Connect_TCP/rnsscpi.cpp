@@ -319,6 +319,7 @@ QString RnSSCPI::SetLevel(QString value, int unit, int sour_hw)
 
 QString RnSSCPI::SetLevel(double value, int unit, int sour_hw)
 {
+
     QString command;
     switch (unit)
     {
