@@ -266,7 +266,7 @@
             </property>
             <item>
              <property name="text">
-              <string>dBm</string>
+              <string>dBM</string>
              </property>
             </item>
             <item>
@@ -277,6 +277,21 @@
             <item>
              <property name="text">
               <string>V</string>
+             </property>
+            </item>
+            <item>
+             <property name="text">
+              <string>mV</string>
+             </property>
+            </item>
+            <item>
+             <property name="text">
+              <string>uV</string>
+             </property>
+            </item>
+            <item>
+             <property name="text">
+              <string>nV</string>
              </property>
             </item>
            </widget>
@@ -337,7 +352,7 @@
             </property>
             <item>
              <property name="text">
-              <string>dBm</string>
+              <string>dBM</string>
              </property>
             </item>
             <item>
@@ -348,6 +363,21 @@
             <item>
              <property name="text">
               <string>V</string>
+             </property>
+            </item>
+            <item>
+             <property name="text">
+              <string>mV</string>
+             </property>
+            </item>
+            <item>
+             <property name="text">
+              <string>uV</string>
+             </property>
+            </item>
+            <item>
+             <property name="text">
+              <string>nV</string>
              </property>
             </item>
            </widget>

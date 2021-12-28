@@ -9,7 +9,6 @@ MainWindow::MainWindow(QWidget *parent)
     ui->setupUi(this);
     tcpSocket = new QTcpSocket(this);
     SMW200A = new RnSSCPI();
-    SMW200A->SetFrequency("1", units::GHz);
 
     // Активность виджетов главного окна
     ui->te_Log->setReadOnly(true);
@@ -154,18 +153,18 @@ void MainWindow::slotSendToServer(QString command)
     QRegExp regExp("\\?");
     regExp.indexIn(command);
     QString isRequest = regExp.cap(0);
-    command += "\n";
+    //command += "\n";
     QByteArray arrBlock = command.toStdString().c_str();
     tcpSocket->write(arrBlock);
     if(!isRequest.isEmpty())
     {
         bool check = tcpSocket->waitForReadyRead(1000);
-        if(!check) slotSendToServer("SYST:ERR?");
+        if(!check) slotSendToServer(SMW200A->Send_Request_Error());
     }
     else
     {
         tcpSocket->waitForBytesWritten();
-        slotSendToServer("SYST:ERR?");
+        slotSendToServer(SMW200A->Send_Request_Error());
     }
     log_commands->close();
 }
@@ -302,20 +301,11 @@ void MainWindow::slotConnected()
     ui->mdiArea->setEnabled(true);
     ui->le_Command->setFocus();
 
-    slotSendToServer("*IDN?");
-//    slotSendToServer("*TST?");
-//    if(response_From_Device == "0\n")
-//    {
-//        ui->te_Log->append("Проверка устройства прошла успешно!");
-//    }
-//    else
-//    {
-//        ui->te_Log->append("Возникли проблемы проверки устройства: " + response_From_Device);
-//    }
-    slotSendToServer("SYSTEM:ERROR?");
+    slotSendToServer(SMW200A->Send_Request_IDN());
+    slotSendToServer(SMW200A->Send_Request_Error());
     ui->statusbar->showMessage("Состояние: подключено.");
 
-    slotSendToServer("SOURce:FREQuency:CW?");
+    slotSendToServer(SMW200A->Send_Request_Frequency());
     double result;
     switch(ui->cb_FrequencyUnits->currentIndex())
     {
@@ -338,10 +328,10 @@ void MainWindow::slotConnected()
             ui->le_Frequency->setText(response_From_Device);
         break;
     }
-
-    slotSendToServer("SOURce:POWer:PEP?");
+    slotSendToServer(SMW200A->Send_Request_PEP());
     ui->le_PEP->setText(delSpace(response_From_Device));
-    slotSendToServer("SOURce:POWer:LEVel:IMMediate:AMPLitude?");
+
+    slotSendToServer(SMW200A->Send_Request_Level());
     ui->le_Level->setText(delSpace(response_From_Device));
 
 
@@ -388,7 +378,7 @@ void MainWindow::on_pb_Send_clicked()
             QTextStream out(log_commands);
             out << QDateTime::currentDateTime().toString() << " - " << ui->le_Command->text() << endl;
         }
-        emit signalSendToServer(ui->le_Command->text());
+        emit signalSendToServer(ui->le_Command->text() + "\n");
     }
     ui->le_Command->clear();
     countPressBut = 0;
@@ -428,7 +418,7 @@ void MainWindow::on_le_Command_returnPressed()
             QTextStream out(log_commands);
             out << QDateTime::currentDateTime().toString() << " - " << ui->le_Command->text() << endl;
         }
-        emit signalSendToServer(ui->le_Command->text());
+        emit signalSendToServer(ui->le_Command->text() + "\n");
     }
     ui->le_Command->clear();
     countPressBut = 0;
@@ -437,29 +427,28 @@ void MainWindow::on_le_Command_returnPressed()
 // Установка Frequency. При смене фокуса или при нажатии на Enter отправляются данные на устройство.
 void MainWindow::on_le_Frequency_editingFinished()
 {
-    QString command = "SOURce:FREQuency:CW " + ui->le_Frequency->text() + "" + ui->cb_FrequencyUnits->currentText();
+    QString command = SMW200A->SetFrequency(ui->le_Frequency->text(), ui->cb_FrequencyUnits->currentIndex());
     ui->te_Log->append(QTime::currentTime().toString() + " -  Установлено значение Frequency : " + command);
     emit signalSendToServer(command);
-
 }
 
 // Установка PEP. При смене фокуса или при нажатии на Enter отправляются данные на устройство.
 void MainWindow::on_le_PEP_editingFinished()
 {
-    QString command = "SOURce:POWer:POWer " + ui->le_PEP->text() + "" + ui->cb_PEPUnits_2->currentText();
+    QString command = SMW200A->SetPower(ui->le_PEP->text(), ui->cb_PEPUnits_2->currentIndex());
     ui->te_Log->append(QTime::currentTime().toString() + " -  Установлено значение PEP : " + command);
     emit signalSendToServer(command);
-    slotSendToServer("SOURce:POWer:LEVel:IMMediate:AMPLitude?");
+    slotSendToServer(SMW200A->Send_Request_Level());
     ui->le_Level->setText(delSpace(response_From_Device));
 }
 
 // Установка Level. При смене фокуса или при нажатии на Enter отправляются данные на устройство.
 void MainWindow::on_le_Level_editingFinished()
 {
-    QString command = "SOURce:POWer:LEVel:IMMediate:AMPLitude " + ui->le_Level->text() + "" + ui->cb_LevelUnits->currentText();
+    QString command = SMW200A->SetLevel(ui->le_Level->text(), ui->cb_LevelUnits->currentIndex());
     ui->te_Log->append(QTime::currentTime().toString() + " -  Установлено значение Level : " + command);
     emit signalSendToServer(command);
-    slotSendToServer("SOURce:POWer:PEP?");
+    slotSendToServer(SMW200A->Send_Request_PEP());
     ui->le_PEP->setText(delSpace(response_From_Device));
 }
 

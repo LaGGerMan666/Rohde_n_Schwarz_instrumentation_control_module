@@ -27,6 +27,22 @@ namespace units {
     const QString nV = "V";
 }
 
+enum unitsFreq {
+    eGHz,
+    eMHz,
+    ekHz,
+    eHZ
+
+};
+enum unitsPower{
+    edBM,
+    edBUV,
+    eV,
+    emV,
+    euV,
+    enV
+};
+
 class RnSSCPI
 {
     public:
@@ -40,14 +56,18 @@ class RnSSCPI
         RnSSCPI();
         void ListenToDevice(QString answer);
         QString Get_Last_Response();
+        QString Send_Request_IDN();
         QString Send_Request_Error();
+        QString Send_Request_Frequency();
+        QString Send_Request_Level();
+        QString Send_Request_PEP();
         void Response_Handling(QString answer);
-        QString SetFrequency(QString value, QString unit = units::Hz, int sour_hw = 1);
-        QString SetFrequency(double value, QString unit = units::Hz, int sour_hw = 1);
-        QString SetPower(QString value, QString unit = units::dBM, int sour_hw = 1);
-        QString SetPower(double value, QString unit = units::dBM, int sour_hw = 1);
-        QString SetLevel(QString value, QString unit = units::dBM, int sour_hw = 1);
-        QString SetLevel(double value, QString unit = units::dBM, int sour_hw = 1);
+        QString SetFrequency(QString value, int unit = 3, int sour_hw = 1);
+        QString SetFrequency(double value, int unit = 3, int sour_hw = 1);
+        QString SetPower(QString value, int unit = 0, int sour_hw = 1);
+        QString SetPower(double value, int unit = 0, int sour_hw = 1);
+        QString SetLevel(QString value, int unit = 0, int sour_hw = 1);
+        QString SetLevel(double value, int unit = 0, int sour_hw = 1);
 };
 
 #endif // RNSSCPI_H
