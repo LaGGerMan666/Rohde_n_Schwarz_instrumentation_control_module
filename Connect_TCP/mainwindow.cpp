@@ -94,9 +94,8 @@ void MainWindow::keyPressEvent(QKeyEvent *event)
                     ui->le_Command->setText(commands.at(commands.count() - countPressBut));
                 }
             }
-
         }
-        catch(std::exception err)
+        catch(std::exception &err)
         {
             QMessageBox::warning(this, "Ошибка чтения файла команд.", err.what(), QMessageBox::Ok);
         }
@@ -129,9 +128,8 @@ void MainWindow::keyPressEvent(QKeyEvent *event)
                     ui->le_Command->clear();
                 }
             }
-
         }
-        catch (std::exception err)
+        catch (std::exception &err)
         {
             QMessageBox::warning(this, "Ошибка чтения файла команд.", err.what(), QMessageBox::Ok);
         }
@@ -169,7 +167,6 @@ void MainWindow::slotSendToServer(QString command)
     QRegExp regExp("\\?");
     regExp.indexIn(command);
     QString isRequest = regExp.cap(0);
-    //command += "\n";
     QByteArray arrBlock = command.toStdString().c_str();
     tcpSocket->write(arrBlock);
     if(!isRequest.isEmpty())
@@ -246,8 +243,6 @@ void MainWindow::slotError(QAbstractSocket::SocketError error)
         case QAbstractSocket::UnknownSocketError:
             strError += "Произошла неопознанная ошибка.";
             break;
-
-
 //        case QAbstractSocket::ProxyAuthenticationRequiredError:
 //            strError += "Прокси требует аутентификации.";
 //            break;
@@ -272,8 +267,6 @@ void MainWindow::slotError(QAbstractSocket::SocketError error)
 //        case QAbstractSocket::SslInvalidUserDataError:
 //            strError += "Были предоставлены неверные данные (сертификат, ключ, шифр и т.д.)";
 //            break;
-
-
         default:
             strError += QString(tcpSocket->errorString());
     }
@@ -295,7 +288,6 @@ void MainWindow::slotError(QAbstractSocket::SocketError error)
         ui->mdiArea->setEnabled(false);
         ui->statusbar->showMessage("Состояние: отключено.");
     }
-
 }
 
 // Уведомление о подключении к устройству
@@ -349,8 +341,6 @@ void MainWindow::slotConnected()
 
     slotSendToServer(SMW200A->Send_Request_Level());
     ui->le_Level->setText(delSpace(response_From_Device));
-
-
 }
 
 void MainWindow::slotDisconnected()
@@ -371,7 +361,6 @@ void MainWindow::slotDisconnected()
     ui->mdiArea->setEnabled(false);
     ui->statusbar->showMessage("Состояние: отключено.");
 }
-
 
 /* ----------------------------- Push buttons -----------------------------*/
 
@@ -473,6 +462,24 @@ void MainWindow::on_cb_FrequencyUnits_currentIndexChanged(const QString &arg1)
 {
     if(arg1 == "GHz")
     {
+        bool fuck = false;
+        QString err = "dfsg";
+        try
+        {
+            if(!fuck)
+            {
+                throw "Ну... хуй!";
+
+            }
+            else
+            {
+                QMessageBox::information(this, "Ну штож(((", "Тест не удался", QMessageBox::Ok);
+            }
+        }
+        catch (QString err)
+        {
+            QMessageBox::information(this, "Test", err, QMessageBox::Ok);
+        }
 //        ui->le_Frequency->setInputMask("9.999999999999");
     }
     else if(arg1 == "MHz")
