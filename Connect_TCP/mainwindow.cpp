@@ -73,9 +73,10 @@ void MainWindow::keyPressEvent(QKeyEvent *event)
     QRegExp regExp("\\s-\\s(.+)\\n$");
     if(event->key() == Qt::Key_Up && widget == "le_Command")
     {
-        if(log_commands->exists() && log_commands->open(QIODevice::ReadOnly | QFile::Text))
+        try
         {
             commands.clear();
+            log_commands->open(QIODevice::ReadOnly | QFile::Text);
             while (!log_commands->atEnd())
             {
                 regExp.indexIn(log_commands->readLine());
@@ -88,17 +89,18 @@ void MainWindow::keyPressEvent(QKeyEvent *event)
                 ui->le_Command->setText(commands.at(commands.count() - countPressBut));
             }
         }
-        else
+        catch(std::exception err)
         {
-            QMessageBox::warning(this, "Ошибка!", "Не удалось прочитать лог последних команд", QMessageBox::Ok);
+            QMessageBox::warning(this, "Ошибка чтения файла команд.", err.what(), QMessageBox::Ok);
         }
         log_commands->close();
     }
     else if(event->key() == Qt::Key_Down && widget == "le_Command")
     {
-        if(log_commands->exists() && log_commands->open(QIODevice::ReadOnly | QFile::Text))
+        try
         {
             commands.clear();
+            log_commands->open(QIODevice::ReadOnly | QFile::Text);
             while (!log_commands->atEnd())
             {
                 regExp.indexIn(log_commands->readLine());
@@ -115,9 +117,9 @@ void MainWindow::keyPressEvent(QKeyEvent *event)
                 ui->le_Command->clear();
             }
         }
-        else
+        catch (std::exception err)
         {
-            QMessageBox::warning(this, "Ошибка!", "Не удалось прочитать лог последних команд", QMessageBox::Ok);
+            QMessageBox::warning(this, "Ошибка чтения файла команд.", err.what(), QMessageBox::Ok);
         }
         log_commands->close();
     }

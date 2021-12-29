@@ -11,22 +11,6 @@
 #define MIN_POW_V 12.57/pow(10,9)
 #define MAX_POW_V 7.071
 
-
-// Это так, для себя. Не насмехайтесь(
-namespace units {
-    const QString GHz = "GHz";
-    const QString MHz = "MHz";
-    const QString kHz = "kHz";
-    const QString Hz = "Hz";
-
-    const QString dBM = "dBM";
-    const QString dBUV = "dBUV";
-    const QString V = "V";
-    const QString mV = "mV";
-    const QString uV = "uV";
-    const QString nV = "V";
-}
-
 enum unitsFreq {
     eGHz,
     eMHz,

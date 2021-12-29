@@ -105,33 +105,33 @@ QString RnSSCPI::SetFrequency(double value, int unit, int sour_hw)
         case unitsFreq::eGHz:
             if(value * pow(10, 9) <= MAX_FREQ && value * pow(10, 9) >= MIN_FREQ)
             {
-                command = "SOURce" + QString::number(sour_hw) + ":FREQuency:CW " + QString::number(value) + " " + unit + "\n";
+                command = "SOURce" + QString::number(sour_hw) + ":FREQuency:CW " + QString::number(value) + " GHz" + "\n";
             }
-            else command = "Получено недопустивое значение FREQuency.";
+            else command = "Получено недопустимое значение FREQuency.";
         break;
 
         case unitsFreq::eMHz:
             if(value * pow(10, 6) <= MAX_FREQ && value * pow(10, 6) >= MIN_FREQ)
             {
-                command = "SOURce" + QString::number(sour_hw) + ":FREQuency:CW " + QString::number(value) + " " + unit + "\n";
+                command = "SOURce" + QString::number(sour_hw) + ":FREQuency:CW " + QString::number(value) + " MHz" + "\n";
             }
-            else command = "Получено недопустивое значение FREQuency.";
+            else command = "Получено недопустимое значение FREQuency.";
         break;
 
         case unitsFreq::ekHz:
             if(value * 1000 <= MAX_FREQ && value * 1000 >= MIN_FREQ)
             {
-                command = "SOURce" + QString::number(sour_hw) + ":FREQuency:CW " + QString::number(value) + " " + unit + "\n";
+                command = "SOURce" + QString::number(sour_hw) + ":FREQuency:CW " + QString::number(value) + " kHz" + "\n";
             }
-            else command = "Получено недопустивое значение FREQuency.";
+            else command = "Получено недопустимое значение FREQuency.";
         break;
 
         case unitsFreq::eHZ:
             if(value <= MAX_FREQ && value >= MIN_FREQ)
             {
-               command = "SOURce" + QString::number(sour_hw) + ":FREQuency:CW " + QString::number(value) + " " + unit + "\n";
+               command = "SOURce" + QString::number(sour_hw) + ":FREQuency:CW " + QString::number(value) + " Hz" + "\n";
             }
-            else command = "Получено недопустивое значение FREQuency.";
+            else command = "Получено недопустимое значение FREQuency.";
         break;
 
         default:
@@ -150,7 +150,7 @@ QString RnSSCPI::SetPower(QString value, int unit, int sour_hw)
             {
                 command = "SOURce" + QString::number(sour_hw) + ":POWer:POWer " + value + " dBm" + "\n";
             }
-            else command = "Получено недопустивое значение POWer.";
+            else command = "Получено недопустимое значение POWer.";
         break;
 
         case unitsPower::edBUV:
@@ -158,7 +158,7 @@ QString RnSSCPI::SetPower(QString value, int unit, int sour_hw)
             {
                 command = "SOURce" + QString::number(sour_hw) + ":POWer:POWer " + value + " dBUV" + "\n";
             }
-            else command = "Получено недопустивое значение POWer.";
+            else command = "Получено недопустимое значение POWer.";
         break;
 
         case unitsPower::eV:
@@ -166,7 +166,7 @@ QString RnSSCPI::SetPower(QString value, int unit, int sour_hw)
             {
                 command = "SOURce" + QString::number(sour_hw) + ":POWer:POWer " + value + " V" + "\n";
             }
-            else command = "Получено недопустивое значение POWer.";
+            else command = "Получено недопустимое значение POWer.";
         break;
 
         case unitsPower::emV:
@@ -174,7 +174,7 @@ QString RnSSCPI::SetPower(QString value, int unit, int sour_hw)
             {
                 command = "SOURce" + QString::number(sour_hw) + ":POWer:POWer " + value + " mV" + "\n";
             }
-            else command = "Получено недопустивое значение POWer.";
+            else command = "Получено недопустимое значение POWer.";
         break;
 
         case unitsPower::euV:
@@ -182,7 +182,7 @@ QString RnSSCPI::SetPower(QString value, int unit, int sour_hw)
             {
                 command = "SOURce" + QString::number(sour_hw) + ":POWer:POWer " + value + " uV" + "\n";
             }
-            else command = "Получено недопустивое значение POWer.";
+            else command = "Получено недопустимое значение POWer.";
         break;
 
         case unitsPower::enV:
@@ -190,7 +190,7 @@ QString RnSSCPI::SetPower(QString value, int unit, int sour_hw)
             {
                 command = "SOURce" + QString::number(sour_hw) + ":POWer:POWer " + value + " nV" + "\n";
             }
-            else command = "Получено недопустивое значение POWer.";
+            else command = "Получено недопустимое значение POWer.";
         break;
 
         default:
@@ -209,7 +209,7 @@ QString RnSSCPI::SetPower(double value, int unit, int sour_hw)
             {
                 command = "SOURce" + QString::number(sour_hw) + ":POWer:POWer " + QString::number(value) + " dBm" + "\n";
             }
-            else command = "Получено недопустивое значение POWer.";
+            else command = "Получено недопустимое значение POWer.";
         break;
 
         case unitsPower::edBUV:
@@ -217,7 +217,7 @@ QString RnSSCPI::SetPower(double value, int unit, int sour_hw)
             {
                 command = "SOURce" + QString::number(sour_hw) + ":POWer:POWer " + QString::number(value) + " dBUV" + "\n";
             }
-            else command = "Получено недопустивое значение POWer.";
+            else command = "Получено недопустимое значение POWer.";
         break;
 
         case unitsPower::eV:
@@ -225,7 +225,7 @@ QString RnSSCPI::SetPower(double value, int unit, int sour_hw)
             {
                 command = "SOURce" + QString::number(sour_hw) + ":POWer:POWer " + QString::number(value) + " v" + "\n";
             }
-            else command = "Получено недопустивое значение POWer.";
+            else command = "Получено недопустимое значение POWer.";
         break;
 
         case unitsPower::emV:
@@ -233,7 +233,7 @@ QString RnSSCPI::SetPower(double value, int unit, int sour_hw)
             {
                 command = "SOURce" + QString::number(sour_hw) + ":POWer:POWer " + QString::number(value) + " mV" + "\n";
             }
-            else command = "Получено недопустивое значение POWer.";
+            else command = "Получено недопустимое значение POWer.";
         break;
 
         case unitsPower::euV:
@@ -241,7 +241,7 @@ QString RnSSCPI::SetPower(double value, int unit, int sour_hw)
             {
                 command = "SOURce" + QString::number(sour_hw) + ":POWer:POWer " + QString::number(value) + " uV" + "\n";
             }
-            else command = "Получено недопустивое значение POWer.";
+            else command = "Получено недопустимое значение POWer.";
         break;
 
         case unitsPower::enV:
@@ -249,7 +249,7 @@ QString RnSSCPI::SetPower(double value, int unit, int sour_hw)
             {
                 command = "SOURce" + QString::number(sour_hw) + ":POWer:POWer " + QString::number(value) + " nV" + "\n";
             }
-            else command = "Получено недопустивое значение POWer.";
+            else command = "Получено недопустимое значение POWer.";
         break;
 
         default:
@@ -268,7 +268,7 @@ QString RnSSCPI::SetLevel(QString value, int unit, int sour_hw)
             {
                 command = "SOURce" + QString::number(sour_hw) + ":POWer:LEVel:IMMediate:AMPLitude " + value + " dBm" + "\n";
             }
-            else command = "Получено недопустивое значение LEVel.";
+            else command = "Получено недопустимое значение LEVel.";
         break;
 
         case unitsPower::edBUV:
@@ -319,7 +319,6 @@ QString RnSSCPI::SetLevel(QString value, int unit, int sour_hw)
 
 QString RnSSCPI::SetLevel(double value, int unit, int sour_hw)
 {
-
     QString command;
     switch (unit)
     {
