@@ -75,19 +75,26 @@ void MainWindow::keyPressEvent(QKeyEvent *event)
     {
         try
         {
-            commands.clear();
-            log_commands->open(QIODevice::ReadOnly | QFile::Text);
-            while (!log_commands->atEnd())
+            if(!log_commands->open(QIODevice::ReadOnly | QFile::Text))
             {
-                regExp.indexIn(log_commands->readLine());
-                commands << regExp.cap(1);
+               throw std::exception();
+            }
+            else
+            {
+                commands.clear();
+                while (!log_commands->atEnd())
+                {
+                    regExp.indexIn(log_commands->readLine());
+                    commands << regExp.cap(1);
+                }
+
+                if(countPressBut < commands.count())
+                {
+                    countPressBut++;
+                    ui->le_Command->setText(commands.at(commands.count() - countPressBut));
+                }
             }
 
-            if(countPressBut < commands.count())
-            {
-                countPressBut++;
-                ui->le_Command->setText(commands.at(commands.count() - countPressBut));
-            }
         }
         catch(std::exception err)
         {
@@ -99,23 +106,30 @@ void MainWindow::keyPressEvent(QKeyEvent *event)
     {
         try
         {
-            commands.clear();
-            log_commands->open(QIODevice::ReadOnly | QFile::Text);
-            while (!log_commands->atEnd())
+            if(!log_commands->open(QIODevice::ReadOnly | QFile::Text))
             {
-                regExp.indexIn(log_commands->readLine());
-                commands << regExp.cap(1);
+                throw std::exception();
+            }
+            else
+            {
+                commands.clear();
+                while (!log_commands->atEnd())
+                {
+                    regExp.indexIn(log_commands->readLine());
+                    commands << regExp.cap(1);
+                }
+
+                if(countPressBut > 1)
+                {
+                    countPressBut--;
+                    ui->le_Command->setText(commands.at(commands.count() - countPressBut));
+                }
+                else if(countPressBut == 1){
+                    countPressBut--;
+                    ui->le_Command->clear();
+                }
             }
 
-            if(countPressBut > 1)
-            {
-                countPressBut--;
-                ui->le_Command->setText(commands.at(commands.count() - countPressBut));
-            }
-            else if(countPressBut == 1){
-                countPressBut--;
-                ui->le_Command->clear();
-            }
         }
         catch (std::exception err)
         {
