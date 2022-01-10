@@ -375,3 +375,9 @@ QString RnSSCPI::SetLevel(double value, int unit, int sour_hw)
     }
     return command;
 }
+
+// Установка стандартных режимов модуляции
+QString RnSSCPI::Set_AccordingToStandard(QString name_of_the_standard, int sour_hw)
+{
+    return "SOURce" + QString::number(sour_hw) + ":BB:DM:STANdard " + name_of_the_standard + "\n";
+}
