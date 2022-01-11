@@ -376,8 +376,8 @@ QString RnSSCPI::SetLevel(double value, int unit, int sour_hw)
     return command;
 }
 
-// Установка стандартных режимов модуляции
-QString RnSSCPI::Set_AccordingToStandard(QString name_of_the_standard, int sour_hw)
+// Установка стандартных режимов по названию или номеру
+QString RnSSCPI::SetAccordingToStandard(QString name_of_the_standard, int sour_hw)
 {
     QString command;
     for(int i = 0; i < standard_sheet.count(); i += 2)
@@ -387,15 +387,39 @@ QString RnSSCPI::Set_AccordingToStandard(QString name_of_the_standard, int sour_
             command = "SOURce" + QString::number(sour_hw) + ":BB:DM:STANdard " + standard_sheet.at(i+1) + "\n";
             break;
         }
+        else command = "";
     }
     return command;
 }
-
-QString RnSSCPI::Set_AccordingToStandard(int standard_number, int sour_hw)
+QString RnSSCPI::SetAccordingToStandard(int standard_number, int sour_hw)
 {
     if(standard_number >= 0 && standard_number <= standard_sheet.count())
     {
-        return "SOURce" + QString::number(sour_hw) + ":BB:DM:STANdard" + standard_sheet.at(standard_number) + "\n";
+        return "SOURce" + QString::number(sour_hw) + ":BB:DM:STANdard " + standard_sheet.at(standard_number) + "\n";
+    }
+    else return "";
+}
+
+// Установка типа модуляции по названию или номеру
+QString RnSSCPI::SetModulationType(QString type, int sour_hw)
+{
+    QString command;
+    for(int i = 0; i < mod_type_sheet.count(); i += 2)
+    {
+        if(type.toUpper() == mod_type_sheet.at(i))
+        {
+            command = "SOURce" + QString::number(sour_hw) + ":BB:DM:FORMat " + mod_type_sheet.at(i+1) + "\n";
+            break;
+        }
+        else command = "";
+    }
+    return command;
+}
+QString RnSSCPI::SetModulationType(int num_type, int sour_hw)
+{
+    if(num_type >= 0 && num_type <= mod_type_sheet.count())
+    {
+        return "SOURce" + QString::number(sour_hw) + ":BB:DM:FORMat " + mod_type_sheet.at(num_type) + "\n";
     }
     else return "";
 }

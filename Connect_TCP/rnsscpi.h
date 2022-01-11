@@ -28,35 +28,6 @@ enum unitsPower{
     enV
 };
 
-/* Названия стандартов устройства
-
-PHASE1 C4FM
-PHASE1 CQPSK
-PHASE2 H-CPM
-PHASE2 H-DQPSK
-PHASE2 H-D8PSK WIDE
-PHASE2 H-D8PSK NARROW
-PHASE1 LSM
-PHASE1 WCQPSK
-BLUETOOTH
-CDMA2000 FORWARD
-CDMA2000 REVERSE
-CW IN BASEBAND
-DECT
-ETC
-GSM
-GSM EDGE
-NADC
-PDC
-PHS
-TD-SCDMA
-TETRA
-TFTS
-WCDMA-3GPP
-WORLDSPACE
-
-*/
-
 class RnSSCPI
 {
     public:
@@ -64,8 +35,8 @@ class RnSSCPI
 
     private:
         QString response_From_Device;
-        // Команды стандартов устройства
 
+        // Стандартные конфигурации устройства и их сокращенные названия для команд
         QStringList standard_sheet = {"PHASE1 C4FM", "APCOPH1C4",
                                       "PHASE1 CQPSK", "APCOPH1CQ",
                                       "PHASE2 H-CPM", "APCOPH2HC",
@@ -89,7 +60,45 @@ class RnSSCPI
                                       "TETRA", "TETR",
                                       "TFTS", "TFTS",
                                       "WCDMA-3GPP", "W3GP",
-                                      "WORLDSPACE", "WORL"};
+                                      "WORLDSPACE", "WORL"
+                                      "USER", "USER"};
+
+        // Типы модуляции и их сокращенные названия для команд
+        QStringList mod_type_sheet = {"ASK", "ASK",
+                                      "BPSK", "BPSK",
+                                      "QPSK", "QPSK",
+                                      "QPSK 45 OFFSET", "QPSK45",
+                                      "QPSK EDGE", "QEDG",
+                                      "AQPSK", "AQPS",
+                                      "OQPSK", "OQPS",
+                                      "PI/4-QPSK", "P4QP",
+                                      "PI/2-DBPSK", "P2DB",
+                                      "PI/4-DQPSK", "P4DQ",
+                                      "PI/8-D8PSK", "P8D8",
+                                      "8PSK", "PSK8",
+                                      "8PSK EDGE", "P8ED",
+                                      "16QAM", "QAM16",
+                                      "16QAM EDGE", "QAM16ED",
+                                      "32QAM", "QAM32",
+                                      "32QAM EDGE", "QAM32ED",
+                                      "64QAM", "QAM64",
+                                      "128QAM", "QAM128",
+                                      "256QAM", "QAM256",
+                                      "512QAM", "QAM512",
+                                      "1024QAM", "QAM1024",
+                                      "2048QAM", "QAM2048",
+                                      "4096QAM", "QAM4096",
+                                      "MSK", "MSK",
+                                      "2FSK", "FSK2",
+                                      "4FSK", "FSK4",
+                                      "8FSK", "FSK8",
+                                      "16FSK", "FSK16",
+                                      "32FSK", "FSK32",
+                                      "64FSK", "FSK64",
+                                      "VARIABLE FSK", "FSKV",
+                                      "16APSK", "APSK16",
+                                      "32APSK", "APSK32",
+                                      "USER", "USER"};
 
 
     public:
@@ -108,8 +117,10 @@ class RnSSCPI
         QString SetPower(double value, int unit = 0, int sour_hw = 1);
         QString SetLevel(QString value, int unit = 0, int sour_hw = 1);
         QString SetLevel(double value, int unit = 0, int sour_hw = 1);
-        QString Set_AccordingToStandard(QString name_of_the_standard, int sour_hw = 1);
-        QString Set_AccordingToStandard(int standard_number, int sour_hw = 1);
+        QString SetAccordingToStandard(QString name_of_the_standard, int sour_hw = 1);
+        QString SetAccordingToStandard(int standard_number, int sour_hw = 1);
+        QString SetModulationType(QString type, int sour_hw = 1);
+        QString SetModulationType(int num_type, int sour_hw = 1);
 };
 
 #endif // RNSSCPI_H
