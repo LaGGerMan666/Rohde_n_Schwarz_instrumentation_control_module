@@ -379,5 +379,23 @@ QString RnSSCPI::SetLevel(double value, int unit, int sour_hw)
 // Установка стандартных режимов модуляции
 QString RnSSCPI::Set_AccordingToStandard(QString name_of_the_standard, int sour_hw)
 {
-    return "SOURce" + QString::number(sour_hw) + ":BB:DM:STANdard " + name_of_the_standard + "\n";
+    QString command;
+    for(int i = 0; i < standard_sheet.count(); i += 2)
+    {
+        if(name_of_the_standard.toUpper() == standard_sheet.at(i))
+        {
+            command = "SOURce" + QString::number(sour_hw) + ":BB:DM:STANdard " + standard_sheet.at(i+1) + "\n";
+            break;
+        }
+    }
+    return command;
+}
+
+QString RnSSCPI::Set_AccordingToStandard(int standard_number, int sour_hw)
+{
+    if(standard_number >= 0 && standard_number <= standard_sheet.count())
+    {
+        return "SOURce" + QString::number(sour_hw) + ":BB:DM:STANdard" + standard_sheet.at(standard_number) + "\n";
+    }
+    else return "";
 }

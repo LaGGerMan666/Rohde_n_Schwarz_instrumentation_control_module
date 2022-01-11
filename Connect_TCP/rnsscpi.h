@@ -30,18 +30,18 @@ enum unitsPower{
 
 /* Названия стандартов устройства
 
-Phase1 C4FM
-Phase1 CQPSK
-Phase2 H-CPM
-Phase2 H-DQPSK
-Phase2 H-D8PSK Wide
-Phase2 H-D8PSK Narrow
-Phase1 LSM
-Phase1 WCQPSK
-Bluetooth
-CDMA2000 Forward
-CDMA2000 Reverse
-CW in Baseband
+PHASE1 C4FM
+PHASE1 CQPSK
+PHASE2 H-CPM
+PHASE2 H-DQPSK
+PHASE2 H-D8PSK WIDE
+PHASE2 H-D8PSK NARROW
+PHASE1 LSM
+PHASE1 WCQPSK
+BLUETOOTH
+CDMA2000 FORWARD
+CDMA2000 REVERSE
+CW IN BASEBAND
 DECT
 ETC
 GSM
@@ -53,7 +53,7 @@ TD-SCDMA
 TETRA
 TFTS
 WCDMA-3GPP
-Worldspace
+WORLDSPACE
 
 */
 
@@ -65,30 +65,32 @@ class RnSSCPI
     private:
         QString response_From_Device;
         // Команды стандартов устройства
-        QStringList standard_sheet = {"APCOPH1C4",
-                                      "APCOPH1CQ",
-                                      "APCOPH2HC",
-                                      "APCOPH2HDQ",
-                                      "APCOPH2HD8PSKW",
-                                      "APCOPH2HD8PSKN",
-                                      "APCOPH1L",
-                                      "APCOPH1W",
-                                      "BLU",
-                                      "CFOR",
-                                      "CREV",
-                                      "CWBP",
-                                      "DECT",
-                                      "ETC",
-                                      "GSM",
-                                      "GSME",
-                                      "NADC",
-                                      "PDC",
-                                      "PHS",
-                                      "TDSC",
-                                      "TETR",
-                                      "TFTS",
-                                      "W3GP",
-                                      "WORL"};
+
+        QStringList standard_sheet = {"PHASE1 C4FM", "APCOPH1C4",
+                                      "PHASE1 CQPSK", "APCOPH1CQ",
+                                      "PHASE2 H-CPM", "APCOPH2HC",
+                                      "PHASE2 H-DQPSK", "APCOPH2HDQ",
+                                      "PHASE2 H-D8PSK WIDE", "APCOPH2HD8PSKW",
+                                      "PHASE2 H-D8PSK NARROW", "APCOPH2HD8PSKN",
+                                      "PHASE1 LSM", "APCOPH1L",
+                                      "PHASE1 WCQPSK", "APCOPH1W",
+                                      "BLUETOOTH", "BLU",
+                                      "CDMA2000 FORWARD", "CFOR",
+                                      "CDMA2000 REVERSE","CREV",
+                                      "CW IN BASEBAND", "CWBP",
+                                      "DECT", "DECT",
+                                      "ETC", "ETC",
+                                      "GSM", "GSM",
+                                      "GSM EDGE", "GSME",
+                                      "NADC", "NADC",
+                                      "PDC", "PDC",
+                                      "PHS", "PHS",
+                                      "TD-SCDMA", "TDSC",
+                                      "TETRA", "TETR",
+                                      "TFTS", "TFTS",
+                                      "WCDMA-3GPP", "W3GP",
+                                      "WORLDSPACE", "WORL"};
+
 
     public:
         RnSSCPI();
@@ -107,6 +109,7 @@ class RnSSCPI
         QString SetLevel(QString value, int unit = 0, int sour_hw = 1);
         QString SetLevel(double value, int unit = 0, int sour_hw = 1);
         QString Set_AccordingToStandard(QString name_of_the_standard, int sour_hw = 1);
+        QString Set_AccordingToStandard(int standard_number, int sour_hw = 1);
 };
 
 #endif // RNSSCPI_H
