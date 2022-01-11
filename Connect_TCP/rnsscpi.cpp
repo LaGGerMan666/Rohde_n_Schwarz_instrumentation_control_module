@@ -16,32 +16,37 @@ QString RnSSCPI::Get_Last_Response()
 
 QString RnSSCPI::Send_Request_IDN()
 {
-    QString command = "*IDN?";
-    return command + "\n";
+    return "*IDN?\n";
 }
 
 QString RnSSCPI::Send_Request_Error()
 {
-    QString command = "SYSTem:ERRor?";
-    return command + "\n";
+    return "SYSTem:ERRor?\n";
 }
 
-QString RnSSCPI::Send_Request_Frequency()
+QString RnSSCPI::Send_Request_Frequency(int sour_hw)
 {
-    QString command = "SOURce:FREQuency:CW?";
-    return command + "\n";
+    return "SOURce" + QString::number(sour_hw) + ":FREQuency:CW?\n";
 }
 
-QString RnSSCPI::Send_Request_Level()
+QString RnSSCPI::Send_Request_Level(int sour_hw)
 {
-    QString command = "SOURce:POWer:LEVel:IMMediate:AMPLitude?";
-    return command + "\n";
+    return "SOURce" + QString::number(sour_hw) + ":POWer:LEVel:IMMediate:AMPLitude?\n";
 }
 
-QString RnSSCPI::Send_Request_PEP()
+QString RnSSCPI::Send_Request_PEP(int sour_hw)
 {
-    QString command = "SOURce:POWer:PEP?";
-    return command + "\n";
+    return "SOURce" + QString::number(sour_hw) + ":POWer:PEP?\n";
+}
+
+QString RnSSCPI::Send_Request_Standard(int sour_hw)
+{
+    return "SOURce" + QString::number(sour_hw) + ":BB:DM:STANdard?\n";
+}
+
+QString RnSSCPI::Send_Request_ModType(int sour_hw)
+{
+    return "SOURce" + QString::number(sour_hw) + ":BB:DM:FORMat?\n";
 }
 
 void RnSSCPI::Response_Handling(QString answer)
@@ -380,11 +385,12 @@ QString RnSSCPI::SetLevel(double value, int unit, int sour_hw)
 QString RnSSCPI::SetAccordingToStandard(QString name_of_the_standard, int sour_hw)
 {
     QString command;
-    for(int i = 0; i < standard_sheet.count(); i += 2)
+    int count_StandardSheet = (sizeof(standard_sheet)/sizeof(standard_sheet[0][0]))/2;
+    for(int i = 0; i < count_StandardSheet; i++)
     {
-        if(name_of_the_standard.toUpper() == standard_sheet.at(i))
+        if(name_of_the_standard.toUpper() == standard_sheet[i][0])
         {
-            command = "SOURce" + QString::number(sour_hw) + ":BB:DM:STANdard " + standard_sheet.at(i+1) + "\n";
+            command = "SOURce" + QString::number(sour_hw) + ":BB:DM:STANdard " + standard_sheet[i][1] + "\n";
             break;
         }
         else command = "";
@@ -393,9 +399,10 @@ QString RnSSCPI::SetAccordingToStandard(QString name_of_the_standard, int sour_h
 }
 QString RnSSCPI::SetAccordingToStandard(int standard_number, int sour_hw)
 {
-    if(standard_number >= 0 && standard_number <= standard_sheet.count())
+    int count_StandardSheet = (sizeof(standard_sheet)/sizeof(standard_sheet[0][0]))/2;
+    if(standard_number >= 0 && standard_number <= count_StandardSheet)
     {
-        return "SOURce" + QString::number(sour_hw) + ":BB:DM:STANdard " + standard_sheet.at(standard_number) + "\n";
+        return "SOURce" + QString::number(sour_hw) + ":BB:DM:STANdard " + standard_sheet[standard_number][1] + "\n";
     }
     else return "";
 }
@@ -404,11 +411,12 @@ QString RnSSCPI::SetAccordingToStandard(int standard_number, int sour_hw)
 QString RnSSCPI::SetModulationType(QString type, int sour_hw)
 {
     QString command;
-    for(int i = 0; i < mod_type_sheet.count(); i += 2)
+    int count_modType = (sizeof(mod_type_sheet)/sizeof(mod_type_sheet[0][0]))/2;
+    for(int i = 0; i < count_modType; i++)
     {
-        if(type.toUpper() == mod_type_sheet.at(i))
+        if(type.toUpper() == mod_type_sheet[i][0])
         {
-            command = "SOURce" + QString::number(sour_hw) + ":BB:DM:FORMat " + mod_type_sheet.at(i+1) + "\n";
+            command = "SOURce" + QString::number(sour_hw) + ":BB:DM:FORMat " + mod_type_sheet[i][1] + "\n";
             break;
         }
         else command = "";
@@ -417,9 +425,10 @@ QString RnSSCPI::SetModulationType(QString type, int sour_hw)
 }
 QString RnSSCPI::SetModulationType(int num_type, int sour_hw)
 {
-    if(num_type >= 0 && num_type <= mod_type_sheet.count())
+    int count_modType = (sizeof(mod_type_sheet)/sizeof(mod_type_sheet[0][0]))/2;
+    if(num_type >= 0 && num_type <= count_modType)
     {
-        return "SOURce" + QString::number(sour_hw) + ":BB:DM:FORMat " + mod_type_sheet.at(num_type) + "\n";
+        return "SOURce" + QString::number(sour_hw) + ":BB:DM:FORMat " + mod_type_sheet[num_type][1] + "\n";
     }
     else return "";
 }
