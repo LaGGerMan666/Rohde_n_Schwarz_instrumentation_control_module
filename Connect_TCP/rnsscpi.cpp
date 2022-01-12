@@ -49,6 +49,11 @@ QString RnSSCPI::Send_Request_ModType(int sour_hw)
     return "SOURce" + QString::number(sour_hw) + ":BB:DM:FORMat?\n";
 }
 
+QString RnSSCPI::Send_Request_SymbolRate(int sour_hw)
+{
+    return "SOURce" + QString::number(sour_hw) + ":BB:DM:SRATe?\n";
+}
+
 void RnSSCPI::Response_Handling(QString answer)
 {
     // Возможно где нибудь пригодится QRegExp checkNoError("^(0,\"No error\")\\n$");
@@ -431,4 +436,75 @@ QString RnSSCPI::SetModulationType(int num_type, int sour_hw)
         return "SOURce" + QString::number(sour_hw) + ":BB:DM:FORMat " + mod_type_sheet[num_type][1] + "\n";
     }
     else return "";
+}
+
+// Установка скорости передачи символов
+// Задавать в единицах измерения Hz(sym/s можно не указывать), kHz(kSym/s), MHz(MSym/s)
+QString RnSSCPI::SetSymbolRate(QString value, int unit, int sour_hw)
+{
+    double translated_value;
+    QString current_unit;
+    bool err_unit = false;
+    switch (unit)
+    {
+        case unitsFreq::eHZ:
+            translated_value = value.toDouble();
+            current_unit = "Hz";
+        break;
+
+        case unitsFreq::ekHz:
+            translated_value = value.toDouble() * pow(10,3);
+            current_unit = "kHz";
+        break;
+
+        case unitsFreq::eMHz:
+            translated_value = value.toDouble() * pow(10,6);
+        break;
+
+        default:
+            err_unit = true;
+    }
+    if(!err_unit)
+    {
+        if(translated_value >= MIN_SRATE && translated_value <= MAX_SRATE)
+        {
+            return "SOURce" + QString::number(sour_hw) + ":BB:DM:SRATe " + QString::number(translated_value) + current_unit + "\n";
+        }
+        else return "";
+    }
+    else return "";
+}
+QString RnSSCPI::SetSymbolRate(double value, int unit, int sour_hw)
+{
+    bool err_unit = false;
+    QString current_unit;
+    switch (unit)
+    {
+        case unitsFreq::eHZ:
+            current_unit = "Hz";
+        break;
+
+        case unitsFreq::ekHz:
+            value *= pow(10,3);
+            current_unit = "kHz";
+        break;
+
+        case unitsFreq::eMHz:
+            value *= pow(10,6);
+            current_unit = "MHz";
+        break;
+
+        default:
+            err_unit = true;
+    }
+    if(!err_unit)
+    {
+        if(value >= MIN_SRATE && value <= MAX_SRATE)
+        {
+            return "SOURce" + QString::number(sour_hw) + ":BB:DM:SRATe " + QString::number(value) + current_unit + "\n";
+        }
+        else return "";
+    }
+    else return "";
+
 }

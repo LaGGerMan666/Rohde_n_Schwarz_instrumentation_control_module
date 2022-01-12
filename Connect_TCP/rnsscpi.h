@@ -11,6 +11,8 @@
 #define MIN_POW_DBM -145
 #define MIN_POW_V 12.57/pow(10,9)
 #define MAX_POW_V 7.071
+#define MIN_SRATE 50
+#define MAX_SRATE 300000000
 
 enum unitsFreq {
     eGHz,
@@ -112,6 +114,7 @@ class RnSSCPI
         QString Send_Request_PEP(int sour_hw = 1);
         QString Send_Request_Standard(int sour_hw = 1);
         QString Send_Request_ModType(int sour_hw = 1);
+        QString Send_Request_SymbolRate(int sour_hw = 1);
         void Response_Handling(QString answer);
         QString SetFrequency(QString value, int unit = 3, int sour_hw = 1);
         QString SetFrequency(double value, int unit = 3, int sour_hw = 1);
@@ -123,6 +126,8 @@ class RnSSCPI
         QString SetAccordingToStandard(int standard_number, int sour_hw = 1);
         QString SetModulationType(QString type, int sour_hw = 1);
         QString SetModulationType(int num_type, int sour_hw = 1);
+        QString SetSymbolRate(QString value, int unit = 3, int sour_hw = 1);
+        QString SetSymbolRate(double value, int unit = 3, int sour_hw = 1);
 };
 
 #endif // RNSSCPI_H
