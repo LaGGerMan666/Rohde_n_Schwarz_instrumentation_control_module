@@ -54,6 +54,46 @@ QString RnSSCPI::Send_Request_SymbolRate(int sour_hw)
     return "SOURce" + QString::number(sour_hw) + ":BB:DM:SRATe?\n";
 }
 
+QString RnSSCPI::Send_Request_TriggerForSweeps(int trig_hw)
+{
+    return "TRIGger" + QString::number(trig_hw) + ":FSWeep:SOURce?\n";
+}
+
+QString RnSSCPI::Send_SweepFreqMode(int sour_hw)
+{
+    return "SOURce" + QString::number(sour_hw) + ":SWEep:FREQuensy:MODE?\n";
+}
+
+QString RnSSCPI::Send_FreqSpan(int sour_hw)
+{
+    return "SOURce" + QString::number(sour_hw) + ":FREQuency:SPAN?\n";
+}
+
+QString RnSSCPI::Send_FreqCenter(int sour_hw)
+{
+    return "SOURce" + QString::number(sour_hw) + ":FREQuency:CENTer?\n";
+}
+
+QString RnSSCPI::Send_FreqStart(int sour_hw)
+{
+    return "SOURce" + QString::number(sour_hw) + ":FREQuency:STARt?\n";
+}
+
+QString RnSSCPI::Send_FreqStop(int sour_hw)
+{
+    return "SOURce" + QString::number(sour_hw)+ ":FREQuency:STOP?\n";
+}
+
+QString RnSSCPI::Send_SweepSpacing(int sour_hw)
+{
+    return "SOURce" + QString::number(sour_hw) + ":SWEep:FREQuency:SPACing?\n";
+}
+
+QString RnSSCPI::Send_SweepShape(int sour_hw)
+{
+    return "SOURce" + QString::number(sour_hw) + ":SWEep:FREQuency:SHAPe?\n";
+}
+
 void RnSSCPI::Response_Handling(QString answer)
 {
     // Возможно где нибудь пригодится QRegExp checkNoError("^(0,\"No error\")\\n$");
@@ -508,3 +548,394 @@ QString RnSSCPI::SetSymbolRate(double value, int unit, int sour_hw)
     else return "";
 
 }
+
+// Метод активации Baseband
+QString RnSSCPI::SetBasebandState(bool value, int sour_hw)
+{
+    if(value)
+    {
+        return "SOURce" + QString::number(sour_hw) + ":BB:DM:STATe ON\n";
+    }
+    else return "SOURce" + QString::number(sour_hw) + ":BB:DM:STATe OFF\n";
+}
+
+// Сброс настроек устройства
+QString RnSSCPI::SetPreset()
+{
+    return "SYSTem:PRESet\n";
+}
+
+// Выбор триггера для разверток
+QString RnSSCPI::SetTriggerForSweeps(QString value, int trig_hw)
+{
+    QString command;
+    int count_values = (sizeof(trigger_for_sweeps_values)/sizeof(trigger_for_sweeps_values[0]));
+    for(int i = 0; i < count_values; i++)
+    {
+        if(value.toUpper() == trigger_for_sweeps_values[i].toUpper())
+        {
+            command = "TRIGger" + QString::number(trig_hw) + ":FSWeep:SOURce " + value + "\n";
+            break;
+        }
+        else command = "";
+    }
+    return command;
+}
+
+// Установка циклического режима для развертки по частоте
+QString RnSSCPI::SetSweepFreqMode(QString value, int sour_hw)
+{
+    QString command;
+    int count_mode = sizeof(sweep_freq_mode_values)/sizeof(sweep_freq_mode_values[0]);
+    for(int i = 0; i < count_mode; i++)
+    {
+        if(value.toUpper() == sweep_freq_mode_values[i].toUpper())
+        {
+            command = "SOURce" + QString::number(sour_hw) + ":SWEep:FREQuency:MODE " + value + "\n";
+            break;
+        }
+        else command = "";
+    }
+    return command;
+}
+
+// Установка диапазона частотной развертки
+QString RnSSCPI::SetFreqSpan(QString value, int unit, int sour_hw)
+{
+    double translated_value;
+    QString current_unit;
+    bool err_unit = false;
+    switch (unit)
+    {
+        case unitsFreq::eHZ:
+            translated_value = value.toDouble();
+            current_unit = "Hz";
+        break;
+
+        case unitsFreq::ekHz:
+            translated_value = value.toDouble() * pow(10, 3);
+            current_unit = "kHz";
+        break;
+
+        case unitsFreq::eMHz:
+            translated_value = value.toDouble() * pow(10, 6);
+        break;
+
+        default:
+            err_unit = true;
+    }
+    if(!err_unit)
+    {
+        return "SOURce" + QString::number(sour_hw) + ":FREQuency:SPAN " + QString::number(translated_value) + current_unit + "\n";
+    }
+    else return "";
+}
+QString RnSSCPI::SetFreqSpan(double value, int unit, int sour_hw)
+{
+    QString current_unit;
+    bool err_unit = false;
+    switch(unit)
+    {
+        case unitsFreq::eHZ:
+            current_unit = "Hz";
+        break;
+
+        case unitsFreq::ekHz:
+            value *= pow(10, 3);
+            current_unit = "kHz";
+        break;
+
+        case unitsFreq::eMHz:
+            value *= pow(10, 6);
+            current_unit = "MHz";
+        break;
+
+        case unitsFreq::eGHz:
+            value *= pow(10, 9);
+            current_unit = "GHz";
+        break;
+
+        default:
+            err_unit = true;
+    }
+    if(!err_unit)
+    {
+        return "SOURce" + QString::number(sour_hw) + ":FREQuency:SPAN " + QString::number(value) + current_unit + "\n";
+    }
+    else return "";
+}
+
+// Установка центральной частоты развертки через число
+QString RnSSCPI::SetFreqCenter(QString value, int unit, int sour_hw)
+{
+    QString current_unit;
+    double translated_value;
+    bool err_unit = false;
+    switch(unit)
+    {
+        case unitsFreq::eHZ:
+            translated_value = value.toDouble();
+            current_unit = "Hz";
+        break;
+
+        case unitsFreq::ekHz:
+            translated_value = value.toDouble() * pow(10, 3);
+            current_unit = "kHz";
+        break;
+
+        case unitsFreq::eMHz:
+            translated_value = value.toDouble() * pow(10, 6);
+            current_unit = "MHz";
+        break;
+
+        case unitsFreq::eGHz:
+            translated_value = value.toDouble() * pow(10, 9);
+            current_unit = "GHz";
+        break;
+
+        default:
+            err_unit = true;
+    }
+    if(!err_unit)
+    {
+        if(translated_value >= MIN_CENTER_FREQ)
+        {
+            return "SOURce" + QString::number(sour_hw) + ":FREQuency:CENTer " + QString::number(translated_value) + current_unit + "\n";
+        }
+        else return "";
+    }
+    else return "";
+}
+QString RnSSCPI::SetFreqCenter(double value, int unit, int sour_hw)
+{
+    QString current_unit;
+    bool err_unit = false;
+    switch(unit)
+    {
+        case unitsFreq::eHZ:
+            current_unit = "Hz";
+        break;
+
+        case unitsFreq::ekHz:
+            value *= pow(10, 3);
+            current_unit = "kHz";
+        break;
+
+        case unitsFreq::eMHz:
+            value *= pow(10, 6);
+            current_unit = "MHz";
+        break;
+
+        case unitsFreq::eGHz:
+            value *= pow(10, 9);
+            current_unit = "GHz";
+        break;
+
+        default:
+            err_unit = true;
+    }
+    if(!err_unit)
+    {
+        if(value >= MIN_CENTER_FREQ)
+        {
+            return "SOURce" + QString::number(sour_hw) + ":FREQuency:CENTer " + QString::number(value) + current_unit + "\n";
+        }
+        else return "";
+    }
+    else return "";
+}
+
+// Установка начальной частоты развертки
+QString RnSSCPI::SetFreqStart(QString value, int unit, int sour_hw)
+{
+    QString current_unit;
+    double translate_value;
+    bool err_unit = false;
+    switch (unit)
+    {
+        case unitsFreq::eHZ:
+            translate_value = value.toDouble();
+            current_unit = "Hz";
+        break;
+
+        case unitsFreq::ekHz:
+            translate_value = value.toDouble() * pow(10, 3);
+            current_unit = "kHz";
+        break;
+
+        case unitsFreq::eMHz:
+            translate_value = value.toDouble() * pow(10, 6);
+            current_unit = "MHz";
+        break;
+
+        case unitsFreq::eGHz:
+            translate_value = value.toDouble() * pow(10, 9);
+        break;
+
+        default:
+            err_unit = true;
+    }
+    if(!err_unit)
+    {
+        if(translate_value >= MIN_CENTER_FREQ)
+        {
+            return "SOURce" + QString::number(sour_hw) + ":FREQuency:STARt " + QString::number(translate_value) + current_unit + "\n";
+        }
+        else return "";
+    }
+    else return "";
+}
+QString RnSSCPI::SetFreqStart(double value, int unit, int sour_hw)
+{
+    QString current_unit;
+    bool err_unit = false;
+    switch(unit)
+    {
+        case unitsFreq::eHZ:
+            current_unit = "Hz";
+        break;
+
+        case unitsFreq::ekHz:
+            value *= pow(10, 3);
+            current_unit = "kHz";
+        break;
+
+        case unitsFreq::eMHz:
+            value *= pow(10, 6);
+            current_unit = "MHz";
+        break;
+
+        case unitsFreq::eGHz:
+            value *= pow(10, 9);
+            current_unit = "GHz";
+        break;
+
+        default:
+            err_unit = true;
+    }
+    if(!err_unit)
+    {
+        if(value >= MIN_CENTER_FREQ)
+        {
+            return "SOURce" + QString::number(sour_hw) + ":FREQuency:STARt " + QString::number(value) + current_unit + "\n";
+        }
+        else return "";
+    }
+    else return "";
+}
+
+// Установка конечной частоты развертки
+QString RnSSCPI::SetFreqStop(QString value, int unit, int sour_hw)
+{
+    QString current_unit;
+    double translate_value;
+    bool err_unit = false;
+    switch(unit)
+    {
+        case unitsFreq::eHZ:
+            translate_value = value.toDouble();
+            current_unit = "Hz";
+        break;
+
+        case unitsFreq::ekHz:
+            translate_value = value.toDouble() * pow(10, 3);
+            current_unit = "kHz";
+        break;
+
+        case unitsFreq::eMHz:
+            translate_value = value.toDouble() * pow(10, 6);
+            current_unit = "MHz";
+        break;
+
+        case unitsFreq::eGHz:
+            translate_value = value.toDouble() * pow(10, 9);
+            current_unit = "GHz";
+        break;
+
+        default:
+            err_unit = true;
+    }
+    if(!err_unit)
+    {
+        if(translate_value >= MIN_CENTER_FREQ)
+        {
+            return "SOURce" + QString::number(sour_hw) + ":FREQuency:STOP " + QString::number(translate_value) + current_unit + "\n";
+        }
+        else return "";
+    }
+    else return "";
+}
+QString RnSSCPI::SetFreqStop(double value, int unit, int sour_hw)
+{
+    QString current_unit;
+    bool err_unit = false;
+    switch(unit)
+    {
+        case unitsFreq::eHZ:
+            current_unit = "Hz";
+        break;
+
+        case unitsFreq::ekHz:
+            value *= pow(10, 3);
+            current_unit = "kHz";
+        break;
+
+        case unitsFreq::eMHz:
+            value *= pow(10, 6);
+            current_unit = "MHz";
+        break;
+
+        case unitsFreq::eGHz:
+            value *= pow(10, 9);
+            current_unit = "GHz";
+        break;
+
+        default:
+            err_unit = true;
+    }
+    if(!err_unit)
+    {
+        if(value >= MIN_CENTER_FREQ)
+        {
+            return "SOURce" + QString::number(sour_hw) + ":FREQuency:STOP " + QString::number(value) + current_unit + "\n";
+        }
+        else return "";
+    }
+    else return "";
+}
+
+// Установка режима расчета частотных интервалов
+QString RnSSCPI::SetSweepSpacing(QString value, int sour_hw)
+{
+    QString command;
+    int count_spacing = sizeof(sweep_spacing_values) / sizeof(sweep_spacing_values[0]);
+    for(int i = 0; i < count_spacing; i++)
+    {
+        if(value.toUpper() == sweep_spacing_values[i].toUpper())
+        {
+            command = "SOURce" + QString::number(sour_hw) + ":SWEep:FREQuency:SPACing " + value + "\n";
+            break;
+        }
+        else command = "";
+    }
+    return command;
+}
+
+// Установка формы сигнала для последовательности развертки частоты
+QString RnSSCPI::SetSweepShape(QString value, int sour_hw)
+{
+    QString command;
+    int count_shape = sizeof(sweep_shape_values) / sizeof(sweep_shape_values[0]);
+    for(int i = 0; i < count_shape; i++)
+    {
+        if(value.toUpper() == sweep_shape_values[i].toUpper())
+        {
+            command = "SOURce" + QString::number(sour_hw) + ":SWEep:FREQuency:SHAPe " + value + "\n";
+            break;
+        }
+        else command = "";
+    }
+    return command;
+}
+
+
