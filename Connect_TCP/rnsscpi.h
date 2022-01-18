@@ -111,50 +111,58 @@ class RnSSCPI
     public:
         RnSSCPI();
         void ListenToDevice(QString answer);
-        QString Get_Last_Response();                                                        // Последний запрос
-        QString Send_Request_IDN();                                                         // Идентификация устройства
-        QString Send_Request_Error();                                                       // Запрос стека ошибок
-        QString Send_Request_Frequency(int sour_hw = 1);                                    // Запрос значения частоты
-        QString Send_Request_Level(int sour_hw = 1);                                        // Запрос значение уровня
-        QString Send_Request_PEP(int sour_hw = 1);                                          // Запрос значения PEP
-        QString Send_Request_Standard(int sour_hw = 1);                                     // Запрос названия стандартного режима
-        QString Send_Request_ModType(int sour_hw = 1);                                      // Запрос типа модуляции
-        QString Send_Request_SymbolRate(int sour_hw = 1);                                   // Запрос скорости передачи символов
-        QString Send_Request_TriggerForSweeps(int trig_hw = 1);                             // Запрос вида триггера для разверток
-        QString Send_SweepFreqMode(int sour_hw);                                            // Запрос циклического режима для развертки по частоте
-        QString Send_FreqSpan(int sour_hw = 1);                                             // Запрос диапазона частотной развертки
-        QString Send_FreqCenter(int sour_hw = 1);                                           // Запрос центральной частоты развертки
-        QString Send_FreqStart(int sour_hw = 1);                                            // Запрос начальной частоты развертки
-        QString Send_FreqStop(int sour_hw = 1);                                             // Запрос конечную частоту развертки
-        QString Send_SweepSpacing(int sour_hw = 1);                                         // Запрос режима расчета частотных интервалов
-        QString Send_SweepShape(int sour_hw = 1);                                           // Запрос установленной формы сигнала для последовательности развертки частоты
-        void Response_Handling(QString answer);                                             // Обработчик ответов от устройства (удаление \n из строки)
-        QString SetFrequency(QString value, int unit = 3, int sour_hw = 1);                 // Установка частоты через строку
-        QString SetFrequency(double value, int unit = 3, int sour_hw = 1);                  // Установка частоты через число
-        QString SetPower(QString value, int unit = 0, int sour_hw = 1);                     // Установка значения мощности через строку
-        QString SetPower(double value, int unit = 0, int sour_hw = 1);                      // Установка значения мощности через число
-        QString SetLevel(QString value, int unit = 0, int sour_hw = 1);                     // Установка значения уровка через строку
-        QString SetLevel(double value, int unit = 0, int sour_hw = 1);                      // Установка значения уровня через число
-        QString SetAccordingToStandard(QString name_of_the_standard, int sour_hw = 1);      // Установка стандартных режимов по названию
-        QString SetAccordingToStandard(int standard_number, int sour_hw = 1);               // Установка стандартных режимов по номеру
-        QString SetModulationType(QString type, int sour_hw = 1);                           // Установка типа модуляции по названию
-        QString SetModulationType(int num_type, int sour_hw = 1);                           // Установка типа модуляции по номеру
-        QString SetSymbolRate(QString value, int unit = 3, int sour_hw = 1);                // Установка скорости передачи символов
-        QString SetSymbolRate(double value, int unit = 3, int sour_hw = 1);                 // Установка скорости передачи символов
-        QString SetBasebandState(bool value, int sour_hw = 1);                              // Метод активации Baseband
-        QString SetPreset();                                                                // Сброс настроек устройства
-        QString SetTriggerForSweeps(QString value, int trig_hw = 1);                        // Выбор триггера для разверток
-        QString SetSweepFreqMode(QString value, int sour_hw = 1);                           // Установка циклического режима для развертки по частоте
-        QString SetFreqSpan(QString value, int unit = 3, int sour_hw = 1);                  // Установка диапазона частотной развертки через строку
-        QString SetFreqSpan(double value, int unit = 3, int sour_hw = 1);                   // Установка диапазона частотной развертки через число
-        QString SetFreqCenter(QString value, int unit = 3, int sour_hw = 1);                // Установка центральной частоты развертки через строку
-        QString SetFreqCenter(double value, int unit = 3, int sour_hw = 1);                 // Установка центральной частоты развертки через число
-        QString SetFreqStart(QString value, int unit = 3, int sour_hw = 1);                 // Установка начальной частоты развертки через строку
-        QString SetFreqStart(double value, int unit = 3, int sour_hw = 1);                  // Установка начальной частоты развертки через число
-        QString SetFreqStop(QString value, int unit = 3, int sour_hw = 1);                  // Установка конечной частоты развертки через строку
-        QString SetFreqStop(double value, int unit = 3, int sour_hw = 1);                   // Установка конечной частоты развертки через число
-        QString SetSweepSpacing(QString value, int sour_hw = 1);                            // Установка режима расчета частотных интервалов
-        QString SetSweepShape(QString value, int sour_hw = 1);                              // Установка формы сигнала для последовательности развертки частоты
+        QString Get_Last_Response();                                                                                        // Последний запрос
+        QString Send_Request_IDN();                                                                                         // Идентификация устройства
+        QString Send_Request_Error();                                                                                       // Запрос стека ошибок
+        QString Send_Request_Frequency(int sour_hw = 1);                                                                    // Запрос значения частоты
+        QString Send_Request_Level(int sour_hw = 1);                                                                        // Запрос значение уровня
+        QString Send_Request_PEP(int sour_hw = 1);                                                                          // Запрос значения PEP
+        QString Send_Request_Standard(int sour_hw = 1);                                                                     // Запрос названия стандартного режима
+        QString Send_Request_ModType(int sour_hw = 1);                                                                      // Запрос типа модуляции
+        QString Send_Request_SymbolRate(int sour_hw = 1);                                                                   // Запрос скорости передачи символов
+        QString Send_Request_TriggerForSweeps(int trig_hw = 1);                                                             // Запрос вида триггера для разверток
+        QString Send_SweepFreqMode(int sour_hw);                                                                            // Запрос циклического режима для развертки по частоте
+        QString Send_FreqSpan(int sour_hw = 1);                                                                             // Запрос диапазона частотной развертки
+        QString Send_FreqCenter(int sour_hw = 1);                                                                           // Запрос центральной частоты развертки
+        QString Send_FreqStart(int sour_hw = 1);                                                                            // Запрос начальной частоты развертки
+        QString Send_FreqStop(int sour_hw = 1);                                                                             // Запрос конечную частоту развертки
+        QString Send_SweepSpacing(int sour_hw = 1);                                                                         // Запрос режима расчета частотных интервалов
+        QString Send_SweepShape(int sour_hw = 1);                                                                           // Запрос установленной формы сигнала для последовательности развертки частоты
+        QString Send_SweepRetrace(int sour_hw = 1);                                                                         // Запрос активности изменения начальной частоты в ожидании следующего триггера
+        QString Send_SweepStepLinear(int sour_hw = 1);                                                                      // Запрос ширины шага для линейной развертки
+        QString Send_SweepPoints(int sour_hw = 1);                                                                          // Запрос количества шагов в пределах диапазона развертки
+        void Response_Handling(QString answer);                                                                             // Обработчик ответов от устройства (удаление \n из строки)
+        QString SetFrequency(QString value, int unit = 3, int sour_hw = 1);                                                 // Установка частоты через строку
+        QString SetFrequency(double value, int unit = 3, int sour_hw = 1);                                                  // Установка частоты через число
+        QString SetPower(QString value, int unit = 0, int sour_hw = 1);                                                     // Установка значения мощности через строку
+        QString SetPower(double value, int unit = 0, int sour_hw = 1);                                                      // Установка значения мощности через число
+        QString SetLevel(QString value, int unit = 0, int sour_hw = 1);                                                     // Установка значения уровка через строку
+        QString SetLevel(double value, int unit = 0, int sour_hw = 1);                                                      // Установка значения уровня через число
+        QString SetAccordingToStandard(QString name_of_the_standard, int sour_hw = 1);                                      // Установка стандартных режимов по названию
+        QString SetAccordingToStandard(int standard_number, int sour_hw = 1);                                               // Установка стандартных режимов по номеру
+        QString SetModulationType(QString type, int sour_hw = 1);                                                           // Установка типа модуляции по названию
+        QString SetModulationType(int num_type, int sour_hw = 1);                                                           // Установка типа модуляции по номеру
+        QString SetSymbolRate(QString value, int unit = 3, int sour_hw = 1);                                                // Установка скорости передачи символов
+        QString SetSymbolRate(double value, int unit = 3, int sour_hw = 1);                                                 // Установка скорости передачи символов
+        QString SetBasebandState(bool value, int sour_hw = 1);                                                              // Метод активации Baseband
+        QString SetPreset();                                                                                                // Сброс настроек устройства
+        QString SetTriggerForSweeps(QString value, int trig_hw = 1);                                                        // Выбор триггера для разверток
+        QString SetSweepFreqMode(QString value, int sour_hw = 1);                                                           // Установка циклического режима для развертки по частоте
+        QString SetFreqSpan(QString value, int unit = 3, int sour_hw = 1);                                                  // Установка диапазона частотной развертки через строку
+        QString SetFreqSpan(double value, int unit = 3, int sour_hw = 1);                                                   // Установка диапазона частотной развертки через число
+        QString SetFreqCenter(QString value, int unit = 3, int sour_hw = 1);                                                // Установка центральной частоты развертки через строку
+        QString SetFreqCenter(double value, int unit = 3, int sour_hw = 1);                                                 // Установка центральной частоты развертки через число
+        QString SetFreqStart(QString value, int unit = 3, int sour_hw = 1);                                                 // Установка начальной частоты развертки через строку
+        QString SetFreqStart(double value, int unit = 3, int sour_hw = 1);                                                  // Установка начальной частоты развертки через число
+        QString SetFreqStop(QString value, int unit = 3, int sour_hw = 1);                                                  // Установка конечной частоты развертки через строку
+        QString SetFreqStop(double value, int unit = 3, int sour_hw = 1);                                                   // Установка конечной частоты развертки через число
+        QString SetSweepSpacing(QString value, int sour_hw = 1);                                                            // Установка режима расчета частотных интервалов
+        QString SetSweepShape(QString value, int sour_hw = 1);                                                              // Установка формы сигнала для последовательности развертки частоты
+        QString SetSweepRetrace(bool value, int sour_hw = 1);                                                               // Активировать изменение начальной частоты в ожидании следующего триггера
+        QString SetSweepResetAll(int sour_hw = 1);                                                                          // Сброс всех активных разверток в начальную точку (альтернатива SetSweepRetrace())
+        QString SetSweepStepLinear(QString value, double freq_Start, double freq_Stop, int unit = 3, int sour_hw = 1);      // Установка ширины шага для линейной развертки (значения от 0.01Гц до значения STOP - START) через строку
+        QString SetSweepStepLinear(double value, double freq_Start, double freq_Stop, int unit = 3, int sour_hw = 1);       // Установка ширины шага для линейной развертки (значения от 0.01Гц до значения STOP - START) через число
+        QString SetSweepPoints(QString value, int sour_hw = 1);                                                             // Установка количества шагов в пределах диапазона развертки
 };
 
 #endif // RNSSCPI_H
