@@ -29,6 +29,11 @@ QString RnSSCPI::Send_Request_Frequency(int sour_hw)
     return "SOURce" + QString::number(sour_hw) + ":FREQuency:CW?\n";
 }
 
+QString RnSSCPI::Send_Request_FrequencyMode(int sour_hw)
+{
+    return  "SOURce" + QString::number(sour_hw) + ":FREQuency:MODE?\n";
+}
+
 QString RnSSCPI::Send_Request_Level(int sour_hw)
 {
     return "SOURce" + QString::number(sour_hw) + ":POWer:LEVel:IMMediate:AMPLitude?\n";
@@ -59,54 +64,69 @@ QString RnSSCPI::Send_Request_TriggerForSweeps(int trig_hw)
     return "TRIGger" + QString::number(trig_hw) + ":FSWeep:SOURce?\n";
 }
 
-QString RnSSCPI::Send_SweepFreqMode(int sour_hw)
+QString RnSSCPI::Send_Request_SweepFreqMode(int sour_hw)
 {
     return "SOURce" + QString::number(sour_hw) + ":SWEep:FREQuensy:MODE?\n";
 }
 
-QString RnSSCPI::Send_FreqSpan(int sour_hw)
+QString RnSSCPI::Send_Request_FreqSpan(int sour_hw)
 {
     return "SOURce" + QString::number(sour_hw) + ":FREQuency:SPAN?\n";
 }
 
-QString RnSSCPI::Send_FreqCenter(int sour_hw)
+QString RnSSCPI::Send_Request_FreqCenter(int sour_hw)
 {
     return "SOURce" + QString::number(sour_hw) + ":FREQuency:CENTer?\n";
 }
 
-QString RnSSCPI::Send_FreqStart(int sour_hw)
+QString RnSSCPI::Send_Request_FreqStart(int sour_hw)
 {
     return "SOURce" + QString::number(sour_hw) + ":FREQuency:STARt?\n";
 }
 
-QString RnSSCPI::Send_FreqStop(int sour_hw)
+QString RnSSCPI::Send_Request_FreqStop(int sour_hw)
 {
     return "SOURce" + QString::number(sour_hw)+ ":FREQuency:STOP?\n";
 }
 
-QString RnSSCPI::Send_SweepSpacing(int sour_hw)
+QString RnSSCPI::Send_Request_SweepSpacing(int sour_hw)
 {
     return "SOURce" + QString::number(sour_hw) + ":SWEep:FREQuency:SPACing?\n";
 }
 
-QString RnSSCPI::Send_SweepShape(int sour_hw)
+QString RnSSCPI::Send_Request_SweepShape(int sour_hw)
 {
     return "SOURce" + QString::number(sour_hw) + ":SWEep:FREQuency:SHAPe?\n";
 }
 
-QString RnSSCPI::Send_SweepRetrace(int sour_hw)
+QString RnSSCPI::Send_Request_SweepRetrace(int sour_hw)
 {
     return "SOURce" + QString::number(sour_hw) + ":SWEep:FREQuency:RETRace?\n";
 }
 
-QString RnSSCPI::Send_SweepStepLinear(int sour_hw)
+QString RnSSCPI::Send_Request_SweepStepLinear(int sour_hw)
 {
     return "SOURce" + QString::number(sour_hw) + ":SWEep:FREQuency:STEP:LINear?\n";
 }
 
-QString RnSSCPI::Send_SweepPoints(int sour_hw)
+QString RnSSCPI::Send_Request_SweepStepLogarithmic(int sour_hw)
+{
+    return "SOURce" + QString::number(sour_hw) + ":SWEep:FREQuency:STEP:LOGarithmic?\n";
+}
+
+QString RnSSCPI::Send_Request_SweepPoints(int sour_hw)
 {
     return "SOURce" + QString::number(sour_hw) + ":SWEep:FREQuency:POINts?\n";
+}
+
+QString RnSSCPI::Send_Request_SweepFreqDwell(int sour_hw)
+{
+    return "SOURce" + QString::number(sour_hw) + ":SWEep:FREQuency:DWELl?\n";
+}
+
+QString RnSSCPI::Send_Request_SweepFreqRun(int sour_hw)
+{
+    return "SOURce" + QString::number(sour_hw) + ":SWEep:FREQuency:RUNNing?\n";
 }
 
 void RnSSCPI::Response_Handling(QString answer)
@@ -203,6 +223,36 @@ QString RnSSCPI::SetFrequency(double value, int unit, int sour_hw)
             command = "";
     }
     return command;
+}
+
+// Устанавливает частотный режим для генерации выходного ВЧ-сигнала.
+QString RnSSCPI::SetFrequencyMode(QVariant value, int sour_hw)
+{
+    int count_values = sizeof(freq_mode_values)/sizeof(freq_mode_values[0]);
+    QString command = "";
+    if(value.type() == QVariant::String)
+    {
+        for(int i = 0; i < count_values; i++)
+        {
+            if(value.toString().toUpper() == freq_mode_values[i].toUpper())
+            {
+                command = "SOURce" + QString::number(sour_hw) + ":FREQuency:MODE " + value.toString() + "\n";
+                break;
+            }
+        }
+    }
+    else if(value.type() == QVariant::Int)
+    {
+        for(int i = 0; i < count_values; i++)
+        {
+            if(value.toInt() == i)
+            {
+                command = "SOURce" + QString::number(sour_hw) + ":FREQuency:MODE " + freq_mode_values[i] + "\n";
+                break;
+            }
+        }
+    }
+    return  command;
 }
 
 QString RnSSCPI::SetPower(QString value, int unit, int sour_hw)
@@ -574,7 +624,7 @@ QString RnSSCPI::SetBasebandState(bool value, int sour_hw)
 }
 
 // Сброс настроек устройства
-QString RnSSCPI::SetPreset()
+QString RnSSCPI::Preset()
 {
     return "SYSTem:PRESet\n";
 }
@@ -1047,7 +1097,46 @@ QString RnSSCPI::SetSweepStepLinear(double value, double freq_Start, double freq
     return "";
 }
 
-QString RnSSCPI::SetSweepPoints(QString value, int sour_hw)
+// Установка логарифмически определяемой ширины шага для развертки по частоте (Задается в %(PCT))
+QString RnSSCPI::SetSweepStepLogarithmic(QVariant value, int sour_hw)
 {
+    if(value.canConvert<QString>() && value.canConvert<double>())
+    {
+        return "SOURce" + QString::number(sour_hw) + ":SWEep:FREQuency:STEP:LOGarithmic " + value.toString() + "PCT\n";
+    }
+    return "";
+}
 
+// Установка количества шагов в пределах диапазона развертки
+QString RnSSCPI::SetSweepPoints(QVariant value, int sour_hw)
+{
+    if(value.canConvert<QString>() && value.canConvert<int>())
+    {
+        if(value.toInt() >= 2)
+        {
+            return "SOURce" + QString::number(sour_hw) + ":SWEep:FREQuency:POINts " + value.toString() + "\n";
+        }
+    }
+    return "";
+}
+
+// Установка времени задержки для шага развертки по частоте
+QString RnSSCPI::SetSweepFreqDwell(QVariant value, QString unit, int sour_hw)
+{
+    if(value.canConvert<QString>())
+    {
+        // Нужно добавить перечисление единиц измерения времени, а пока так
+        if(unit.toLower() == "s" || unit.toLower() == "ms" || unit.toLower() == "us")
+        {
+           return "SOURce" + QString::number(sour_hw) + ":SWEep:FREQuency:DWELl " + value.toString() + unit + "\n";
+        }
+    }
+    return "";
+}
+
+// Выполнение однократной развертки
+QString RnSSCPI::SweepFreqExecute(int sour_hw)
+{
+    // Реализовать проверку на готовность всех параметров развертки
+    return "SOURce" + QString::number(sour_hw) + ":FREQuency:EXECute\n";
 }
