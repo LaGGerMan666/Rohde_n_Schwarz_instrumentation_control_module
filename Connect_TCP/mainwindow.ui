@@ -11,7 +11,7 @@
    </rect>
   </property>
   <property name="windowTitle">
-   <string>Клиент</string>
+   <string>Potato project</string>
   </property>
   <widget class="QWidget" name="centralwidget">
    <layout class="QGridLayout" name="gridLayout_5">
@@ -435,6 +435,7 @@
     <property name="title">
      <string>Настройки</string>
     </property>
+    <addaction name="action_FreqSweep"/>
    </widget>
    <widget class="QMenu" name="menu_Reference">
     <property name="title">
@@ -445,6 +446,11 @@
    <addaction name="menu_Setup"/>
    <addaction name="menu_Reference"/>
   </widget>
+  <action name="action_FreqSweep">
+   <property name="text">
+    <string>Развертка по частоте</string>
+   </property>
+  </action>
  </widget>
  <resources/>
  <connections/>

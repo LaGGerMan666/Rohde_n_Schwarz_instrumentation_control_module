@@ -15,6 +15,7 @@
 #include <QMdiArea>
 #include <QMdiSubWindow>
 #include "rnsscpi.h"
+#include "setting_freq_sweep.h"
 
 
 QT_BEGIN_NAMESPACE
@@ -63,6 +64,8 @@ private slots:
 
     void on_le_Level_editingFinished();
 
+    void on_action_FreqSweep_triggered();
+
 private:
     QTcpSocket *tcpSocket;
     QString SMW_ADDRESS = "172.16.13.41"; //42
@@ -72,6 +75,7 @@ private:
     int countPressBut = 0;
     QMdiSubWindow *myFirstSubWin;
     RnSSCPI *SMW200A;
+    Setting_Freq_Sweep *set_FreqSweep;
 
 
 private:

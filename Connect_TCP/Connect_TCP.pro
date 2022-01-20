@@ -12,14 +12,17 @@ QT += network
 SOURCES += \
     main.cpp \
     mainwindow.cpp \
-    rnsscpi.cpp
+    rnsscpi.cpp \
+    setting_freq_sweep.cpp
 
 HEADERS += \
     mainwindow.h \
-    rnsscpi.h
+    rnsscpi.h \
+    setting_freq_sweep.h
 
 FORMS += \
-    mainwindow.ui
+    mainwindow.ui \
+    setting_freq_sweep.ui
 
 # Default rules for deployment.
 qnx: target.path = /tmp/$${TARGET}/bin

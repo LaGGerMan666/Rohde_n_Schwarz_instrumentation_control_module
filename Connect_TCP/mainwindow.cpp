@@ -9,6 +9,7 @@ MainWindow::MainWindow(QWidget *parent)
     ui->setupUi(this);
     tcpSocket = new QTcpSocket(this);
     SMW200A = new RnSSCPI();
+    set_FreqSweep = new Setting_Freq_Sweep;
 
     // Активность виджетов главного окна
     ui->te_Log->setReadOnly(true);
@@ -23,6 +24,7 @@ MainWindow::MainWindow(QWidget *parent)
     ui->cb_PEPUnits_2->setEnabled(false);
     ui->mdiArea->setEnabled(false);
     ui->statusbar->showMessage("Состояние: отключено.");
+
 
     // Настройка условия заполнения полей ввода
     QRegExp correctFrequence("^(\\d+(\\.\\d+)?)$");
@@ -497,8 +499,9 @@ void MainWindow::on_cb_FrequencyUnits_currentIndexChanged(const QString &arg1)
 }
 
 
-
-
-
-
-
+// Action для вызова настроек развертки по частоте
+void MainWindow::on_action_FreqSweep_triggered()
+{
+    set_FreqSweep->setModal(true);
+    set_FreqSweep->exec();
+}
