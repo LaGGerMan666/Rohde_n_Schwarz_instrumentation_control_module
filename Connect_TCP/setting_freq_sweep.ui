@@ -1,3 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
  <class>Setting_Freq_Sweep</class>
  <widget class="QDialog" name="Setting_Freq_Sweep">
@@ -5,13 +6,561 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>400</width>
-    <height>300</height>
+    <width>402</width>
+    <height>278</height>
    </rect>
   </property>
   <property name="windowTitle">
-   <string>Dialog</string>
+   <string>Параметры развертки по частоте</string>
   </property>
+  <widget class="QPushButton" name="pb_StartFreqSweep">
+   <property name="geometry">
+    <rect>
+     <x>210</x>
+     <y>250</y>
+     <width>181</width>
+     <height>21</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Старт</string>
+   </property>
+  </widget>
+  <widget class="QLineEdit" name="le_StartFreq">
+   <property name="geometry">
+    <rect>
+     <x>10</x>
+     <y>120</y>
+     <width>113</width>
+     <height>21</height>
+    </rect>
+   </property>
+   <property name="layoutDirection">
+    <enum>Qt::LeftToRight</enum>
+   </property>
+   <property name="alignment">
+    <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+   </property>
+  </widget>
+  <widget class="QLabel" name="label">
+   <property name="geometry">
+    <rect>
+     <x>10</x>
+     <y>100</y>
+     <width>111</width>
+     <height>16</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Начальная частота:</string>
+   </property>
+  </widget>
+  <widget class="QComboBox" name="cb_UninsStartFreq">
+   <property name="geometry">
+    <rect>
+     <x>130</x>
+     <y>120</y>
+     <width>61</width>
+     <height>22</height>
+    </rect>
+   </property>
+   <item>
+    <property name="text">
+     <string>GHz</string>
+    </property>
+   </item>
+   <item>
+    <property name="text">
+     <string>MHz</string>
+    </property>
+   </item>
+   <item>
+    <property name="text">
+     <string>kHz</string>
+    </property>
+   </item>
+   <item>
+    <property name="text">
+     <string>Hz</string>
+    </property>
+   </item>
+  </widget>
+  <widget class="QLabel" name="label_2">
+   <property name="geometry">
+    <rect>
+     <x>10</x>
+     <y>150</y>
+     <width>101</width>
+     <height>16</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Конечная частота:</string>
+   </property>
+  </widget>
+  <widget class="QLineEdit" name="le_StopFreq">
+   <property name="geometry">
+    <rect>
+     <x>10</x>
+     <y>170</y>
+     <width>113</width>
+     <height>21</height>
+    </rect>
+   </property>
+   <property name="layoutDirection">
+    <enum>Qt::LeftToRight</enum>
+   </property>
+   <property name="alignment">
+    <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+   </property>
+  </widget>
+  <widget class="QComboBox" name="cb_UnitsStopFreq">
+   <property name="geometry">
+    <rect>
+     <x>130</x>
+     <y>170</y>
+     <width>61</width>
+     <height>22</height>
+    </rect>
+   </property>
+   <item>
+    <property name="text">
+     <string>GHz</string>
+    </property>
+   </item>
+   <item>
+    <property name="text">
+     <string>MHz</string>
+    </property>
+   </item>
+   <item>
+    <property name="text">
+     <string>kHz</string>
+    </property>
+   </item>
+   <item>
+    <property name="text">
+     <string>Hz</string>
+    </property>
+   </item>
+  </widget>
+  <widget class="QComboBox" name="cb_TriggerSource">
+   <property name="geometry">
+    <rect>
+     <x>10</x>
+     <y>20</y>
+     <width>161</width>
+     <height>22</height>
+    </rect>
+   </property>
+   <item>
+    <property name="text">
+     <string>Auto</string>
+    </property>
+   </item>
+   <item>
+    <property name="text">
+     <string>Immediate</string>
+    </property>
+   </item>
+   <item>
+    <property name="text">
+     <string>Single</string>
+    </property>
+   </item>
+   <item>
+    <property name="text">
+     <string>Bus</string>
+    </property>
+   </item>
+   <item>
+    <property name="text">
+     <string>External</string>
+    </property>
+   </item>
+   <item>
+    <property name="text">
+     <string>Eauto</string>
+    </property>
+   </item>
+  </widget>
+  <widget class="QLabel" name="label_3">
+   <property name="geometry">
+    <rect>
+     <x>10</x>
+     <y>0</y>
+     <width>151</width>
+     <height>16</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Источник запуска развертки:</string>
+   </property>
+  </widget>
+  <widget class="QLabel" name="label_4">
+   <property name="geometry">
+    <rect>
+     <x>10</x>
+     <y>50</y>
+     <width>151</width>
+     <height>16</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Режим развертки по частоте:</string>
+   </property>
+  </widget>
+  <widget class="QComboBox" name="cb_SweepFreqMode">
+   <property name="geometry">
+    <rect>
+     <x>10</x>
+     <y>70</y>
+     <width>161</width>
+     <height>22</height>
+    </rect>
+   </property>
+   <item>
+    <property name="text">
+     <string>Auto</string>
+    </property>
+   </item>
+   <item>
+    <property name="text">
+     <string>Manual</string>
+    </property>
+   </item>
+   <item>
+    <property name="text">
+     <string>Step</string>
+    </property>
+   </item>
+  </widget>
+  <widget class="QLineEdit" name="le_SpanFreq">
+   <property name="geometry">
+    <rect>
+     <x>210</x>
+     <y>120</y>
+     <width>113</width>
+     <height>21</height>
+    </rect>
+   </property>
+   <property name="layoutDirection">
+    <enum>Qt::LeftToRight</enum>
+   </property>
+   <property name="alignment">
+    <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+   </property>
+  </widget>
+  <widget class="QLabel" name="label_5">
+   <property name="geometry">
+    <rect>
+     <x>210</x>
+     <y>100</y>
+     <width>61</width>
+     <height>16</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Диапазон:</string>
+   </property>
+  </widget>
+  <widget class="QLineEdit" name="le_CenterFreq">
+   <property name="geometry">
+    <rect>
+     <x>210</x>
+     <y>170</y>
+     <width>113</width>
+     <height>21</height>
+    </rect>
+   </property>
+   <property name="layoutDirection">
+    <enum>Qt::LeftToRight</enum>
+   </property>
+   <property name="alignment">
+    <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+   </property>
+  </widget>
+  <widget class="QLabel" name="label_6">
+   <property name="geometry">
+    <rect>
+     <x>210</x>
+     <y>150</y>
+     <width>47</width>
+     <height>13</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Центр:</string>
+   </property>
+  </widget>
+  <widget class="QComboBox" name="cb_UnitsRange">
+   <property name="geometry">
+    <rect>
+     <x>330</x>
+     <y>120</y>
+     <width>61</width>
+     <height>22</height>
+    </rect>
+   </property>
+   <item>
+    <property name="text">
+     <string>GHz</string>
+    </property>
+   </item>
+   <item>
+    <property name="text">
+     <string>MHz</string>
+    </property>
+   </item>
+   <item>
+    <property name="text">
+     <string>kHz</string>
+    </property>
+   </item>
+   <item>
+    <property name="text">
+     <string>Hz</string>
+    </property>
+   </item>
+  </widget>
+  <widget class="QComboBox" name="cb_UninsCenter">
+   <property name="geometry">
+    <rect>
+     <x>330</x>
+     <y>170</y>
+     <width>61</width>
+     <height>22</height>
+    </rect>
+   </property>
+   <item>
+    <property name="text">
+     <string>GHz</string>
+    </property>
+   </item>
+   <item>
+    <property name="text">
+     <string>MHz</string>
+    </property>
+   </item>
+   <item>
+    <property name="text">
+     <string>kHz</string>
+    </property>
+   </item>
+   <item>
+    <property name="text">
+     <string>Hz</string>
+    </property>
+   </item>
+  </widget>
+  <widget class="QLabel" name="label_7">
+   <property name="geometry">
+    <rect>
+     <x>190</x>
+     <y>0</y>
+     <width>201</width>
+     <height>16</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Режим расчета частотных интервалов:</string>
+   </property>
+  </widget>
+  <widget class="QComboBox" name="cb_SweepSpacing">
+   <property name="geometry">
+    <rect>
+     <x>190</x>
+     <y>20</y>
+     <width>201</width>
+     <height>22</height>
+    </rect>
+   </property>
+   <item>
+    <property name="text">
+     <string>Linear</string>
+    </property>
+   </item>
+   <item>
+    <property name="text">
+     <string>Logarithmic</string>
+    </property>
+   </item>
+  </widget>
+  <widget class="QLabel" name="label_8">
+   <property name="geometry">
+    <rect>
+     <x>190</x>
+     <y>50</y>
+     <width>81</width>
+     <height>16</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Форма сигнала:</string>
+   </property>
+  </widget>
+  <widget class="QComboBox" name="cb_SweepShape">
+   <property name="geometry">
+    <rect>
+     <x>190</x>
+     <y>70</y>
+     <width>201</width>
+     <height>22</height>
+    </rect>
+   </property>
+   <item>
+    <property name="text">
+     <string>Sawtooth</string>
+    </property>
+   </item>
+   <item>
+    <property name="text">
+     <string>Triangle</string>
+    </property>
+   </item>
+  </widget>
+  <widget class="QLabel" name="label_9">
+   <property name="geometry">
+    <rect>
+     <x>10</x>
+     <y>200</y>
+     <width>81</width>
+     <height>16</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Шаг развертки:</string>
+   </property>
+  </widget>
+  <widget class="QLineEdit" name="le_StepSweep">
+   <property name="geometry">
+    <rect>
+     <x>10</x>
+     <y>220</y>
+     <width>81</width>
+     <height>21</height>
+    </rect>
+   </property>
+   <property name="layoutDirection">
+    <enum>Qt::LeftToRight</enum>
+   </property>
+   <property name="alignment">
+    <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+   </property>
+  </widget>
+  <widget class="QComboBox" name="cb_UnitsLinStep">
+   <property name="geometry">
+    <rect>
+     <x>100</x>
+     <y>220</y>
+     <width>61</width>
+     <height>22</height>
+    </rect>
+   </property>
+   <item>
+    <property name="text">
+     <string>GHz</string>
+    </property>
+   </item>
+   <item>
+    <property name="text">
+     <string>MHz</string>
+    </property>
+   </item>
+   <item>
+    <property name="text">
+     <string>kHz</string>
+    </property>
+   </item>
+   <item>
+    <property name="text">
+     <string>Hz</string>
+    </property>
+   </item>
+  </widget>
+  <widget class="QLabel" name="label_10">
+   <property name="geometry">
+    <rect>
+     <x>170</x>
+     <y>200</y>
+     <width>101</width>
+     <height>16</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Количество шагов:</string>
+   </property>
+  </widget>
+  <widget class="QLineEdit" name="le_SweepPoints">
+   <property name="geometry">
+    <rect>
+     <x>170</x>
+     <y>220</y>
+     <width>101</width>
+     <height>21</height>
+    </rect>
+   </property>
+   <property name="layoutDirection">
+    <enum>Qt::LeftToRight</enum>
+   </property>
+   <property name="alignment">
+    <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+   </property>
+  </widget>
+  <widget class="QLabel" name="label_11">
+   <property name="geometry">
+    <rect>
+     <x>280</x>
+     <y>200</y>
+     <width>91</width>
+     <height>16</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Время задержки:</string>
+   </property>
+  </widget>
+  <widget class="QLineEdit" name="le_SweepDwell">
+   <property name="geometry">
+    <rect>
+     <x>280</x>
+     <y>220</y>
+     <width>51</width>
+     <height>21</height>
+    </rect>
+   </property>
+   <property name="layoutDirection">
+    <enum>Qt::LeftToRight</enum>
+   </property>
+   <property name="alignment">
+    <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+   </property>
+  </widget>
+  <widget class="QComboBox" name="cb_UnitsSweepDwell">
+   <property name="geometry">
+    <rect>
+     <x>340</x>
+     <y>220</y>
+     <width>51</width>
+     <height>22</height>
+    </rect>
+   </property>
+   <item>
+    <property name="text">
+     <string>s</string>
+    </property>
+   </item>
+   <item>
+    <property name="text">
+     <string>ms</string>
+    </property>
+   </item>
+   <item>
+    <property name="text">
+     <string>us</string>
+    </property>
+   </item>
+  </widget>
  </widget>
  <resources/>
  <connections/>

@@ -24,9 +24,11 @@ MainWindow::MainWindow(QWidget *parent)
     ui->cb_PEPUnits_2->setEnabled(false);
     ui->mdiArea->setEnabled(false);
     ui->statusbar->showMessage("Состояние: отключено.");
+    set_FreqSweep->setModal(true);
+    ui->action_FreqSweep->setEnabled(false);
 
 
-    // Настройка условия заполнения полей ввода
+    // Настройка заполнения полей ввода
     QRegExp correctFrequence("^(\\d+(\\.\\d+)?)$");
     QRegExp correctPepAndLevel("^(-?\\d{1,4}(\\.\\d{1,3})?)$");
     ui->le_Frequency->setValidator(new QRegExpValidator(correctFrequence, this));
@@ -34,7 +36,6 @@ MainWindow::MainWindow(QWidget *parent)
     ui->le_Level->setValidator(new QRegExpValidator(correctPepAndLevel, this));
 
     // Работа с MdiArea и MdiSubWindow
-
     myFirstSubWin = new QMdiSubWindow();
     myFirstSubWin->setWindowTitle("BaseBand");
     myFirstSubWin->setWindowFlags(Qt::Window | Qt::WindowTitleHint | Qt::CustomizeWindowHint);
@@ -57,6 +58,7 @@ MainWindow::MainWindow(QWidget *parent)
     connect(tcpSocket, &QTcpSocket::disconnected, this, &MainWindow::slotDisconnected);
     connect(tcpSocket, SIGNAL(error(QAbstractSocket::SocketError)), this, SLOT(slotError(QAbstractSocket::SocketError)));
     connect(this, &MainWindow::signalSendToServer, this, &MainWindow::slotSendToServer);
+    connect(set_FreqSweep, &Setting_Freq_Sweep::sign_RunFreqSweep, this, &MainWindow::slotRunFreqSweep);
 
     log_commands = new QFile(QDir::currentPath() + "/log_commands.txt");
 }
@@ -288,6 +290,7 @@ void MainWindow::slotError(QAbstractSocket::SocketError error)
         ui->cb_LevelUnits->setEnabled(false);
         ui->cb_PEPUnits_2->setEnabled(false);
         ui->mdiArea->setEnabled(false);
+        ui->action_FreqSweep->setEnabled(false);
         ui->statusbar->showMessage("Состояние: отключено.");
     }
 }
@@ -309,6 +312,7 @@ void MainWindow::slotConnected()
     ui->cb_LevelUnits->setEnabled(true);
     ui->cb_PEPUnits_2->setEnabled(true);
     ui->mdiArea->setEnabled(true);
+    ui->action_FreqSweep->setEnabled(true);
     ui->le_Command->setFocus();
 
     slotSendToServer(SMW200A->Send_Request_IDN());
@@ -361,12 +365,19 @@ void MainWindow::slotDisconnected()
     ui->cb_LevelUnits->setEnabled(false);
     ui->cb_PEPUnits_2->setEnabled(false);
     ui->mdiArea->setEnabled(false);
+    ui->action_FreqSweep->setEnabled(false);
     ui->statusbar->showMessage("Состояние: отключено.");
+}
+
+void MainWindow::slotRunFreqSweep(QStringList data)
+{
+    QStringList sweep_options = data;
+
 }
 
 /* ----------------------------- Push buttons -----------------------------*/
 
-// Кнопка для отправки команды (реализовано через "connect")
+// Кнопка для отправки команды
 void MainWindow::on_pb_Send_clicked()
 {
     QRegExp regExp("^(\\s+)$");
@@ -482,19 +493,18 @@ void MainWindow::on_cb_FrequencyUnits_currentIndexChanged(const QString &arg1)
         {
             QMessageBox::information(this, "Test", err, QMessageBox::Ok);
         }
-//        ui->le_Frequency->setInputMask("9.999999999999");
     }
     else if(arg1 == "MHz")
     {
-//        ui->le_Frequency->setInputMask("9999.999999999");
+
     }
     else if (arg1 == "kHz")
     {
-//        ui->le_Frequency->setInputMask("9999999.999999");
+
     }
     else
     {
-//        ui->le_Frequency->setInputMask("9999999999.999");
+
     }
 }
 
@@ -502,6 +512,7 @@ void MainWindow::on_cb_FrequencyUnits_currentIndexChanged(const QString &arg1)
 // Action для вызова настроек развертки по частоте
 void MainWindow::on_action_FreqSweep_triggered()
 {
-    set_FreqSweep->setModal(true);
     set_FreqSweep->exec();
+
+
 }

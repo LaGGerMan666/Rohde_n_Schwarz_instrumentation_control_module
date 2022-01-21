@@ -48,6 +48,8 @@ private slots:
 
     void slotDisconnected();
 
+    void slotRunFreqSweep(QStringList data);
+
     void on_pb_Send_clicked();
 
     void on_pb_Connection_clicked();
