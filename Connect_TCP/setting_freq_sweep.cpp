@@ -61,11 +61,12 @@ void Setting_Freq_Sweep::on_pb_StartFreqSweep_clicked()
     sweep_options.append(ui->le_SweepDwell->text());
     sweep_options.append(ui->cb_UnitsSweepDwell->currentText());
     emit sign_RunFreqSweep(sweep_options);
+    sweep_options.clear();
 }
 
 
 void Setting_Freq_Sweep::on_cb_SweepSpacing_currentIndexChanged(const QString &arg1)
 {
-    arg1 == "Linear"? ui->cb_UnitsLinStep->setEnabled(true) : ui->cb_UnitsLinStep->setEnabled(false);
+    arg1 == "Linear" ? ui->cb_UnitsLinStep->setEnabled(true) : ui->cb_UnitsLinStep->setEnabled(false);
 }
 

@@ -166,14 +166,14 @@ void MainWindow::slotReadyRead()
 }
 
 // Отправка команды на устройство
-void MainWindow::slotSendToServer(QString command)
+void MainWindow::slotSendToServer(string command)
 {
-    QRegExp regExp("\\?");
-    regExp.indexIn(command);
-    QString isRequest = regExp.cap(0);
-    QByteArray arrBlock = command.toStdString().c_str();
+//    QRegExp regExp("\\?");
+//    regExp.indexIn(command);
+//    QString isRequest = regExp.cap(0);
+    QByteArray arrBlock = command.c_str();
     tcpSocket->write(arrBlock);
-    if(!isRequest.isEmpty())
+    if(*command.end() - 1 != '?')
     {
         bool check = tcpSocket->waitForReadyRead(1000);
         if(!check) slotSendToServer(SMW200A->Send_Request_Error());
@@ -183,6 +183,16 @@ void MainWindow::slotSendToServer(QString command)
         tcpSocket->waitForBytesWritten();
         slotSendToServer(SMW200A->Send_Request_Error());
     }
+//    if(!isRequest.isEmpty())
+//    {
+//        bool check = tcpSocket->waitForReadyRead(1000);
+//        if(!check) slotSendToServer(SMW200A->Send_Request_Error());
+//    }
+//    else
+//    {
+//        tcpSocket->waitForBytesWritten();
+//        slotSendToServer(SMW200A->Send_Request_Error());
+//    }
     log_commands->close();
 }
 
@@ -371,7 +381,8 @@ void MainWindow::slotDisconnected()
 
 void MainWindow::slotRunFreqSweep(QStringList data)
 {
-    QStringList sweep_options = data;
+    QMessageBox::information(this, "Info", "Нюхай бэбру", QMessageBox::Ok);
+   // slotSendToServer(SMW200A->SetTriggerForSweeps());
 
 }
 
@@ -396,7 +407,7 @@ void MainWindow::on_pb_Send_clicked()
             QTextStream out(log_commands);
             out << QDateTime::currentDateTime().toString() << " - " << ui->le_Command->text() << endl;
         }
-        emit signalSendToServer(ui->le_Command->text() + "\n");
+        emit signalSendToServer(ui->le_Command->text().toStdString() + "\n");
     }
     ui->le_Command->clear();
     countPressBut = 0;
@@ -436,7 +447,7 @@ void MainWindow::on_le_Command_returnPressed()
             QTextStream out(log_commands);
             out << QDateTime::currentDateTime().toString() << " - " << ui->le_Command->text() << endl;
         }
-        emit signalSendToServer(ui->le_Command->text() + "\n");
+        emit signalSendToServer(ui->le_Command->text().toStdString() + "\n");
     }
     ui->le_Command->clear();
     countPressBut = 0;
@@ -445,16 +456,16 @@ void MainWindow::on_le_Command_returnPressed()
 // Установка Frequency. При смене фокуса или при нажатии на Enter отправляются данные на устройство.
 void MainWindow::on_le_Frequency_editingFinished()
 {
-    QString command = SMW200A->SetFrequency(ui->le_Frequency->text(), ui->cb_FrequencyUnits->currentIndex());
-    ui->te_Log->append(QTime::currentTime().toString() + " -  Установлено значение Frequency : " + command);
+    string command = SMW200A->SetFrequency(ui->le_Frequency->text().toDouble(), ui->cb_FrequencyUnits->currentIndex());
+    ui->te_Log->append(QTime::currentTime().toString() + " -  Установлено значение Frequency : " + QString::fromStdString(command));
     emit signalSendToServer(command);
 }
 
 // Установка PEP. При смене фокуса или при нажатии на Enter отправляются данные на устройство.
 void MainWindow::on_le_PEP_editingFinished()
 {
-    QString command = SMW200A->SetPower(ui->le_PEP->text(), ui->cb_PEPUnits_2->currentIndex());
-    ui->te_Log->append(QTime::currentTime().toString() + " -  Установлено значение PEP : " + command);
+    string command = SMW200A->SetPower(ui->le_PEP->text().toDouble(), ui->cb_PEPUnits_2->currentIndex());
+    ui->te_Log->append(QTime::currentTime().toString() + " -  Установлено значение PEP : " + QString::fromStdString(command));
     emit signalSendToServer(command);
     slotSendToServer(SMW200A->Send_Request_Level());
     ui->le_Level->setText(delSpace(response_From_Device));
@@ -463,8 +474,8 @@ void MainWindow::on_le_PEP_editingFinished()
 // Установка Level. При смене фокуса или при нажатии на Enter отправляются данные на устройство.
 void MainWindow::on_le_Level_editingFinished()
 {
-    QString command = SMW200A->SetLevel(ui->le_Level->text(), ui->cb_LevelUnits->currentIndex());
-    ui->te_Log->append(QTime::currentTime().toString() + " -  Установлено значение Level : " + command);
+    string command = SMW200A->SetLevel(ui->le_Level->text().toDouble(), ui->cb_LevelUnits->currentIndex());
+    ui->te_Log->append(QTime::currentTime().toString() + " -  Установлено значение Level : " + QString::fromStdString(command));
     emit signalSendToServer(command);
     slotSendToServer(SMW200A->Send_Request_PEP());
     ui->le_PEP->setText(delSpace(response_From_Device));

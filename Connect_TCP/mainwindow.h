@@ -31,7 +31,7 @@ public:
     ~MainWindow();
 
 signals:
-    void signalSendToServer(QString);
+    void signalSendToServer(string);
 
 public:
     void keyPressEvent(QKeyEvent *event);
@@ -42,7 +42,7 @@ private slots:
 
     void slotError(QAbstractSocket::SocketError);
 
-    void slotSendToServer(QString);
+    void slotSendToServer(string);
 
     void slotConnected();
 
