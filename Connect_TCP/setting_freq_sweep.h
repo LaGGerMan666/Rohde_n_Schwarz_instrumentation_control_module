@@ -7,6 +7,7 @@
 #include <QRegExp>
 #include <QStringList>
 
+using namespace std;
 
 namespace Ui {
 class Setting_Freq_Sweep;
@@ -23,11 +24,16 @@ public:
 signals:
     void sign_RunFreqSweep(QStringList);
 
+public slots:
+    void slotGetData(QStringList data);
+
 private slots:
 
     void on_pb_StartFreqSweep_clicked();
 
     void on_cb_SweepSpacing_currentIndexChanged(const QString &arg1);
+
+
 
 private:
     QStringList sweep_options;

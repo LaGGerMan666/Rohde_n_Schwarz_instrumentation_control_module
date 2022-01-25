@@ -32,6 +32,7 @@ public:
 
 signals:
     void signalSendToServer(string);
+    void signalGetData(QStringList);
 
 public:
     void keyPressEvent(QKeyEvent *event);

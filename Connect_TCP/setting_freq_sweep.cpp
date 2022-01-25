@@ -27,11 +27,11 @@ Setting_Freq_Sweep::Setting_Freq_Sweep(QWidget *parent) :
     ui->le_StepSweep->setText("1");
     ui->le_SweepDwell->setText("1");
     ui->le_SweepPoints->setText("0");
-    ui->cb_UnitsLinStep->setCurrentIndex(1);
-    ui->cb_UninsCenter->setCurrentIndex(1);
-    ui->cb_UninsStartFreq->setCurrentIndex(1);
-    ui->cb_UnitsStopFreq->setCurrentIndex(1);
-    ui->cb_UnitsRange->setCurrentIndex(1);
+    ui->cb_UnitsLinStep->setCurrentIndex(3);
+    ui->cb_UninsCenter->setCurrentIndex(3);
+    ui->cb_UninsStartFreq->setCurrentIndex(3);
+    ui->cb_UnitsStopFreq->setCurrentIndex(3);
+    ui->cb_UnitsRange->setCurrentIndex(3);
 
 
 }
@@ -41,25 +41,37 @@ Setting_Freq_Sweep::~Setting_Freq_Sweep()
     delete ui;
 }
 
+void Setting_Freq_Sweep::slotGetData(QStringList data)
+{
+    ui->le_StartFreq->setText(data.at(4));
+    ui->le_StopFreq->setText(data.at(5));
+    ui->le_SpanFreq->setText(data.at(6));
+    ui->le_CenterFreq->setText(data.at(7));
+    ui->le_StepSweep->setText(data.at(8));
+    ui->le_SweepPoints->setText(data.at(9));
+    ui->le_SweepDwell->setText(data.at(10));
+
+}
+
 void Setting_Freq_Sweep::on_pb_StartFreqSweep_clicked()
 {
-    sweep_options.append(ui->cb_TriggerSource->currentText());
-    sweep_options.append(ui->cb_SweepFreqMode->currentText());
-    sweep_options.append(ui->cb_SweepSpacing->currentText());
-    sweep_options.append(ui->cb_SweepShape->currentText());
+    sweep_options.append(QString::number(ui->cb_TriggerSource->currentIndex()));
+    sweep_options.append(QString::number(ui->cb_SweepFreqMode->currentIndex()));
+    sweep_options.append(QString::number(ui->cb_SweepSpacing->currentIndex()));
+    sweep_options.append(QString::number(ui->cb_SweepShape->currentIndex()));
     sweep_options.append(ui->le_StartFreq->text());
-    sweep_options.append(ui->cb_UninsStartFreq->currentText());
+    sweep_options.append(QString::number(ui->cb_UninsStartFreq->currentIndex()));
     sweep_options.append(ui->le_StopFreq->text());
-    sweep_options.append(ui->cb_UnitsStopFreq->currentText());
+    sweep_options.append(QString::number(ui->cb_UnitsStopFreq->currentIndex()));
     sweep_options.append(ui->le_SpanFreq->text());
-    sweep_options.append(ui->cb_UnitsRange->currentText());
+    sweep_options.append(QString::number(ui->cb_UnitsRange->currentIndex()));
     sweep_options.append(ui->le_CenterFreq->text());
-    sweep_options.append(ui->cb_UninsCenter->currentText());
+    sweep_options.append(QString::number(ui->cb_UninsCenter->currentIndex()));
     sweep_options.append(ui->le_StepSweep->text());
-    sweep_options.append(ui->cb_UnitsLinStep->currentText());
+    sweep_options.append(QString::number(ui->cb_UnitsLinStep->currentIndex()));
     sweep_options.append(ui->le_SweepPoints->text());
     sweep_options.append(ui->le_SweepDwell->text());
-    sweep_options.append(ui->cb_UnitsSweepDwell->currentText());
+    sweep_options.append(QString::number(ui->cb_UnitsSweepDwell->currentIndex()));
     emit sign_RunFreqSweep(sweep_options);
     sweep_options.clear();
 }

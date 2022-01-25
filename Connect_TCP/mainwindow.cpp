@@ -59,6 +59,7 @@ MainWindow::MainWindow(QWidget *parent)
     connect(tcpSocket, SIGNAL(error(QAbstractSocket::SocketError)), this, SLOT(slotError(QAbstractSocket::SocketError)));
     connect(this, &MainWindow::signalSendToServer, this, &MainWindow::slotSendToServer);
     connect(set_FreqSweep, &Setting_Freq_Sweep::sign_RunFreqSweep, this, &MainWindow::slotRunFreqSweep);
+    connect(this, &MainWindow::signalGetData, set_FreqSweep, &Setting_Freq_Sweep::slotGetData);
 
     log_commands = new QFile(QDir::currentPath() + "/log_commands.txt");
 }
@@ -168,12 +169,12 @@ void MainWindow::slotReadyRead()
 // Отправка команды на устройство
 void MainWindow::slotSendToServer(string command)
 {
-//    QRegExp regExp("\\?");
-//    regExp.indexIn(command);
-//    QString isRequest = regExp.cap(0);
+    QRegExp regExp("\\?");
+    regExp.indexIn(QString::fromStdString(command));
+    QString isRequest = regExp.cap(0);
     QByteArray arrBlock = command.c_str();
     tcpSocket->write(arrBlock);
-    if(*command.end() - 1 != '?')
+    if(!isRequest.isEmpty())
     {
         bool check = tcpSocket->waitForReadyRead(1000);
         if(!check) slotSendToServer(SMW200A->Send_Request_Error());
@@ -183,16 +184,6 @@ void MainWindow::slotSendToServer(string command)
         tcpSocket->waitForBytesWritten();
         slotSendToServer(SMW200A->Send_Request_Error());
     }
-//    if(!isRequest.isEmpty())
-//    {
-//        bool check = tcpSocket->waitForReadyRead(1000);
-//        if(!check) slotSendToServer(SMW200A->Send_Request_Error());
-//    }
-//    else
-//    {
-//        tcpSocket->waitForBytesWritten();
-//        slotSendToServer(SMW200A->Send_Request_Error());
-//    }
     log_commands->close();
 }
 
@@ -381,8 +372,24 @@ void MainWindow::slotDisconnected()
 
 void MainWindow::slotRunFreqSweep(QStringList data)
 {
-    QMessageBox::information(this, "Info", "Нюхай бэбру", QMessageBox::Ok);
-   // slotSendToServer(SMW200A->SetTriggerForSweeps());
+    slotSendToServer(SMW200A->SetTriggerForSweeps(data.at(0).toInt())); // Установка триггера для развертки
+    slotSendToServer(SMW200A->SetSweepFreqMode(data.at(1).toInt())); // Установка циклического режима для развертки по частоте
+    slotSendToServer(SMW200A->SetSweepSpacing(data.at(2).toInt())); // Установка режима расчета частотных интервалов
+    slotSendToServer(SMW200A->SetSweepShape(data.at(3).toInt())); // Установка формы сигнала для последовательности развертки частоты
+    slotSendToServer(SMW200A->SetFreqStart(data.at(4).toDouble(), data.at(5).toInt())); // Установка начальной частоты развертки
+    slotSendToServer(SMW200A->SetFreqStop(data.at(6).toDouble(), data.at(7).toInt())); // Установка конечной частоты развертки
+    slotSendToServer(SMW200A->SetSweepRetrace(true)); // Активация изменения начальной частоты в ожидании следующего триггера
+//    slotSendToServer(SMW200A->SetSweepResetAll()); // Сброс всех активных разверток в начальную точку (альтернатива SetSweepRetrace())
+//    slotSendToServer(SMW200A->SetFreqSpan(data.at(8).toDouble(), data.at(9).toInt())); // Установка диапазона частотной развертки
+//    slotSendToServer(SMW200A->SetFreqCenter(data.at(10).toDouble(), data.at(11).toInt())); // Установка центральной частоты развертки
+    slotSendToServer(SMW200A->SetSweepStepLinear(data.at(12).toDouble(),data.at(4).toDouble(), data.at(6).toDouble(), data.at(13).toInt())); // Установка ширины шага для линейной развертки (значения от 0.01Гц до значения STOP - START)
+    slotSendToServer(SMW200A->SetSweepStepLogarithmic(data.at(12).toDouble())); // Установка логарифмически определяемой ширины шага для развертки по частоте (Задается в %(PCT))
+    slotSendToServer(SMW200A->SetSweepPoints(data.at(14).toInt())); // Установка количества шагов в пределах диапазона развертки
+    slotSendToServer(SMW200A->SetSweepFreqDwell(data.at(15).toDouble(), data.at(16).toInt())); // Установка времени задержки для шага развертки по частоте
+    slotSendToServer(SMW200A->SetFrequencyMode(2)); // Установка частотного режима Sweep.
+    slotSendToServer(SMW200A->SweepFreqExecute()); // Запуск развертки
+
+
 
 }
 
@@ -523,7 +530,44 @@ void MainWindow::on_cb_FrequencyUnits_currentIndexChanged(const QString &arg1)
 // Action для вызова настроек развертки по частоте
 void MainWindow::on_action_FreqSweep_triggered()
 {
+    QStringList data;
+    slotSendToServer(SMW200A->Send_Request_TriggerForSweeps());
+    data.append(delSpace(response_From_Device));
+
+    slotSendToServer(SMW200A->Send_Request_SweepFreqMode());
+    data.append(delSpace(response_From_Device));
+
+    slotSendToServer(SMW200A->Send_Request_SweepSpacing());
+    data.append(delSpace(response_From_Device));
+
+    slotSendToServer(SMW200A->Send_Request_SweepShape());
+    data.append(delSpace(response_From_Device));
+
+    slotSendToServer(SMW200A->Send_Request_FreqStart());
+    data.append(delSpace(response_From_Device));
+
+    slotSendToServer(SMW200A->Send_Request_FreqStop());
+    data.append(delSpace(response_From_Device));
+
+    slotSendToServer(SMW200A->Send_Request_FreqSpan());
+    data.append(delSpace(response_From_Device));
+
+    slotSendToServer(SMW200A->Send_Request_FreqCenter());
+    data.append(delSpace(response_From_Device));
+
+    slotSendToServer(SMW200A->Send_Request_SweepStepLinear());
+    data.append(delSpace(response_From_Device));
+
+//    slotSendToServer(SMW200A->Send_Request_SweepStepLogarithmic());
+//    data.append(delSpace(response_From_Device));
+
+    slotSendToServer(SMW200A->Send_Request_SweepPoints());
+    data.append(delSpace(response_From_Device));
+
+    slotSendToServer(SMW200A->Send_Request_SweepFreqDwell());
+    data.append(delSpace(response_From_Device));
+
+    emit signalGetData(data);
+    data.clear();
     set_FreqSweep->exec();
-
-
 }

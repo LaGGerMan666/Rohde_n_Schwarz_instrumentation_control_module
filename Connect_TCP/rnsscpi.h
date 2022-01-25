@@ -122,7 +122,6 @@ class RnSSCPI
 
     public:
         RnSSCPI();
-        void ListenToDevice(string answer);
         string Get_Last_Response();                                                                                        // Последний запрос
         string Send_Request_IDN();                                                                                         // Идентификация устройства
         string Send_Request_Error();                                                                                       // Запрос стека ошибок
@@ -134,7 +133,7 @@ class RnSSCPI
         string Send_Request_ModType(int sour_hw = 1);                                                                      // Запрос типа модуляции
         string Send_Request_SymbolRate(int sour_hw = 1);                                                                   // Запрос скорости передачи символов
         string Send_Request_TriggerForSweeps(int trig_hw = 1);                                                             // Запрос вида триггера для разверток
-        string Send_Request_SweepFreqMode(int sour_hw);                                                                    // Запрос циклического режима для развертки по частоте
+        string Send_Request_SweepFreqMode(int sour_hw = 1);                                                                    // Запрос циклического режима для развертки по частоте
         string Send_Request_FreqSpan(int sour_hw = 1);                                                                     // Запрос диапазона частотной развертки
         string Send_Request_FreqCenter(int sour_hw = 1);                                                                   // Запрос центральной частоты развертки
         string Send_Request_FreqStart(int sour_hw = 1);                                                                    // Запрос начальной частоты развертки
@@ -147,30 +146,32 @@ class RnSSCPI
         string Send_Request_SweepPoints(int sour_hw = 1);                                                                  // Запрос количества шагов в пределах диапазона развертки
         string Send_Request_SweepFreqDwell(int sour_hw = 1);                                                               // Запрос времени задержки для шага развертки по частоте
         string Send_Request_SweepFreqRun(int sour_hw = 1);                                                                 // Запрос текущего состояния развертки
+
         void Response_Handling(string answer);                                                                             // Обработчик ответов от устройства (удаление \n из строки)
         string SetFrequency(double value, int unit = 3, int sour_hw = 1);                                                  // Установка частоты через число
-        string SetFrequencyMode(int value, int sour_hw = 1);                                                          // Устанавливает частотный режим для генерации выходного ВЧ-сигнала.
+        string SetFrequencyMode(int value, int sour_hw = 1);                                                               // Устанавливает частотный режим для генерации выходного ВЧ-сигнала.
         string SetPower(double value, int unit = 0, int sour_hw = 1);                                                      // Установка мощности
         string SetLevel(double value, int unit = 0, int sour_hw = 1);                                                      // Установка уровня
-        string SetAccordingToStandard(int value, int sour_hw = 1);                                               // Установка стандартных режимов
+        string SetAccordingToStandard(int value, int sour_hw = 1);                                                         // Установка стандартных режимов
         string SetModulationType(int num_type, int sour_hw = 1);                                                           // Установка типа модуляции
         string SetSymbolRate(double value, int unit = 3, int sour_hw = 1);                                                 // Установка скорости передачи символов
         string SetBasebandState(bool value, int sour_hw = 1);                                                              // Метод активации Baseband
         string Preset();                                                                                                   // Сброс настроек устройства
-        string SetTriggerForSweeps(int value, int trig_hw = 1);                                                        // Выбор триггера для разверток
-        string SetSweepFreqMode(int value, int sour_hw = 1);                                                           // Установка циклического режима для развертки по частоте
+
+        string SetTriggerForSweeps(int value, int trig_hw = 1);                                                            // Выбор триггера для разверток
+        string SetSweepFreqMode(int value, int sour_hw = 1);                                                               // Установка циклического режима для развертки по частоте
         string SetFreqSpan(double value, int unit = 3, int sour_hw = 1);                                                   // Установка диапазона частотной развертки
         string SetFreqCenter(double value, int unit = 3, int sour_hw = 1);                                                 // Установка центральной частоты развертки
         string SetFreqStart(double value, int unit = 3, int sour_hw = 1);                                                  // Установка начальной частоты развертки
         string SetFreqStop(double value, int unit = 3, int sour_hw = 1);                                                   // Установка конечной частоты развертки
-        string SetSweepSpacing(int value, int sour_hw = 1);                                                            // Установка режима расчета частотных интервалов
-        string SetSweepShape(int value, int sour_hw = 1);                                                              // Установка формы сигнала для последовательности развертки частоты
+        string SetSweepSpacing(int value, int sour_hw = 1);                                                                // Установка режима расчета частотных интервалов
+        string SetSweepShape(int value, int sour_hw = 1);                                                                  // Установка формы сигнала для последовательности развертки частоты
         string SetSweepRetrace(bool value, int sour_hw = 1);                                                               // Активировать изменение начальной частоты в ожидании следующего триггера
         string SetSweepResetAll(int sour_hw = 1);                                                                          // Сброс всех активных разверток в начальную точку (альтернатива SetSweepRetrace())
-        string SetSweepStepLinear(double value, double freq_Start, double freq_Stop, int unit = 3, int sour_hw = 1);       // Установка ширины шага для линейной развертки (значения от 0.01Гц до значения STOP - START) через число
-        string SetSweepStepLogarithmic(double value, int sour_hw = 1);                                                   // Установка логарифмически определяемой ширины шага для развертки по частоте (Задается в %(PCT))
-        string SetSweepPoints(int value, int sour_hw = 1);                                                            // Установка количества шагов в пределах диапазона развертки
-        string SetSweepFreqDwell(double value, int unit = 0, int sour_hw = 1);                                    // Установка времени задержки для шага развертки по частоте
+        string SetSweepStepLinear(double value, double freq_Start, double freq_Stop, int unit = 3, int sour_hw = 1);       // Установка ширины шага для линейной развертки (значения от 0.01Гц до значения STOP - START)
+        string SetSweepStepLogarithmic(double value, int sour_hw = 1);                                                     // Установка логарифмически определяемой ширины шага для развертки по частоте (Задается в %(PCT))
+        string SetSweepPoints(int value, int sour_hw = 1);                                                                 // Установка количества шагов в пределах диапазона развертки
+        string SetSweepFreqDwell(double value, int unit = 0, int sour_hw = 1);                                             // Установка времени задержки для шага развертки по частоте
         string SweepFreqExecute(int sour_hw = 1);                                                                          // Выполнение однократной развертки
 };
 

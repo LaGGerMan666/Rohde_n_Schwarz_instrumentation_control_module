@@ -717,5 +717,5 @@ string RnSSCPI::SetSweepFreqDwell(double value, int unit, int sour_hw)
 string RnSSCPI::SweepFreqExecute(int sour_hw)
 {
     // Реализовать проверку на готовность всех параметров развертки
-    return "SOURce" + to_string(sour_hw) + ":FREQuency:EXECute\n";
+    return "SOURce" + to_string(sour_hw) + ":SWEep:FREQuency:EXECute\n";
 }
