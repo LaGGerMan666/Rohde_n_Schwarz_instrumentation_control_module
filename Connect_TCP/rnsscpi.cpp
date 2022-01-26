@@ -65,7 +65,7 @@ string RnSSCPI::Send_Request_TriggerForSweeps(int trig_hw)
 
 string RnSSCPI::Send_Request_SweepFreqMode(int sour_hw)
 {
-    return "SOURce" + to_string(sour_hw) + ":SWEep:FREQuensy:MODE?\n";
+    return "SOURce" + to_string(sour_hw) + ":SWEep:FREQuency:MODE?\n";
 }
 
 string RnSSCPI::Send_Request_FreqSpan(int sour_hw)

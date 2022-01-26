@@ -43,13 +43,166 @@ Setting_Freq_Sweep::~Setting_Freq_Sweep()
 
 void Setting_Freq_Sweep::slotGetData(QStringList data)
 {
-    ui->le_StartFreq->setText(data.at(4));
-    ui->le_StopFreq->setText(data.at(5));
-    ui->le_SpanFreq->setText(data.at(6));
-    ui->le_CenterFreq->setText(data.at(7));
-    ui->le_StepSweep->setText(data.at(8));
-    ui->le_SweepPoints->setText(data.at(9));
-    ui->le_SweepDwell->setText(data.at(10));
+    // Источник запуска развертки
+    if(data.at(0) == "AUTO")
+    {
+        ui->cb_TriggerSource->setCurrentIndex(0);
+    }
+    else if(data.at(0) == "IMM")
+    {
+        ui->cb_TriggerSource->setCurrentIndex(1);
+    }
+    else if(data.at(0) == "SING")
+    {
+        ui->cb_TriggerSource->setCurrentIndex(2);
+    }
+    else if(data.at(0) == "BUS")
+    {
+        ui->cb_TriggerSource->setCurrentIndex(3);
+    }
+    else if(data.at(0) == "EXT")
+    {
+        ui->cb_TriggerSource->setCurrentIndex(4);
+    }
+    else ui->cb_TriggerSource->setCurrentIndex(5);
+
+    // Режим развертки по частоте
+    if(data.at(1) == "AUTO")
+    {
+        ui->cb_SweepFreqMode->setCurrentIndex(0);
+    }
+    else if(data.at(1) == "MAN")
+    {
+        ui->cb_SweepFreqMode->setCurrentIndex(1);
+    }
+    else ui->cb_SweepFreqMode->setCurrentIndex(2);
+
+    //Режим расчета частотных интервалов
+    if(data.at(2) == "LIN")
+    {
+        ui->cb_SweepSpacing->setCurrentIndex(0);
+    }
+    else ui->cb_SweepSpacing->setCurrentIndex(1);
+
+    // Форма сигнала
+    if(data.at(3) == "SAWT")
+    {
+        ui->cb_SweepShape->setCurrentIndex(0);
+    }
+    else ui->cb_SweepShape->setCurrentIndex(1);
+
+
+    double translate_Freq = 0;
+    switch (ui->cb_UninsStartFreq->currentIndex())
+    {
+        case 0:
+            translate_Freq = data.at(4).toDouble() / pow(10, 9);
+        break;
+
+        case 1:
+            translate_Freq = data.at(4).toDouble() / pow(10, 6);
+        break;
+
+        case 2:
+            translate_Freq = data.at(4).toDouble() / pow(10, 3);
+        break;
+
+        case 3:
+            translate_Freq = data.at(4).toDouble();
+        break;
+    }
+    ui->le_StartFreq->setText(QString::number(translate_Freq,'g', 10));          // Текущая начальная частота
+
+    switch (ui->cb_UnitsStopFreq->currentIndex())
+    {
+        case 0:
+            translate_Freq = data.at(5).toDouble() / pow(10, 9);
+        break;
+
+        case 1:
+            translate_Freq = data.at(5).toDouble() / pow(10, 6);
+        break;
+
+        case 2:
+            translate_Freq = data.at(5).toDouble() / pow(10, 3);
+        break;
+
+        case 3:
+            translate_Freq = data.at(5).toDouble();
+        break;
+    }
+    ui->le_StopFreq->setText(QString::number(translate_Freq,'g', 10));           // Текущая конечная частота
+
+    switch (ui->cb_UnitsRange->currentIndex())
+    {
+        case 0:
+            translate_Freq = data.at(6).toDouble() / pow(10, 9);
+        break;
+
+        case 1:
+            translate_Freq = data.at(6).toDouble() / pow(10, 6);
+        break;
+
+        case 2:
+            translate_Freq = data.at(6).toDouble() / pow(10, 3);
+        break;
+
+        case 3:
+            translate_Freq = data.at(6).toDouble();
+        break;
+    }
+    ui->le_SpanFreq->setText(QString::number(translate_Freq,'g', 10));           // Текущий диапазон
+
+    switch (ui->cb_UninsCenter->currentIndex())
+    {
+        case 0:
+            translate_Freq = data.at(7).toDouble() / pow(10, 9);
+        break;
+
+        case 1:
+            translate_Freq = data.at(7).toDouble() / pow(10, 6);
+        break;
+
+        case 2:
+            translate_Freq = data.at(7).toDouble() / pow(10, 3);
+        break;
+
+        case 3:
+            translate_Freq = data.at(7).toDouble();
+        break;
+    }
+    ui->le_CenterFreq->setText(QString::number(translate_Freq,'g', 10));         // Текущая средняя частота
+
+
+
+    if(ui->cb_SweepSpacing->currentText() == "Linear")
+    {
+        switch (ui->cb_UnitsLinStep->currentIndex())
+        {
+            case 0:
+                translate_Freq = data.at(8).toDouble() / pow(10, 9);
+            break;
+
+            case 1:
+                translate_Freq = data.at(8).toDouble() / pow(10, 6);
+            break;
+
+            case 2:
+                translate_Freq = data.at(8).toDouble() / pow(10, 3);
+            break;
+
+            case 3:
+                translate_Freq = data.at(8).toDouble();
+            break;
+        }
+        ui->le_StepSweep->setText(QString::number(translate_Freq,'g', 10));          // Текущий шаг (линейный)
+    }
+    else ui->le_StepSweep->setText(data.at(9));         // Текущий шаг (логарифмический)
+
+
+
+    ui->le_SweepPoints->setText(data.at(10));        // Текущее количество точек
+    ui->le_SweepDwell->setText(data.at(11));        // Теущее время задержки
 
 }
 
@@ -59,16 +212,114 @@ void Setting_Freq_Sweep::on_pb_StartFreqSweep_clicked()
     sweep_options.append(QString::number(ui->cb_SweepFreqMode->currentIndex()));
     sweep_options.append(QString::number(ui->cb_SweepSpacing->currentIndex()));
     sweep_options.append(QString::number(ui->cb_SweepShape->currentIndex()));
-    sweep_options.append(ui->le_StartFreq->text());
-    sweep_options.append(QString::number(ui->cb_UninsStartFreq->currentIndex()));
-    sweep_options.append(ui->le_StopFreq->text());
-    sweep_options.append(QString::number(ui->cb_UnitsStopFreq->currentIndex()));
-    sweep_options.append(ui->le_SpanFreq->text());
-    sweep_options.append(QString::number(ui->cb_UnitsRange->currentIndex()));
-    sweep_options.append(ui->le_CenterFreq->text());
-    sweep_options.append(QString::number(ui->cb_UninsCenter->currentIndex()));
-    sweep_options.append(ui->le_StepSweep->text());
-    sweep_options.append(QString::number(ui->cb_UnitsLinStep->currentIndex()));
+
+    double translate_Freq = 0;
+    switch (ui->cb_UninsStartFreq->currentIndex())
+    {
+        case 0:
+            translate_Freq = ui->le_StartFreq->text().toDouble() * pow(10, 9);
+        break;
+
+        case 1:
+            translate_Freq = ui->le_StartFreq->text().toDouble() * pow(10, 6);
+        break;
+
+        case 2:
+            translate_Freq = ui->le_StartFreq->text().toDouble() * pow(10, 3);
+        break;
+
+        case 3:
+            translate_Freq = ui->le_StartFreq->text().toDouble();
+        break;
+    }
+    sweep_options.append(QString::number(translate_Freq));
+    sweep_options.append(QString::number(3));
+
+    switch (ui->cb_UnitsStopFreq->currentIndex())
+    {
+        case 0:
+            translate_Freq = ui->le_StopFreq->text().toDouble() * pow(10, 9);
+        break;
+
+        case 1:
+            translate_Freq = ui->le_StopFreq->text().toDouble() * pow(10, 6);
+        break;
+
+        case 2:
+            translate_Freq = ui->le_StopFreq->text().toDouble() * pow(10, 3);
+        break;
+
+        case 3:
+            translate_Freq = ui->le_StopFreq->text().toDouble();
+        break;
+    }
+    sweep_options.append(QString::number(translate_Freq));
+    sweep_options.append(QString::number(3));
+
+    switch (ui->cb_UnitsRange->currentIndex())
+    {
+        case 0:
+            translate_Freq = ui->le_SpanFreq->text().toDouble() * pow(10, 9);
+        break;
+
+        case 1:
+            translate_Freq = ui->le_SpanFreq->text().toDouble() * pow(10, 6);
+        break;
+
+        case 2:
+            translate_Freq = ui->le_SpanFreq->text().toDouble() * pow(10, 3);
+        break;
+
+        case 3:
+            translate_Freq = ui->le_SpanFreq->text().toDouble();
+        break;
+    }
+    sweep_options.append(QString::number(translate_Freq));
+    sweep_options.append(QString::number(3));
+
+    switch (ui->cb_UninsCenter->currentIndex())
+    {
+        case 0:
+            translate_Freq = ui->le_CenterFreq->text().toDouble() * pow(10, 9);
+        break;
+
+        case 1:
+            translate_Freq = ui->le_CenterFreq->text().toDouble() * pow(10, 6);
+        break;
+
+        case 2:
+            translate_Freq = ui->le_CenterFreq->text().toDouble() * pow(10, 3);
+        break;
+
+        case 3:
+            translate_Freq = ui->le_CenterFreq->text().toDouble();
+        break;
+    }
+    sweep_options.append(QString::number(translate_Freq));
+    sweep_options.append(QString::number(3));
+
+    switch (ui->cb_UnitsLinStep->currentIndex())
+    {
+        case 0:
+            translate_Freq = ui->le_StepSweep->text().toDouble() * pow(10, 9);
+        break;
+
+        case 1:
+            translate_Freq = ui->le_StepSweep->text().toDouble() * pow(10, 6);
+        break;
+
+        case 2:
+            translate_Freq = ui->le_StepSweep->text().toDouble() * pow(10, 3);
+        break;
+
+        case 3:
+            translate_Freq = ui->le_StepSweep->text().toDouble();
+        break;
+    }
+    sweep_options.append(QString::number(translate_Freq));
+    sweep_options.append(QString::number(3));
+
+
     sweep_options.append(ui->le_SweepPoints->text());
     sweep_options.append(ui->le_SweepDwell->text());
     sweep_options.append(QString::number(ui->cb_UnitsSweepDwell->currentIndex()));

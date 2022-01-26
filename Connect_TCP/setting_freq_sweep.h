@@ -6,6 +6,7 @@
 #include <QMessageBox>
 #include <QRegExp>
 #include <QStringList>
+#include <cmath>
 
 using namespace std;
 

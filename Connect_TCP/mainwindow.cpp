@@ -558,8 +558,8 @@ void MainWindow::on_action_FreqSweep_triggered()
     slotSendToServer(SMW200A->Send_Request_SweepStepLinear());
     data.append(delSpace(response_From_Device));
 
-//    slotSendToServer(SMW200A->Send_Request_SweepStepLogarithmic());
-//    data.append(delSpace(response_From_Device));
+    slotSendToServer(SMW200A->Send_Request_SweepStepLogarithmic());
+    data.append(delSpace(response_From_Device));
 
     slotSendToServer(SMW200A->Send_Request_SweepPoints());
     data.append(delSpace(response_From_Device));
