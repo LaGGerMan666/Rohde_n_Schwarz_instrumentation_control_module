@@ -152,9 +152,11 @@ class RnSSCPI
         string SetFrequencyMode(int value, int sour_hw = 1);                                                               // Устанавливает частотный режим для генерации выходного ВЧ-сигнала.
         string SetPower(double value, int unit = 0, int sour_hw = 1);                                                      // Установка мощности
         string SetLevel(double value, int unit = 0, int sour_hw = 1);                                                      // Установка уровня
+
         string SetAccordingToStandard(int value, int sour_hw = 1);                                                         // Установка стандартных режимов
         string SetModulationType(int num_type, int sour_hw = 1);                                                           // Установка типа модуляции
         string SetSymbolRate(double value, int unit = 3, int sour_hw = 1);                                                 // Установка скорости передачи символов
+
         string SetBasebandState(bool value, int sour_hw = 1);                                                              // Метод активации Baseband
         string Preset();                                                                                                   // Сброс настроек устройства
 

@@ -173,8 +173,6 @@ void Setting_Freq_Sweep::slotGetData(QStringList data)
     }
     ui->le_CenterFreq->setText(QString::number(translate_Freq,'g', 10));         // Текущая средняя частота
 
-
-
     if(ui->cb_SweepSpacing->currentText() == "Linear")
     {
         switch (ui->cb_UnitsLinStep->currentIndex())
