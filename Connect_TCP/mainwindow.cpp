@@ -11,6 +11,7 @@ MainWindow::MainWindow(QWidget *parent)
     SMW200A = new RnSSCPI();
     set_FreqSweep = new Setting_Freq_Sweep;
 
+
     // Активность виджетов главного окна
     ui->te_Log->setReadOnly(true);
     ui->pb_Disconnect->setEnabled(false);
@@ -22,11 +23,12 @@ MainWindow::MainWindow(QWidget *parent)
     ui->cb_FrequencyUnits->setEnabled(false);
     ui->cb_LevelUnits->setEnabled(false);
     ui->cb_PEPUnits_2->setEnabled(false);
-    ui->mdiArea->setEnabled(false);
     ui->statusbar->showMessage("Состояние: отключено.");
     set_FreqSweep->setModal(true);
     ui->action_FreqSweep->setEnabled(false);
+    ui->tw_Settings->setEnabled(false);
 
+    // Настрокйки tab widget
 
     // Настройка заполнения полей ввода
     QRegExp correctFrequence("^(\\d+(\\.\\d+)?)$");
@@ -35,22 +37,23 @@ MainWindow::MainWindow(QWidget *parent)
     ui->le_PEP->setValidator(new QRegExpValidator(correctPepAndLevel, this));
     ui->le_Level->setValidator(new QRegExpValidator(correctPepAndLevel, this));
 
-    // Работа с MdiArea и MdiSubWindow
-    myFirstSubWin = new QMdiSubWindow();
-    myFirstSubWin->setWindowTitle("BaseBand");
-    myFirstSubWin->setWindowFlags(Qt::Window | Qt::WindowTitleHint | Qt::CustomizeWindowHint);
-    ui->mdiArea->addSubWindow(myFirstSubWin);
-    QList<QMdiSubWindow*> subWinList;
-    subWinList = ui->mdiArea->subWindowList();
-    myFirstSubWin->resize(105, 100);
+    // Настройки заполнения полей для частотной развертки
+    QRegExp correctDouble("^(\\d+(\\.\\d+)?)$");
+    QRegExp correctInt("^\\d+$");
+    ui->le_StartFreq->setValidator(new QRegExpValidator(correctDouble));
+    ui->le_StopFreq->setValidator(new QRegExpValidator(correctDouble));
+    ui->le_SpanFreq->setValidator(new QRegExpValidator(correctDouble));
+    ui->le_CenterFreq->setValidator(new QRegExpValidator(correctDouble));
+    ui->le_StepSweep->setValidator(new QRegExpValidator(correctDouble));
+    ui->le_SweepDwell->setValidator(new QRegExpValidator(correctDouble));
+    ui->le_SweepPoints->setValidator(new QRegExpValidator(correctInt));
 
-
-    QCheckBox *ch = new QCheckBox();
-    QVBoxLayout *vbox = new QVBoxLayout(ui->mdiArea);
-    vbox->addWidget(myFirstSubWin);
-    myFirstSubWin->show();
-    ch->setObjectName("check");
-    myFirstSubWin->setWidget(ch);
+    // Начальные единицы измерения для частотной развертки
+    ui->cb_UnitsLinStep->setCurrentIndex(1);
+    ui->cb_UninsCenter->setCurrentIndex(1);
+    ui->cb_UninsStartFreq->setCurrentIndex(1);
+    ui->cb_UnitsStopFreq->setCurrentIndex(1);
+    ui->cb_UnitsRange->setCurrentIndex(1);
 
     // Описание взаимодействия сигналов и слотов
     connect(tcpSocket, &QTcpSocket::connected, this, &MainWindow::slotConnected);
@@ -60,6 +63,7 @@ MainWindow::MainWindow(QWidget *parent)
     connect(this, &MainWindow::signalSendToServer, this, &MainWindow::slotSendToServer);
     connect(set_FreqSweep, &Setting_Freq_Sweep::sign_RunFreqSweep, this, &MainWindow::slotRunFreqSweep);
     connect(this, &MainWindow::signalGetData, set_FreqSweep, &Setting_Freq_Sweep::slotGetData);
+    connect(this, &MainWindow::signalGetSweepData, this, &MainWindow::slotGetSweepData);
 
     log_commands = new QFile(QDir::currentPath() + "/log_commands.txt");
 }
@@ -154,7 +158,7 @@ QString MainWindow::delSpace(QString command)
     return result;
 }
 
-/* ----------------------------- My slots ----------------------------- */
+/* ------------------------------- My slots -------------------------------- */
 
 // Прием сообщения от устройства
 void MainWindow::slotReadyRead()
@@ -197,81 +201,81 @@ void MainWindow::slotError(QAbstractSocket::SocketError error)
         case QAbstractSocket::ConnectionRefusedError:
             strError += "В соединении было отказано.";
             isDisconnected = true;
-            break;
+        break;
         case QAbstractSocket::RemoteHostClosedError:
             strError += "Удаленный хост закрыт.";
             isDisconnected = true;
-            break;
+        break;
         case QAbstractSocket::HostNotFoundError:
             strError += "Хост не найден.";
             isDisconnected = true;
-            break;
+        break;
         case QAbstractSocket::SocketAccessError:
             strError += "Операция сокета завершилась неудачно т.к. нет необходимых привилегий.";
-            break;
+        break;
         case QAbstractSocket::SocketResourceError:
             strError += "В системе закончились ресурсы.";
-            break;
+        break;
         case QAbstractSocket::SocketTimeoutError:
             strError += "Истекло время ожидания оперции сокета.";
-            break;
+        break;
         case QAbstractSocket::DatagramTooLargeError:
             strError += "Размер дейтаграммы превысил предел операционной системы.";
-            break;
+        break;
         case QAbstractSocket::NetworkError:
             strError += "Произошла ошибка сети. Проверьте подключение сетевого кабеля.";
             isDisconnected = true;
-            break;
+        break;
         case QAbstractSocket::AddressInUseError:
             strError += "Адрес уже используется и был установлен как эксклюзивный.";
             isDisconnected = true;
-            break;
+        break;
         case QAbstractSocket::SocketAddressNotAvailableError:
             strError += "Адрес не принадлежит хосту.";
             isDisconnected = true;
-            break;
+        break;
         case QAbstractSocket::UnsupportedSocketOperationError:
             strError += "Запрошенная операция не поддерживается локальной операционной системой.";
-            break;
+        break;
         case QAbstractSocket::SslHandshakeFailedError:
             strError += "Подтверждение связи SSL/TLS не удалось. Соединение закрыто.";
-            break;
+        break;
         case QAbstractSocket::UnfinishedSocketOperationError:
             strError += "Операция еще не завершена. Выполняется в фоновом режиме";
-            break;
+        break;
         case QAbstractSocket::OperationError:
             strError += "Была предпринята попытка выполнения операции, когда сокет находился в недопустимом состоянии.";
-            break;
+        break;
         case QAbstractSocket::TemporaryError:
             strError += "Произошла временная ошибка.";
-            break;
+        break;
         case QAbstractSocket::UnknownSocketError:
             strError += "Произошла неопознанная ошибка.";
-            break;
+        break;
 //        case QAbstractSocket::ProxyAuthenticationRequiredError:
 //            strError += "Прокси требует аутентификации.";
-//            break;
+//        break;
 //        case QAbstractSocket::ProxyConnectionRefusedError:
 //            strError += "Не удалось связаться с прокси-сервером.";
-//            break;
+//        break;
 //        case QAbstractSocket::ProxyConnectionClosedError:
 //            strError += "Соединение с прокси-сервером было неожиданно закрыто.";
-//            break;
+//        break;
 //        case QAbstractSocket::ProxyConnectionTimeoutError:
 //            strError += "Время ожидания к прокси-серверу истекло или прокси-сервер перестал отвечать на этапе проверки подлинности.";
-//            break;
+//        break;
 //        case QAbstractSocket::ProxyNotFoundError:
 //            strError += "Адрес прокси не найден";
-//            break;
+//        break;
 //        case QAbstractSocket::ProxyProtocolError:
 //            strError += "Соединение с прокси-сервером не удалось. Ответ от прокси-сервера не был прочитан.";
-//            break;
+//        break;
 //        case QAbstractSocket::SslInternalError:
 //            strError += "Используемая библиотека SSL сообщила о внутренней ошибке.";
-//            break;
+//        break;
 //        case QAbstractSocket::SslInvalidUserDataError:
 //            strError += "Были предоставлены неверные данные (сертификат, ключ, шифр и т.д.)";
-//            break;
+//        break;
         default:
             strError += QString(tcpSocket->errorString());
     }
@@ -290,8 +294,8 @@ void MainWindow::slotError(QAbstractSocket::SocketError error)
         ui->cb_FrequencyUnits->setEnabled(false);
         ui->cb_LevelUnits->setEnabled(false);
         ui->cb_PEPUnits_2->setEnabled(false);
-        ui->mdiArea->setEnabled(false);
         ui->action_FreqSweep->setEnabled(false);
+        ui->tw_Settings->setEnabled(false);
         ui->statusbar->showMessage("Состояние: отключено.");
     }
 }
@@ -312,30 +316,30 @@ void MainWindow::slotConnected()
     ui->cb_FrequencyUnits->setEnabled(true);
     ui->cb_LevelUnits->setEnabled(true);
     ui->cb_PEPUnits_2->setEnabled(true);
-    ui->mdiArea->setEnabled(true);
     ui->action_FreqSweep->setEnabled(true);
+    ui->tw_Settings->setEnabled(true);
     ui->le_Command->setFocus();
-
     slotSendToServer(SMW200A->Send_Request_IDN());
     slotSendToServer(SMW200A->Send_Request_Error());
     ui->statusbar->showMessage("Состояние: подключено.");
 
+    // Подгрузка текущей частоты
     slotSendToServer(SMW200A->Send_Request_Frequency());
-    double result;
+    double result = 0;
     switch(ui->cb_FrequencyUnits->currentIndex())
     {
         case 0: // GHz
-           result = response_From_Device.toDouble() /1000000000;
+           result = response_From_Device.toDouble() / 1000000000;
            ui->le_Frequency->setText(QString::number(result));
         break;
 
         case 1: // MHz
-           result = response_From_Device.toDouble() /1000000;
+           result = response_From_Device.toDouble() / 1000000;
            ui->le_Frequency->setText(QString::number(result));
         break;
 
         case 2: // kHz
-            result = response_From_Device.toDouble() /1000;
+            result = response_From_Device.toDouble() / 1000;
             ui->le_Frequency->setText(QString::number(result));
         break;
 
@@ -343,17 +347,29 @@ void MainWindow::slotConnected()
             ui->le_Frequency->setText(response_From_Device);
         break;
     }
-    slotSendToServer(SMW200A->Send_Request_PEP());
-    ui->le_PEP->setText(delSpace(response_From_Device));
 
+    // Подгрузка текущего значения PEP
+    slotSendToServer(SMW200A->Send_Request_PEP());
+    double val_PEP = delSpace(response_From_Device).toDouble();
+    ui->le_PEP->setText(QString::number(val_PEP));
+
+    // Подгрузка текущего значения Level
     slotSendToServer(SMW200A->Send_Request_Level());
-    ui->le_Level->setText(delSpace(response_From_Device));
+    double val_Level = delSpace(response_From_Device).toDouble();
+    ui->le_Level->setText(QString::number(val_Level));
+
+    // Подгрузка текущих данных для частотной развертки при условии активной соответствующей вкладки
+    if(ui->tw_Settings->currentIndex() == 1)
+    {
+        emit signalGetSweepData();
+    }
 }
 
 void MainWindow::slotDisconnected()
 {
     ui->te_Log->append(QTime::currentTime().toString() + " -  Соединение прервано.");
     ui->le_Command->clear();
+
     // Активность виджетов главного окна
     ui->le_Command->setEnabled(false);
     ui->pb_Connection->setEnabled(true);
@@ -365,33 +381,219 @@ void MainWindow::slotDisconnected()
     ui->cb_FrequencyUnits->setEnabled(false);
     ui->cb_LevelUnits->setEnabled(false);
     ui->cb_PEPUnits_2->setEnabled(false);
-    ui->mdiArea->setEnabled(false);
     ui->action_FreqSweep->setEnabled(false);
+    ui->tw_Settings->setEnabled(false);
     ui->statusbar->showMessage("Состояние: отключено.");
 }
 
 void MainWindow::slotRunFreqSweep(QStringList data)
 {
-    slotSendToServer(SMW200A->SetTriggerForSweeps(data.at(0).toInt())); // Установка триггера для развертки
-    slotSendToServer(SMW200A->SetSweepFreqMode(data.at(1).toInt())); // Установка циклического режима для развертки по частоте
-    slotSendToServer(SMW200A->SetSweepSpacing(data.at(2).toInt())); // Установка режима расчета частотных интервалов
-    slotSendToServer(SMW200A->SetSweepShape(data.at(3).toInt())); // Установка формы сигнала для последовательности развертки частоты
-    slotSendToServer(SMW200A->SetFreqStart(data.at(4).toDouble(), data.at(5).toInt())); // Установка начальной частоты развертки
-    slotSendToServer(SMW200A->SetFreqStop(data.at(6).toDouble(), data.at(7).toInt())); // Установка конечной частоты развертки
-    slotSendToServer(SMW200A->SetSweepRetrace(true)); // Активация изменения начальной частоты в ожидании следующего триггера
-//    slotSendToServer(SMW200A->SetSweepResetAll()); // Сброс всех активных разверток в начальную точку (альтернатива SetSweepRetrace())
-//    slotSendToServer(SMW200A->SetFreqSpan(data.at(8).toDouble(), data.at(9).toInt())); // Установка диапазона частотной развертки
-//    slotSendToServer(SMW200A->SetFreqCenter(data.at(10).toDouble(), data.at(11).toInt())); // Установка центральной частоты развертки
-    slotSendToServer(SMW200A->SetSweepStepLinear(data.at(12).toDouble(),data.at(4).toDouble(), data.at(6).toDouble(), data.at(13).toInt())); // Установка ширины шага для линейной развертки (значения от 0.01Гц до значения STOP - START)
-    slotSendToServer(SMW200A->SetSweepStepLogarithmic(data.at(12).toDouble())); // Установка логарифмически определяемой ширины шага для развертки по частоте (Задается в %(PCT))
-    slotSendToServer(SMW200A->SetSweepPoints(data.at(14).toInt())); // Установка количества шагов в пределах диапазона развертки
-    slotSendToServer(SMW200A->SetSweepFreqDwell(data.at(15).toDouble(), data.at(16).toInt())); // Установка времени задержки для шага развертки по частоте
-    slotSendToServer(SMW200A->SetFrequencyMode(2)); // Установка частотного режима Sweep.
-    slotSendToServer(SMW200A->SweepFreqExecute()); // Запуск развертки
-
-
-
+    slotSendToServer(SMW200A->SetTriggerForSweeps(data.at(0).toInt()));                                                     // Установка триггера для развертки
+    slotSendToServer(SMW200A->SetSweepFreqMode(data.at(1).toInt()));                                                        // Установка циклического режима для развертки по частоте
+    slotSendToServer(SMW200A->SetSweepSpacing(data.at(2).toInt()));                                                         // Установка режима расчета частотных интервалов
+    slotSendToServer(SMW200A->SetSweepShape(data.at(3).toInt()));                                                           // Установка формы сигнала для последовательности развертки частоты
+    slotSendToServer(SMW200A->SetFreqStart(data.at(4).toDouble(), data.at(5).toInt()));                                     // Установка начальной частоты развертки
+    slotSendToServer(SMW200A->SetFreqStop(data.at(6).toDouble(), data.at(7).toInt()));                                      // Установка конечной частоты развертки
+    slotSendToServer(SMW200A->SetSweepRetrace(true));                                                                       // Активация изменения начальной частоты в ожидании следующего триггера
+//    slotSendToServer(SMW200A->SetSweepResetAll());                                                                          // Сброс всех активных разверток в начальную точку (альтернатива SetSweepRetrace())
+//    slotSendToServer(SMW200A->SetFreqSpan(data.at(8).toDouble(), data.at(9).toInt()));                                      // Установка диапазона частотной развертки
+//    slotSendToServer(SMW200A->SetFreqCenter(data.at(10).toDouble(), data.at(11).toInt()));                                  // Установка центральной частоты развертки
+    slotSendToServer(SMW200A->SetSweepStepLinear(data.at(12).toDouble(),data.at(4).toDouble(), data.at(6).toDouble()));     // Установка ширины шага для линейной развертки (значения от 0.01Гц до значения STOP - START)
+    slotSendToServer(SMW200A->SetSweepStepLogarithmic(data.at(12).toDouble()));                                             // Установка логарифмически определяемой ширины шага для развертки по частоте (Задается в %(PCT))
+    slotSendToServer(SMW200A->SetSweepPoints(data.at(14).toInt()));                                                         // Установка количества шагов в пределах диапазона развертки
+    slotSendToServer(SMW200A->SetSweepFreqDwell(data.at(15).toDouble(), data.at(16).toInt()));                              // Установка времени задержки для шага развертки по частоте
+    slotSendToServer(SMW200A->SetFrequencyMode(2));                                                                         // Установка частотного режима Sweep.
+    slotSendToServer(SMW200A->SweepFreqExecute());                                                                          // Запуск развертки
 }
+
+// Текущие данные для частотной развертки
+void MainWindow::slotGetSweepData()
+{
+    slotSendToServer(SMW200A->Send_Request_TriggerForSweeps());
+    if(delSpace(response_From_Device) == "AUTO")
+    {
+        ui->cb_TriggerSource->setCurrentIndex(0);
+    }
+    else if(delSpace(response_From_Device) == "IMM")
+    {
+        ui->cb_TriggerSource->setCurrentIndex(1);
+    }
+    else if(delSpace(response_From_Device) == "SING")
+    {
+        ui->cb_TriggerSource->setCurrentIndex(2);
+    }
+    else if(delSpace(response_From_Device) == "BUS")
+    {
+        ui->cb_TriggerSource->setCurrentIndex(3);
+    }
+    else if(delSpace(response_From_Device) == "EXT")
+    {
+        ui->cb_TriggerSource->setCurrentIndex(4);
+    }
+    else ui->cb_TriggerSource->setCurrentIndex(5);
+
+
+    // Режим развертки по частоте
+    slotSendToServer(SMW200A->Send_Request_SweepFreqMode());
+    if(delSpace(response_From_Device) == "AUTO")
+    {
+        ui->cb_SweepFreqMode->setCurrentIndex(0);
+    }
+    else if(delSpace(response_From_Device) == "MAN")
+    {
+        ui->cb_SweepFreqMode->setCurrentIndex(1);
+    }
+    else ui->cb_SweepFreqMode->setCurrentIndex(2);
+
+
+    //Режим расчета частотных интервалов
+    slotSendToServer(SMW200A->Send_Request_SweepSpacing());
+    if(delSpace(response_From_Device) == "LIN")
+    {
+        ui->cb_SweepSpacing->setCurrentIndex(0);
+    }
+    else ui->cb_SweepSpacing->setCurrentIndex(1);
+
+
+    // Форма сигнала
+    slotSendToServer(SMW200A->Send_Request_SweepShape());
+    if(delSpace(response_From_Device) == "SAWT")
+    {
+        ui->cb_SweepShape->setCurrentIndex(0);
+    }
+    else ui->cb_SweepShape->setCurrentIndex(1);
+
+
+    // Текущая начальная частота
+    slotSendToServer(SMW200A->Send_Request_FreqStart());
+    double translate_Freq = 0;
+    switch (ui->cb_UninsStartFreq->currentIndex())
+    {
+        case 0:
+            translate_Freq = delSpace(response_From_Device).toDouble() / pow(10, 9);
+        break;
+
+        case 1:
+            translate_Freq = delSpace(response_From_Device).toDouble() / pow(10, 6);
+        break;
+
+        case 2:
+            translate_Freq = delSpace(response_From_Device).toDouble() / pow(10, 3);
+        break;
+
+        case 3:
+            translate_Freq = delSpace(response_From_Device).toDouble();
+        break;
+    }
+    ui->le_StartFreq->setText(QString::number(translate_Freq,'g', 10));
+
+    // Текущая конечная частота
+    slotSendToServer(SMW200A->Send_Request_FreqStop());
+    switch (ui->cb_UnitsStopFreq->currentIndex())
+    {
+        case 0:
+            translate_Freq = delSpace(response_From_Device).toDouble() / pow(10, 9);
+        break;
+
+        case 1:
+            translate_Freq = delSpace(response_From_Device).toDouble() / pow(10, 6);
+        break;
+
+        case 2:
+            translate_Freq = delSpace(response_From_Device).toDouble() / pow(10, 3);
+        break;
+
+        case 3:
+            translate_Freq = delSpace(response_From_Device).toDouble();
+        break;
+    }
+    ui->le_StopFreq->setText(QString::number(translate_Freq,'g', 10));
+
+
+    // Текущий диапазон
+    slotSendToServer(SMW200A->Send_Request_FreqSpan());
+    switch (ui->cb_UnitsRange->currentIndex())
+    {
+        case 0:
+            translate_Freq = delSpace(response_From_Device).toDouble() / pow(10, 9);
+        break;
+
+        case 1:
+            translate_Freq = delSpace(response_From_Device).toDouble() / pow(10, 6);
+        break;
+
+        case 2:
+            translate_Freq = delSpace(response_From_Device).toDouble() / pow(10, 3);
+        break;
+
+        case 3:
+            translate_Freq = delSpace(response_From_Device).toDouble();
+        break;
+    }
+    ui->le_SpanFreq->setText(QString::number(translate_Freq,'g', 10));
+
+    // Текущая центральная частота
+    slotSendToServer(SMW200A->Send_Request_FreqCenter());
+    switch (ui->cb_UninsCenter->currentIndex())
+    {
+        case 0:
+            translate_Freq = delSpace(response_From_Device).toDouble() / pow(10, 9);
+        break;
+
+        case 1:
+            translate_Freq = delSpace(response_From_Device).toDouble() / pow(10, 6);
+        break;
+
+        case 2:
+            translate_Freq = delSpace(response_From_Device).toDouble() / pow(10, 3);
+        break;
+
+        case 3:
+            translate_Freq = delSpace(response_From_Device).toDouble();
+        break;
+    }
+    ui->le_CenterFreq->setText(QString::number(translate_Freq,'g', 10));
+
+
+    // Текущий тип шага и его значение (Линейный или Логарифмический)
+    if(ui->cb_SweepSpacing->currentText() == "Linear")
+    {
+        slotSendToServer(SMW200A->Send_Request_SweepStepLinear());
+        switch (ui->cb_UnitsLinStep->currentIndex())
+        {
+            case 0:
+                translate_Freq = delSpace(response_From_Device).toDouble() / pow(10, 9);
+            break;
+
+            case 1:
+                translate_Freq = delSpace(response_From_Device).toDouble() / pow(10, 6);
+            break;
+
+            case 2:
+                translate_Freq = delSpace(response_From_Device).toDouble() / pow(10, 3);
+            break;
+
+            case 3:
+                translate_Freq = delSpace(response_From_Device).toDouble();
+            break;
+        }
+        ui->le_StepSweep->setText(QString::number(translate_Freq,'g', 10));
+    }
+    else
+    {
+        slotSendToServer(SMW200A->Send_Request_SweepStepLogarithmic());
+        ui->le_StepSweep->setText(delSpace(response_From_Device));
+    }
+
+    // Текущее количество точек
+    slotSendToServer(SMW200A->Send_Request_SweepPoints());
+    ui->le_SweepPoints->setText(delSpace(response_From_Device));
+
+    // Текущее время задержки
+    slotSendToServer(SMW200A->Send_Request_SweepFreqDwell());
+    ui->le_SweepDwell->setText(delSpace(response_From_Device));
+}
+/* ---------------------------- My slots end ----------------------------- */
 
 /* ----------------------------- Push buttons -----------------------------*/
 
@@ -460,6 +662,141 @@ void MainWindow::on_le_Command_returnPressed()
     countPressBut = 0;
 }
 
+// Кнопка запуска частотной развертки
+void MainWindow::on_pb_StartFreqSweep_clicked()
+{
+    QStringList sweep_options;
+    sweep_options.append(QString::number(ui->cb_TriggerSource->currentIndex()));
+    sweep_options.append(QString::number(ui->cb_SweepFreqMode->currentIndex()));
+    sweep_options.append(QString::number(ui->cb_SweepSpacing->currentIndex()));
+    sweep_options.append(QString::number(ui->cb_SweepShape->currentIndex()));
+
+    double translate_Freq = 0;
+    switch (ui->cb_UninsStartFreq->currentIndex())
+    {
+        case 0:
+            translate_Freq = ui->le_StartFreq->text().toDouble() * pow(10, 9);
+        break;
+
+        case 1:
+            translate_Freq = ui->le_StartFreq->text().toDouble() * pow(10, 6);
+        break;
+
+        case 2:
+            translate_Freq = ui->le_StartFreq->text().toDouble() * pow(10, 3);
+        break;
+
+        case 3:
+            translate_Freq = ui->le_StartFreq->text().toDouble();
+        break;
+    }
+    sweep_options.append(QString::number(translate_Freq));
+    sweep_options.append(QString::number(3));
+
+    switch (ui->cb_UnitsStopFreq->currentIndex())
+    {
+        case 0:
+            translate_Freq = ui->le_StopFreq->text().toDouble() * pow(10, 9);
+        break;
+
+        case 1:
+            translate_Freq = ui->le_StopFreq->text().toDouble() * pow(10, 6);
+        break;
+
+        case 2:
+            translate_Freq = ui->le_StopFreq->text().toDouble() * pow(10, 3);
+        break;
+
+        case 3:
+            translate_Freq = ui->le_StopFreq->text().toDouble();
+        break;
+    }
+    sweep_options.append(QString::number(translate_Freq));
+    sweep_options.append(QString::number(3));
+
+    switch (ui->cb_UnitsRange->currentIndex())
+    {
+        case 0:
+            translate_Freq = ui->le_SpanFreq->text().toDouble() * pow(10, 9);
+        break;
+
+        case 1:
+            translate_Freq = ui->le_SpanFreq->text().toDouble() * pow(10, 6);
+        break;
+
+        case 2:
+            translate_Freq = ui->le_SpanFreq->text().toDouble() * pow(10, 3);
+        break;
+
+        case 3:
+            translate_Freq = ui->le_SpanFreq->text().toDouble();
+        break;
+    }
+    sweep_options.append(QString::number(translate_Freq));
+    sweep_options.append(QString::number(3));
+
+    switch (ui->cb_UninsCenter->currentIndex())
+    {
+        case 0:
+            translate_Freq = ui->le_CenterFreq->text().toDouble() * pow(10, 9);
+        break;
+
+        case 1:
+            translate_Freq = ui->le_CenterFreq->text().toDouble() * pow(10, 6);
+        break;
+
+        case 2:
+            translate_Freq = ui->le_CenterFreq->text().toDouble() * pow(10, 3);
+        break;
+
+        case 3:
+            translate_Freq = ui->le_CenterFreq->text().toDouble();
+        break;
+    }
+    sweep_options.append(QString::number(translate_Freq));
+    sweep_options.append(QString::number(3));
+
+    switch (ui->cb_UnitsLinStep->currentIndex())
+    {
+        case 0:
+            translate_Freq = ui->le_StepSweep->text().toDouble() * pow(10, 9);
+        break;
+
+        case 1:
+            translate_Freq = ui->le_StepSweep->text().toDouble() * pow(10, 6);
+        break;
+
+        case 2:
+            translate_Freq = ui->le_StepSweep->text().toDouble() * pow(10, 3);
+        break;
+
+        case 3:
+            translate_Freq = ui->le_StepSweep->text().toDouble();
+        break;
+    }
+    sweep_options.append(QString::number(translate_Freq));
+    sweep_options.append(QString::number(3));
+
+    sweep_options.append(ui->le_SweepPoints->text());
+    sweep_options.append(ui->le_SweepDwell->text());
+    sweep_options.append(QString::number(ui->cb_UnitsSweepDwell->currentIndex()));
+    slotRunFreqSweep(sweep_options);
+    sweep_options.clear();
+}
+
+// Кнопка останова частотной развертки
+void MainWindow::on_pb_StopFreqSweep_clicked()
+{
+    slotSendToServer(SMW200A->SetFrequencyMode(0));
+}
+
+// Кнопка сбороча частотвной развертки в начальное значение
+void MainWindow::on_pb_ResetFreqSweep_clicked()
+{
+    slotSendToServer(SMW200A->SetFrequency(ui->le_StartFreq->text().toDouble(), ui->cb_UninsStartFreq->currentIndex()));
+}
+/* -------------------------- Push buttons end --------------------------- */
+
 // Установка Frequency. При смене фокуса или при нажатии на Enter отправляются данные на устройство.
 void MainWindow::on_le_Frequency_editingFinished()
 {
@@ -475,7 +812,8 @@ void MainWindow::on_le_PEP_editingFinished()
     ui->te_Log->append(QTime::currentTime().toString() + " -  Установлено значение PEP : " + QString::fromStdString(command));
     emit signalSendToServer(command);
     slotSendToServer(SMW200A->Send_Request_Level());
-    ui->le_Level->setText(delSpace(response_From_Device));
+    double val_Level = delSpace(response_From_Device).toDouble();
+    ui->le_Level->setText(QString::number(val_Level));
 }
 
 // Установка Level. При смене фокуса или при нажатии на Enter отправляются данные на устройство.
@@ -485,7 +823,8 @@ void MainWindow::on_le_Level_editingFinished()
     ui->te_Log->append(QTime::currentTime().toString() + " -  Установлено значение Level : " + QString::fromStdString(command));
     emit signalSendToServer(command);
     slotSendToServer(SMW200A->Send_Request_PEP());
-    ui->le_PEP->setText(delSpace(response_From_Device));
+    double val_PEP = delSpace(response_From_Device).toDouble();
+    ui->le_PEP->setText(QString::number(val_PEP, 'g', 4));
 }
 
 // Настройка единиц измерения частоты при переключении
@@ -493,24 +832,7 @@ void MainWindow::on_cb_FrequencyUnits_currentIndexChanged(const QString &arg1)
 {
     if(arg1 == "GHz")
     {
-        bool fuck = false;
-        QString err = "dfsg";
-        try
-        {
-            if(!fuck)
-            {
-                throw "Ну... хуй!";
 
-            }
-            else
-            {
-                QMessageBox::information(this, "Ну штож(((", "Тест не удался", QMessageBox::Ok);
-            }
-        }
-        catch (QString err)
-        {
-            QMessageBox::information(this, "Test", err, QMessageBox::Ok);
-        }
     }
     else if(arg1 == "MHz")
     {
@@ -570,4 +892,20 @@ void MainWindow::on_action_FreqSweep_triggered()
     emit signalGetData(data);
     data.clear();
     set_FreqSweep->exec();
+}
+
+
+// Загрузка текущих данных при переключении вкладок
+void MainWindow::on_tw_Settings_tabBarClicked(int index)
+{
+    if(index == 1)
+    {
+        emit signalGetSweepData();
+    }
+}
+
+// Переключения режима расчета частотных интервалов
+void MainWindow::on_cb_SweepSpacing_currentIndexChanged(const QString &arg1)
+{
+    arg1 == "Linear" ? ui->cb_UnitsLinStep->setEnabled(true) : ui->cb_UnitsLinStep->setEnabled(false);
 }

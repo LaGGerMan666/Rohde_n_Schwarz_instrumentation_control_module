@@ -12,8 +12,8 @@
 #include <QTime>
 #include <QFile>
 #include <QDir>
-#include <QMdiArea>
-#include <QMdiSubWindow>
+//#include <QMdiArea>
+//#include <QMdiSubWindow>
 #include "rnsscpi.h"
 #include "setting_freq_sweep.h"
 
@@ -33,6 +33,7 @@ public:
 signals:
     void signalSendToServer(string);
     void signalGetData(QStringList);
+    void signalGetSweepData();
 
 public:
     void keyPressEvent(QKeyEvent *event);
@@ -50,6 +51,8 @@ private slots:
     void slotDisconnected();
 
     void slotRunFreqSweep(QStringList data);
+
+    void slotGetSweepData();
 
     void on_pb_Send_clicked();
 
@@ -69,6 +72,16 @@ private slots:
 
     void on_action_FreqSweep_triggered();
 
+    void on_tw_Settings_tabBarClicked(int index);
+
+    void on_cb_SweepSpacing_currentIndexChanged(const QString &arg1);
+
+    void on_pb_StartFreqSweep_clicked();
+
+    void on_pb_StopFreqSweep_clicked();
+
+    void on_pb_ResetFreqSweep_clicked();
+
 private:
     QTcpSocket *tcpSocket;
     QString SMW_ADDRESS = "172.16.13.41"; //42
@@ -76,9 +89,9 @@ private:
     QString response_From_Device;
     QFile *log_commands;
     int countPressBut = 0;
-    QMdiSubWindow *myFirstSubWin;
     RnSSCPI *SMW200A;
     Setting_Freq_Sweep *set_FreqSweep;
+
 
 
 private:

@@ -130,16 +130,17 @@ string RnSSCPI::Send_Request_SweepFreqRun(int sour_hw)
 
 void RnSSCPI::Response_Handling(string answer)
 {
-    // Возможно где нибудь пригодится QRegExp checkNoError("^(0,\"No error\")\\n$");
-    //regex searchNewLine("^(.+)\\n$");
-    // "^.+(?=\\n)"
-    //regex searchNullTerm("\\n$");
+
 
     if (*answer.end() == '\n')
     {
         response_From_Device = answer.erase(answer.size()-1, 1);
     }
 
+//    Возможно где нибудь пригодится QRegExp checkNoError("^(0,\"No error\")\\n$");
+//    regex searchNewLine("^(.+)\\n$");
+//    "^.+(?=\\n)"
+//    regex searchNullTerm("\\n$");
 //    string delNullTerm = "";
 //    if(!answer.empty())
 //    {

@@ -123,17 +123,24 @@ class RnSSCPI
     public:
         RnSSCPI();
         string Get_Last_Response();                                                                                        // Последний запрос
+        void Response_Handling(string answer);                                                                             // Обработчик ответов от устройства (удаление \n из строки)
+        string Preset();                                                                                                   // Сброс настроек устройства
+
+        // Основные запросы
         string Send_Request_IDN();                                                                                         // Идентификация устройства
         string Send_Request_Error();                                                                                       // Запрос стека ошибок
         string Send_Request_Frequency(int sour_hw = 1);                                                                    // Запрос значения частоты
-        string Send_Request_FrequencyMode(int sour_hw = 1);                                                                // Запрос частотного режима для генерации выходного ВЧ-сигнала.
         string Send_Request_Level(int sour_hw = 1);                                                                        // Запрос значение уровня
         string Send_Request_PEP(int sour_hw = 1);                                                                          // Запрос значения PEP
+
+        // Запросы модуляция
         string Send_Request_Standard(int sour_hw = 1);                                                                     // Запрос названия стандартного режима
         string Send_Request_ModType(int sour_hw = 1);                                                                      // Запрос типа модуляции
         string Send_Request_SymbolRate(int sour_hw = 1);                                                                   // Запрос скорости передачи символов
+
+        // Запросы частотная развертка
         string Send_Request_TriggerForSweeps(int trig_hw = 1);                                                             // Запрос вида триггера для разверток
-        string Send_Request_SweepFreqMode(int sour_hw = 1);                                                                    // Запрос циклического режима для развертки по частоте
+        string Send_Request_SweepFreqMode(int sour_hw = 1);                                                                // Запрос циклического режима для развертки по частоте
         string Send_Request_FreqSpan(int sour_hw = 1);                                                                     // Запрос диапазона частотной развертки
         string Send_Request_FreqCenter(int sour_hw = 1);                                                                   // Запрос центральной частоты развертки
         string Send_Request_FreqStart(int sour_hw = 1);                                                                    // Запрос начальной частоты развертки
@@ -144,22 +151,23 @@ class RnSSCPI
         string Send_Request_SweepStepLinear(int sour_hw = 1);                                                              // Запрос ширины шага для линейной развертки
         string Send_Request_SweepStepLogarithmic(int sour_hw = 1);                                                         // Запрос логарифмически определяемой ширины шага для развертки по частоте
         string Send_Request_SweepPoints(int sour_hw = 1);                                                                  // Запрос количества шагов в пределах диапазона развертки
+        string Send_Request_FrequencyMode(int sour_hw = 1);                                                                // Запрос частотного режима для генерации выходного ВЧ-сигнала.
         string Send_Request_SweepFreqDwell(int sour_hw = 1);                                                               // Запрос времени задержки для шага развертки по частоте
         string Send_Request_SweepFreqRun(int sour_hw = 1);                                                                 // Запрос текущего состояния развертки
 
-        void Response_Handling(string answer);                                                                             // Обработчик ответов от устройства (удаление \n из строки)
+        // Основные настройки
         string SetFrequency(double value, int unit = 3, int sour_hw = 1);                                                  // Установка частоты через число
         string SetFrequencyMode(int value, int sour_hw = 1);                                                               // Устанавливает частотный режим для генерации выходного ВЧ-сигнала.
         string SetPower(double value, int unit = 0, int sour_hw = 1);                                                      // Установка мощности
         string SetLevel(double value, int unit = 0, int sour_hw = 1);                                                      // Установка уровня
+        string SetBasebandState(bool value, int sour_hw = 1);                                                              // Метод активации Baseband
 
+        // Настройки модуляции
         string SetAccordingToStandard(int value, int sour_hw = 1);                                                         // Установка стандартных режимов
         string SetModulationType(int num_type, int sour_hw = 1);                                                           // Установка типа модуляции
         string SetSymbolRate(double value, int unit = 3, int sour_hw = 1);                                                 // Установка скорости передачи символов
 
-        string SetBasebandState(bool value, int sour_hw = 1);                                                              // Метод активации Baseband
-        string Preset();                                                                                                   // Сброс настроек устройства
-
+        // Настройки частотной развертки
         string SetTriggerForSweeps(int value, int trig_hw = 1);                                                            // Выбор триггера для разверток
         string SetSweepFreqMode(int value, int sour_hw = 1);                                                               // Установка циклического режима для развертки по частоте
         string SetFreqSpan(double value, int unit = 3, int sour_hw = 1);                                                   // Установка диапазона частотной развертки
