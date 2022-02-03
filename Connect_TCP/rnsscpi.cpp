@@ -330,25 +330,74 @@ string RnSSCPI::SetLevel(double value, int unit, int sour_hw)
 }
 
 // Установка стандартных режимов
-string RnSSCPI::SetAccordingToStandard(int standard_number, int sour_hw)
+string RnSSCPI::SetAccordingToStandard(int standard_number, int isAPCO, int sour_hw)
 {
-    int count_StandardSheet = (sizeof(standard_sheet)/sizeof(standard_sheet[0][0]))/2;
-    if(standard_number >= 0 && standard_number <= count_StandardSheet - 1)
+
+    if(isAPCO == 0)
     {
-        return "SOURce" + to_string(sour_hw) + ":BB:DM:STANdard " + standard_sheet[standard_number][1] + "\n";
+        int count_StandardSheet = sizeof(standard_sheet)/sizeof(standard_sheet[0]);
+        if(standard_number >= 0 && standard_number <= count_StandardSheet - 1)
+        {
+            return "SOURce" + to_string(sour_hw) + ":BB:DM:STANdard " + standard_sheet[standard_number] + "\n";
+        }
+        else return "";
     }
-    else return "";
+    else
+    {
+        int count_StandardSheet_APCO = sizeof(standard_sheet_apco)/sizeof(standard_sheet_apco[0]);
+        if(standard_number >= 0 && standard_number <= count_StandardSheet_APCO - 1)
+        {
+            return "SOURce" + to_string(sour_hw) + ":BB:DM:STANdard " + standard_sheet_apco[standard_number] + "\n";
+        }
+        else return "";
+    }
+
 }
 
 // Установка типа модуляции
-string RnSSCPI::SetModulationType(int num_type, int sour_hw)
+string RnSSCPI::SetModulationType(int num_subtype, int num_type, int sour_hw)
 {
-    int count_modType = (sizeof(mod_type_sheet)/sizeof(mod_type_sheet[0][0]))/2;
-    if(num_type >= 0 && num_type <= count_modType - 1)
+    int count_modType = 0;
+    switch (num_type)
     {
-        return "SOURce" + to_string(sour_hw) + ":BB:DM:FORMat " + mod_type_sheet[num_type][1] + "\n";
+        case 0: // ASK
+            return "SOURce" + to_string(sour_hw) + ":BB:DM:FORMat ASK\n";
+        break;
+
+        case 1: // PSK
+            count_modType = sizeof(mod_type_sheet_PSK)/sizeof(mod_type_sheet_PSK[0]);
+            if(num_type >= 0 && num_type <= count_modType - 1)
+            {
+                return "SOURce" + to_string(sour_hw) + ":BB:DM:FORMat " + mod_type_sheet_PSK[num_subtype] + "\n";
+            } else return "";
+        break;
+
+        case 2: // QAM
+            count_modType = sizeof(mod_type_sheet_QAM)/sizeof(mod_type_sheet_QAM[0]);
+            if(num_type >= 0 && num_type <= count_modType - 1)
+            {
+                return "SOURce" + to_string(sour_hw) + ":BB:DM:FORMat " + mod_type_sheet_QAM[num_subtype] + "\n";
+            }else return "";
+        break;
+
+        case 4: // FSK
+            count_modType = sizeof(mod_type_sheet_FSK)/sizeof(mod_type_sheet_FSK[0]);
+            if(num_type >= 0 && num_type <= count_modType - 1)
+            {
+                return "SOURce" + to_string(sour_hw) + ":BB:DM:FORMat " + mod_type_sheet_FSK[num_subtype] + "\n";
+            }else return "";
+        break;
+
+        case 5: // APSK
+            count_modType = sizeof(mod_type_sheet_APSK)/sizeof(mod_type_sheet_APSK[0]);
+            if(num_type >= 0 && num_type <= count_modType - 1)
+            {
+                return "SOURce" + to_string(sour_hw) + ":BB:DM:FORMat " + mod_type_sheet_APSK[num_subtype] + "\n";
+            }else return "";
+        break;
+        default:
+            return "";
     }
-    else return "";
 }
 
 // Установка скорости передачи символов

@@ -1,7 +1,6 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
 
-
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
     , ui(new Ui::MainWindow)
@@ -28,7 +27,16 @@ MainWindow::MainWindow(QWidget *parent)
     ui->action_FreqSweep->setEnabled(false);
     ui->tw_Settings->setEnabled(false);
 
-    // Настрокйки tab widget
+    // Настрокйки List widget
+    ui->lw_AccordingToStandard->addItem("Phase1 C4FM");
+    ui->lw_AccordingToStandard->addItem("Phase1 CQPSK");
+    ui->lw_AccordingToStandard->addItem("Phase2 H-CPM");
+    ui->lw_AccordingToStandard->addItem("Phase2 H-DQPSK");
+    ui->lw_AccordingToStandard->addItem("Phase2 H-D8PSK Wide");
+    ui->lw_AccordingToStandard->addItem("Phase2 H-D8PSK Narrow");
+    ui->lw_AccordingToStandard->addItem("Phase1 LSM");
+    ui->lw_AccordingToStandard->addItem("Phase1 WCQPSK");
+
 
     // Настройка заполнения полей ввода
     QRegExp correctFrequence("^(\\d+(\\.\\d+)?)$");
@@ -48,6 +56,9 @@ MainWindow::MainWindow(QWidget *parent)
     ui->le_SweepDwell->setValidator(new QRegExpValidator(correctDouble));
     ui->le_SweepPoints->setValidator(new QRegExpValidator(correctInt));
 
+    // Настройка заполнения поля Symbol Rate
+    ui->le_SymbolRate->setValidator(new QRegExpValidator(correctDouble));
+
     // Начальные единицы измерения для частотной развертки
     ui->cb_UnitsLinStep->setCurrentIndex(1);
     ui->cb_UninsCenter->setCurrentIndex(1);
@@ -64,6 +75,7 @@ MainWindow::MainWindow(QWidget *parent)
     connect(set_FreqSweep, &Setting_Freq_Sweep::sign_RunFreqSweep, this, &MainWindow::slotRunFreqSweep);
     connect(this, &MainWindow::signalGetData, set_FreqSweep, &Setting_Freq_Sweep::slotGetData);
     connect(this, &MainWindow::signalGetSweepData, this, &MainWindow::slotGetSweepData);
+    connect(this, &MainWindow::signalGetModData, this, &MainWindow::slotGetModData);
 
     log_commands = new QFile(QDir::currentPath() + "/log_commands.txt");
 }
@@ -156,6 +168,311 @@ QString MainWindow::delSpace(QString command)
     rE.indexIn(command);
     QString result = rE.cap(1);
     return result;
+}
+
+// Обновление стандартных настроек
+void MainWindow::UpdateStandart(QString response)
+{
+    if(delSpace(response) == "APCOPH1C4")
+    {
+        ui->cb_AccordingToStandard->setCurrentIndex(0);
+        ui->lw_AccordingToStandard->setCurrentRow(0);
+    }
+    else if(delSpace(response) == "APCOPH1CQ")
+    {
+        ui->cb_AccordingToStandard->setCurrentIndex(0);
+        ui->lw_AccordingToStandard->setCurrentRow(1);
+    }
+    else if(delSpace(response) == "APCOPH2HC")
+    {
+        ui->cb_AccordingToStandard->setCurrentIndex(0);
+        ui->lw_AccordingToStandard->setCurrentRow(2);
+    }
+    else if(delSpace(response) == "APCOPH2HDQ")
+    {
+        ui->cb_AccordingToStandard->setCurrentIndex(0);
+        ui->lw_AccordingToStandard->setCurrentRow(3);
+    }
+    else if(delSpace(response) == "APCOPH2HD8PSKW")
+    {
+        ui->cb_AccordingToStandard->setCurrentIndex(0);
+        ui->lw_AccordingToStandard->setCurrentRow(4);
+    }
+    else if(delSpace(response) == "APCOPH2HD8PSKN")
+    {
+        ui->cb_AccordingToStandard->setCurrentIndex(0);
+        ui->lw_AccordingToStandard->setCurrentRow(5);
+    }
+    else if(delSpace(response) == "APCOPH1L")
+    {
+        ui->cb_AccordingToStandard->setCurrentIndex(0);
+        ui->lw_AccordingToStandard->setCurrentRow(6);
+    }
+    else if(delSpace(response) == "APCOPH1W")
+    {
+        ui->cb_AccordingToStandard->setCurrentIndex(0);
+        ui->lw_AccordingToStandard->setCurrentRow(7);
+    }
+    else if(delSpace(response) == "BLU")
+    {
+        ui->cb_AccordingToStandard->setCurrentIndex(1);
+    }
+    else if(delSpace(response) == "CFOR")
+    {
+        ui->cb_AccordingToStandard->setCurrentIndex(2);
+    }
+    else if(delSpace(response) == "CREV")
+    {
+        ui->cb_AccordingToStandard->setCurrentIndex(3);
+    }
+    else if(delSpace(response) == "CWBP")
+    {
+        ui->cb_AccordingToStandard->setCurrentIndex(4);
+    }
+    else if(delSpace(response) == "DECT")
+    {
+        ui->cb_AccordingToStandard->setCurrentIndex(5);
+    }
+    else if(delSpace(response) == "ETC")
+    {
+        ui->cb_AccordingToStandard->setCurrentIndex(6);
+    }
+    else if(delSpace(response) == "GSM")
+    {
+        ui->cb_AccordingToStandard->setCurrentIndex(7);
+    }
+    else if(delSpace(response) == "GSME")
+    {
+        ui->cb_AccordingToStandard->setCurrentIndex(8);
+    }
+    else if(delSpace(response) == "NADC")
+    {
+        ui->cb_AccordingToStandard->setCurrentIndex(9);
+    }
+    else if(delSpace(response) == "PDC")
+    {
+        ui->cb_AccordingToStandard->setCurrentIndex(10);
+    }
+    else if(delSpace(response) == "PHS")
+    {
+        ui->cb_AccordingToStandard->setCurrentIndex(11);
+    }
+    else if(delSpace(response) == "TDSC")
+    {
+        ui->cb_AccordingToStandard->setCurrentIndex(12);
+    }
+    else if(delSpace(response) == "TETR")
+    {
+        ui->cb_AccordingToStandard->setCurrentIndex(13);
+    }
+    else if(delSpace(response) == "TFTS")
+    {
+        ui->cb_AccordingToStandard->setCurrentIndex(14);
+    }
+    else if(delSpace(response) == "W3GP")
+    {
+        ui->cb_AccordingToStandard->setCurrentIndex(15);
+    }
+    else if(delSpace(response) == "WORL")
+    {
+        ui->cb_AccordingToStandard->setCurrentIndex(16);
+    }
+    else ui->cb_AccordingToStandard->setCurrentIndex(17);
+}
+
+// Обновление режима модуляции
+void MainWindow::UpdateModulation(QString response)
+{
+    if(delSpace(response) == "ASK")
+    {
+        ui->cb_ModType->setCurrentIndex(0);
+        ui->lw_ModType->clear();
+    }
+    else if(delSpace(response) == "BPSK")
+    {
+        ui->cb_ModType->setCurrentIndex(1);
+        ui->lw_ModType->setCurrentRow(0);
+    }
+    else if(delSpace(response) == "QPSK")
+    {
+        ui->cb_ModType->setCurrentIndex(1);
+        ui->lw_ModType->setCurrentRow(1);
+    }
+    else if(delSpace(response) == "QPSK45")
+    {
+        ui->cb_ModType->setCurrentIndex(1);
+        ui->lw_ModType->setCurrentRow(2);
+    }
+    else if(delSpace(response) == "QEDG")
+    {
+        ui->cb_ModType->setCurrentIndex(1);
+        ui->lw_ModType->setCurrentRow(3);
+    }
+    else if(delSpace(response) == "AQPS")
+    {
+        ui->cb_ModType->setCurrentIndex(1);
+        ui->lw_ModType->setCurrentRow(4);
+    }
+    else if(delSpace(response) == "OQPS")
+    {
+        ui->cb_ModType->setCurrentIndex(1);
+        ui->lw_ModType->setCurrentRow(5);
+    }
+    else if(delSpace(response) == "P4QP")
+    {
+        ui->cb_ModType->setCurrentIndex(1);
+        ui->lw_ModType->setCurrentRow(6);
+    }
+    else if(delSpace(response) == "P2DB")
+    {
+        ui->cb_ModType->setCurrentIndex(1);
+        ui->lw_ModType->setCurrentRow(7);
+    }
+    else if(delSpace(response) == "P4DQ")
+    {
+        ui->cb_ModType->setCurrentIndex(1);
+        ui->lw_ModType->setCurrentRow(8);
+    }
+    else if(delSpace(response) == "P8D8")
+    {
+        ui->cb_ModType->setCurrentIndex(1);
+        ui->lw_ModType->setCurrentRow(9);
+    }
+    else if(delSpace(response) == "PSK8")
+    {
+        ui->cb_ModType->setCurrentIndex(1);
+        ui->lw_ModType->setCurrentRow(10);
+    }
+    else if(delSpace(response) == "P8ED")
+    {
+        ui->cb_ModType->setCurrentIndex(1);
+        ui->lw_ModType->setCurrentRow(11);
+    }
+    else if(delSpace(response) == "QAM16")
+    {
+        ui->cb_ModType->setCurrentIndex(2);
+        ui->lw_ModType->setCurrentRow(0);
+    }
+    else if(delSpace(response) == "QAM16ED")
+    {
+        ui->cb_ModType->setCurrentIndex(2);
+        ui->lw_ModType->setCurrentRow(1);
+    }
+    else if(delSpace(response) == "QAM32")
+    {
+        ui->cb_ModType->setCurrentIndex(2);
+        ui->lw_ModType->setCurrentRow(2);
+    }
+    else if(delSpace(response) == "QAM32ED")
+    {
+        ui->cb_ModType->setCurrentIndex(2);
+        ui->lw_ModType->setCurrentRow(3);
+    }
+    else if(delSpace(response) == "QAM64")
+    {
+        ui->cb_ModType->setCurrentIndex(2);
+        ui->lw_ModType->setCurrentRow(4);
+    }
+    else if(delSpace(response) == "QAM128")
+    {
+        ui->cb_ModType->setCurrentIndex(2);
+        ui->lw_ModType->setCurrentRow(5);
+    }
+    else if(delSpace(response) == "QAM256")
+    {
+        ui->cb_ModType->setCurrentIndex(2);
+        ui->lw_ModType->setCurrentRow(6);
+    }
+    else if(delSpace(response) == "QAM512")
+    {
+        ui->cb_ModType->setCurrentIndex(2);
+        ui->lw_ModType->setCurrentRow(7);
+    }
+    else if(delSpace(response) == "QAM1024")
+    {
+        ui->cb_ModType->setCurrentIndex(2);
+        ui->lw_ModType->setCurrentRow(8);
+    }
+    else if(delSpace(response) == "QAM2048")
+    {
+        ui->cb_ModType->setCurrentIndex(2);
+        ui->lw_ModType->setCurrentRow(9);
+    }
+    else if(delSpace(response) == "QAM4096")
+    {
+        ui->cb_ModType->setCurrentIndex(2);
+        ui->lw_ModType->setCurrentRow(10);
+    }
+    else if(delSpace(response) == "MSK")
+    {
+        ui->cb_ModType->setCurrentIndex(3);
+        ui->lw_ModType->setCurrentRow(0);
+    }
+    else if(delSpace(response) == "FSK2")
+    {
+        ui->cb_ModType->setCurrentIndex(3);
+        ui->lw_ModType->setCurrentRow(1);
+    }
+    else if(delSpace(response) == "FSK4")
+    {
+        ui->cb_ModType->setCurrentIndex(3);
+        ui->lw_ModType->setCurrentRow(2);
+    }
+    else if(delSpace(response) == "FSK8")
+    {
+        ui->cb_ModType->setCurrentIndex(3);
+        ui->lw_ModType->setCurrentRow(3);
+    }
+    else if(delSpace(response) == "FSK16")
+    {
+        ui->cb_ModType->setCurrentIndex(3);
+        ui->lw_ModType->setCurrentRow(4);
+    }
+    else if(delSpace(response) == "FSK32")
+    {
+        ui->cb_ModType->setCurrentIndex(3);
+        ui->lw_ModType->setCurrentRow(5);
+    }
+    else if(delSpace(response) == "FSK64")
+    {
+        ui->cb_ModType->setCurrentIndex(3);
+        ui->lw_ModType->setCurrentRow(6);
+    }
+    else if(delSpace(response) == "FSKV")
+    {
+        ui->cb_ModType->setCurrentIndex(3);
+        ui->lw_ModType->setCurrentRow(7);
+    }
+    else if(delSpace(response) == "APSK16")
+    {
+        ui->cb_ModType->setCurrentIndex(4);
+        ui->lw_ModType->setCurrentRow(0);
+    }
+    else if(delSpace(response) == "APSK32")
+    {
+        ui->cb_ModType->setCurrentIndex(4);
+        ui->lw_ModType->setCurrentRow(1);
+    }
+    else if(delSpace(response) == "USER")
+    {
+        ui->lw_ModType->setCurrentRow(5);
+    }
+}
+
+// Обновление Symbol Rate
+void MainWindow::UpdateSymbolRate(QString response)
+{
+    double symbrate = 0;
+    if(ui->cb_UnitsSymRate->currentIndex() == 0)
+    {
+        symbrate = delSpace(response).toDouble() * pow(10, -6);
+    }
+    else if(ui->cb_UnitsSymRate->currentIndex() == 1)
+    {
+        symbrate = delSpace(response).toDouble() * pow(10, -3);
+    }
+    else symbrate = delSpace(response).toDouble();
+    ui->le_SymbolRate->setText(QString::number(symbrate, 'g', 10));
 }
 
 /* ------------------------------- My slots -------------------------------- */
@@ -358,10 +675,20 @@ void MainWindow::slotConnected()
     double val_Level = delSpace(response_From_Device).toDouble();
     ui->le_Level->setText(QString::number(val_Level));
 
-    // Подгрузка текущих данных для частотной развертки при условии активной соответствующей вкладки
-    if(ui->tw_Settings->currentIndex() == 1)
+    // Подгрузка текущих настроек в TabWidget
+    switch(ui->tw_Settings->currentIndex())
     {
-        emit signalGetSweepData();
+        case 0:
+            emit signalGetModData();
+        break;
+
+        case 1:
+            emit signalGetSweepData();
+        break;
+
+        case 2:
+
+        break;
     }
 }
 
@@ -592,6 +919,310 @@ void MainWindow::slotGetSweepData()
     // Текущее время задержки
     slotSendToServer(SMW200A->Send_Request_SweepFreqDwell());
     ui->le_SweepDwell->setText(delSpace(response_From_Device));
+}
+
+// Текущие данные для настроек модуляции
+void MainWindow::slotGetModData()
+{
+    // Текущий стандарт
+    slotSendToServer(SMW200A->Send_Request_Standard());
+    UpdateStandart(response_From_Device);
+//    if(delSpace(response_From_Device) == "APCOPH1C4")
+//    {
+//        ui->cb_AccordingToStandard->setCurrentIndex(0);
+//        ui->lw_AccordingToStandard->setCurrentRow(0);
+//    }
+//    else if(delSpace(response_From_Device) == "APCOPH1CQ")
+//    {
+//        ui->cb_AccordingToStandard->setCurrentIndex(0);
+//        ui->lw_AccordingToStandard->setCurrentRow(1);
+//    }
+//    else if(delSpace(response_From_Device) == "APCOPH2HC")
+//    {
+//        ui->cb_AccordingToStandard->setCurrentIndex(0);
+//        ui->lw_AccordingToStandard->setCurrentRow(2);
+//    }
+//    else if(delSpace(response_From_Device) == "APCOPH2HDQ")
+//    {
+//        ui->cb_AccordingToStandard->setCurrentIndex(0);
+//        ui->lw_AccordingToStandard->setCurrentRow(3);
+//    }
+//    else if(delSpace(response_From_Device) == "APCOPH2HD8PSKW")
+//    {
+//        ui->cb_AccordingToStandard->setCurrentIndex(0);
+//        ui->lw_AccordingToStandard->setCurrentRow(4);
+//    }
+//    else if(delSpace(response_From_Device) == "APCOPH2HD8PSKN")
+//    {
+//        ui->cb_AccordingToStandard->setCurrentIndex(0);
+//        ui->lw_AccordingToStandard->setCurrentRow(5);
+//    }
+//    else if(delSpace(response_From_Device) == "APCOPH1L")
+//    {
+//        ui->cb_AccordingToStandard->setCurrentIndex(0);
+//        ui->lw_AccordingToStandard->setCurrentRow(6);
+//    }
+//    else if(delSpace(response_From_Device) == "APCOPH1W")
+//    {
+//        ui->cb_AccordingToStandard->setCurrentIndex(0);
+//        ui->lw_AccordingToStandard->setCurrentRow(7);
+//    }
+//    else if(delSpace(response_From_Device) == "BLU")
+//    {
+//        ui->cb_AccordingToStandard->setCurrentIndex(1);
+//    }
+//    else if(delSpace(response_From_Device) == "CFOR")
+//    {
+//        ui->cb_AccordingToStandard->setCurrentIndex(2);
+//    }
+//    else if(delSpace(response_From_Device) == "CREV")
+//    {
+//        ui->cb_AccordingToStandard->setCurrentIndex(3);
+//    }
+//    else if(delSpace(response_From_Device) == "CWBP")
+//    {
+//        ui->cb_AccordingToStandard->setCurrentIndex(4);
+//    }
+//    else if(delSpace(response_From_Device) == "DECT")
+//    {
+//        ui->cb_AccordingToStandard->setCurrentIndex(5);
+//    }
+//    else if(delSpace(response_From_Device) == "ETC")
+//    {
+//        ui->cb_AccordingToStandard->setCurrentIndex(6);
+//    }
+//    else if(delSpace(response_From_Device) == "GSM")
+//    {
+//        ui->cb_AccordingToStandard->setCurrentIndex(7);
+//    }
+//    else if(delSpace(response_From_Device) == "GSME")
+//    {
+//        ui->cb_AccordingToStandard->setCurrentIndex(8);
+//    }
+//    else if(delSpace(response_From_Device) == "NADC")
+//    {
+//        ui->cb_AccordingToStandard->setCurrentIndex(9);
+//    }
+//    else if(delSpace(response_From_Device) == "PDC")
+//    {
+//        ui->cb_AccordingToStandard->setCurrentIndex(10);
+//    }
+//    else if(delSpace(response_From_Device) == "PHS")
+//    {
+//        ui->cb_AccordingToStandard->setCurrentIndex(11);
+//    }
+//    else if(delSpace(response_From_Device) == "TDSC")
+//    {
+//        ui->cb_AccordingToStandard->setCurrentIndex(12);
+//    }
+//    else if(delSpace(response_From_Device) == "TETR")
+//    {
+//        ui->cb_AccordingToStandard->setCurrentIndex(13);
+//    }
+//    else if(delSpace(response_From_Device) == "TFTS")
+//    {
+//        ui->cb_AccordingToStandard->setCurrentIndex(14);
+//    }
+//    else if(delSpace(response_From_Device) == "W3GP")
+//    {
+//        ui->cb_AccordingToStandard->setCurrentIndex(15);
+//    }
+//    else if(delSpace(response_From_Device) == "WORL")
+//    {
+//        ui->cb_AccordingToStandard->setCurrentIndex(16);
+//    }
+//    else ui->cb_AccordingToStandard->setCurrentIndex(17);
+
+    slotSendToServer(SMW200A->Send_Request_ModType());
+    UpdateModulation(response_From_Device);
+//    if(delSpace(response_From_Device) == "ASK")
+//    {
+//        ui->cb_ModType->setCurrentIndex(0);
+//        ui->lw_ModType->clear();
+//    }
+//    else if(delSpace(response_From_Device) == "BPSK")
+//    {
+//        ui->cb_ModType->setCurrentIndex(1);
+//        ui->lw_ModType->setCurrentRow(0);
+//    }
+//    else if(delSpace(response_From_Device) == "QPSK")
+//    {
+//        ui->cb_ModType->setCurrentIndex(1);
+//        ui->lw_ModType->setCurrentRow(1);
+//    }
+//    else if(delSpace(response_From_Device) == "QPSK45")
+//    {
+//        ui->cb_ModType->setCurrentIndex(1);
+//        ui->lw_ModType->setCurrentRow(2);
+//    }
+//    else if(delSpace(response_From_Device) == "QEDG")
+//    {
+//        ui->cb_ModType->setCurrentIndex(1);
+//        ui->lw_ModType->setCurrentRow(3);
+//    }
+//    else if(delSpace(response_From_Device) == "AQPS")
+//    {
+//        ui->cb_ModType->setCurrentIndex(1);
+//        ui->lw_ModType->setCurrentRow(4);
+//    }
+//    else if(delSpace(response_From_Device) == "OQPS")
+//    {
+//        ui->cb_ModType->setCurrentIndex(1);
+//        ui->lw_ModType->setCurrentRow(5);
+//    }
+//    else if(delSpace(response_From_Device) == "P4QP")
+//    {
+//        ui->cb_ModType->setCurrentIndex(1);
+//        ui->lw_ModType->setCurrentRow(6);
+//    }
+//    else if(delSpace(response_From_Device) == "P2DB")
+//    {
+//        ui->cb_ModType->setCurrentIndex(1);
+//        ui->lw_ModType->setCurrentRow(7);
+//    }
+//    else if(delSpace(response_From_Device) == "P4DQ")
+//    {
+//        ui->cb_ModType->setCurrentIndex(1);
+//        ui->lw_ModType->setCurrentRow(8);
+//    }
+//    else if(delSpace(response_From_Device) == "P8D8")
+//    {
+//        ui->cb_ModType->setCurrentIndex(1);
+//        ui->lw_ModType->setCurrentRow(9);
+//    }
+//    else if(delSpace(response_From_Device) == "PSK8")
+//    {
+//        ui->cb_ModType->setCurrentIndex(1);
+//        ui->lw_ModType->setCurrentRow(10);
+//    }
+//    else if(delSpace(response_From_Device) == "P8ED")
+//    {
+//        ui->cb_ModType->setCurrentIndex(1);
+//        ui->lw_ModType->setCurrentRow(11);
+//    }
+//    else if(delSpace(response_From_Device) == "QAM16")
+//    {
+//        ui->cb_ModType->setCurrentIndex(2);
+//        ui->lw_ModType->setCurrentRow(0);
+//    }
+//    else if(delSpace(response_From_Device) == "QAM16ED")
+//    {
+//        ui->cb_ModType->setCurrentIndex(2);
+//        ui->lw_ModType->setCurrentRow(1);
+//    }
+//    else if(delSpace(response_From_Device) == "QAM32")
+//    {
+//        ui->cb_ModType->setCurrentIndex(2);
+//        ui->lw_ModType->setCurrentRow(2);
+//    }
+//    else if(delSpace(response_From_Device) == "QAM32ED")
+//    {
+//        ui->cb_ModType->setCurrentIndex(2);
+//        ui->lw_ModType->setCurrentRow(3);
+//    }
+//    else if(delSpace(response_From_Device) == "QAM64")
+//    {
+//        ui->cb_ModType->setCurrentIndex(2);
+//        ui->lw_ModType->setCurrentRow(4);
+//    }
+//    else if(delSpace(response_From_Device) == "QAM128")
+//    {
+//        ui->cb_ModType->setCurrentIndex(2);
+//        ui->lw_ModType->setCurrentRow(5);
+//    }
+//    else if(delSpace(response_From_Device) == "QAM256")
+//    {
+//        ui->cb_ModType->setCurrentIndex(2);
+//        ui->lw_ModType->setCurrentRow(6);
+//    }
+//    else if(delSpace(response_From_Device) == "QAM512")
+//    {
+//        ui->cb_ModType->setCurrentIndex(2);
+//        ui->lw_ModType->setCurrentRow(7);
+//    }
+//    else if(delSpace(response_From_Device) == "QAM1024")
+//    {
+//        ui->cb_ModType->setCurrentIndex(2);
+//        ui->lw_ModType->setCurrentRow(8);
+//    }
+//    else if(delSpace(response_From_Device) == "QAM2048")
+//    {
+//        ui->cb_ModType->setCurrentIndex(2);
+//        ui->lw_ModType->setCurrentRow(9);
+//    }
+//    else if(delSpace(response_From_Device) == "QAM4096")
+//    {
+//        ui->cb_ModType->setCurrentIndex(2);
+//        ui->lw_ModType->setCurrentRow(10);
+//    }
+//    else if(delSpace(response_From_Device) == "MSK")
+//    {
+//        ui->cb_ModType->setCurrentIndex(3);
+//        ui->lw_ModType->setCurrentRow(0);
+//    }
+//    else if(delSpace(response_From_Device) == "FSK2")
+//    {
+//        ui->cb_ModType->setCurrentIndex(3);
+//        ui->lw_ModType->setCurrentRow(1);
+//    }
+//    else if(delSpace(response_From_Device) == "FSK4")
+//    {
+//        ui->cb_ModType->setCurrentIndex(3);
+//        ui->lw_ModType->setCurrentRow(2);
+//    }
+//    else if(delSpace(response_From_Device) == "FSK8")
+//    {
+//        ui->cb_ModType->setCurrentIndex(3);
+//        ui->lw_ModType->setCurrentRow(3);
+//    }
+//    else if(delSpace(response_From_Device) == "FSK16")
+//    {
+//        ui->cb_ModType->setCurrentIndex(3);
+//        ui->lw_ModType->setCurrentRow(4);
+//    }
+//    else if(delSpace(response_From_Device) == "FSK32")
+//    {
+//        ui->cb_ModType->setCurrentIndex(3);
+//        ui->lw_ModType->setCurrentRow(5);
+//    }
+//    else if(delSpace(response_From_Device) == "FSK64")
+//    {
+//        ui->cb_ModType->setCurrentIndex(3);
+//        ui->lw_ModType->setCurrentRow(6);
+//    }
+//    else if(delSpace(response_From_Device) == "FSKV")
+//    {
+//        ui->cb_ModType->setCurrentIndex(3);
+//        ui->lw_ModType->setCurrentRow(7);
+//    }
+//    else if(delSpace(response_From_Device) == "APSK16")
+//    {
+//        ui->cb_ModType->setCurrentIndex(4);
+//        ui->lw_ModType->setCurrentRow(0);
+//    }
+//    else if(delSpace(response_From_Device) == "APSK32")
+//    {
+//        ui->cb_ModType->setCurrentIndex(4);
+//        ui->lw_ModType->setCurrentRow(1);
+//    }
+//    else if(delSpace(response_From_Device) == "USER")
+//    {
+//        ui->lw_ModType->setCurrentRow(5);
+//    }
+
+    slotSendToServer(SMW200A->Send_Request_SymbolRate());
+    UpdateSymbolRate(response_From_Device);
+//    double symbrate = 0;
+//    if(ui->cb_UnitsSymRate->currentIndex() == 0)
+//    {
+//        symbrate = delSpace(response_From_Device).toDouble() * pow(10, -6);
+//    }
+//    else if(ui->cb_UnitsSymRate->currentIndex() == 1)
+//    {
+//        symbrate = delSpace(response_From_Device).toDouble() * pow(10, -3);
+//    }
+//    else symbrate = delSpace(response_From_Device).toDouble();
+//    ui->le_SymbolRate->setText(QString::number(symbrate, 'g', 10));
 }
 /* ---------------------------- My slots end ----------------------------- */
 
@@ -898,14 +1529,138 @@ void MainWindow::on_action_FreqSweep_triggered()
 // Загрузка текущих данных при переключении вкладок
 void MainWindow::on_tw_Settings_tabBarClicked(int index)
 {
-    if(index == 1)
+    switch(index)
     {
-        emit signalGetSweepData();
+        case 0:
+            emit signalGetModData();
+        break;
+
+        case 1:
+            emit signalGetSweepData();
+        break;
+
+        case 2:
+
+        break;
     }
+
 }
 
 // Переключения режима расчета частотных интервалов
 void MainWindow::on_cb_SweepSpacing_currentIndexChanged(const QString &arg1)
 {
     arg1 == "Linear" ? ui->cb_UnitsLinStep->setEnabled(true) : ui->cb_UnitsLinStep->setEnabled(false);
+}
+
+// Переключение страндартных настроек
+void MainWindow::on_cb_AccordingToStandard_currentIndexChanged(int index)
+{
+    int newIndex = index - 1;
+
+    if(newIndex == -1)
+    {
+        ui->lw_AccordingToStandard->setEnabled(true);
+    }
+    else if(newIndex != 16)
+    {
+        ui->lw_AccordingToStandard->setCurrentRow(-1);
+        ui->lw_AccordingToStandard->setEnabled(false);
+        slotSendToServer(SMW200A->SetAccordingToStandard(newIndex, 0));
+        slotSendToServer(SMW200A->Send_Request_ModType());
+        UpdateModulation(response_From_Device);
+        slotSendToServer(SMW200A->Send_Request_SymbolRate());
+        UpdateSymbolRate(response_From_Device);
+    }
+    else ui->lw_AccordingToStandard->setEnabled(false);
+}
+void MainWindow::on_lw_AccordingToStandard_currentRowChanged(int currentRow)
+{
+    slotSendToServer(SMW200A->SetAccordingToStandard(currentRow, 1));
+    slotSendToServer(SMW200A->Send_Request_ModType());
+    UpdateModulation(response_From_Device);
+    slotSendToServer(SMW200A->Send_Request_SymbolRate());
+    UpdateSymbolRate(response_From_Device);
+}
+
+// Переключение настроек модуляции
+void MainWindow::on_cb_ModType_currentIndexChanged(int index)
+{
+    if(index == 0)
+    {
+        ui->lw_ModType->setEnabled(false);
+    }
+    else ui->lw_ModType->setEnabled(true);
+    switch(index)
+    {
+        case 0:
+            ui->lw_ModType->clear();
+            slotSendToServer(SMW200A->SetModulationType(0, ui->cb_ModType->currentIndex())); // Для установки типа ASK первым параметром указываем любое целочисленное число
+            slotSendToServer(SMW200A->Send_Request_Standard());
+            UpdateStandart(response_From_Device);
+            slotSendToServer(SMW200A->Send_Request_SymbolRate());
+            UpdateSymbolRate(response_From_Device);
+        break;
+
+        case 1:
+            ui->lw_ModType->clear();
+            ui->lw_ModType->addItem("BPSK");
+            ui->lw_ModType->addItem("QPSK");
+            ui->lw_ModType->addItem("QPSK 45 Offset");
+            ui->lw_ModType->addItem("QPSK EDGE");
+            ui->lw_ModType->addItem("AQPSK");
+            ui->lw_ModType->addItem("OQPSK");
+            ui->lw_ModType->addItem("PI/4-QPSK");
+            ui->lw_ModType->addItem("PI/2-DBPSK");
+            ui->lw_ModType->addItem("PI/4-DQPSK");
+            ui->lw_ModType->addItem("PI/8-D8PSK");
+            ui->lw_ModType->addItem("8PSK");
+            ui->lw_ModType->addItem("8PSK EDGE");
+        break;
+
+        case 2:
+            ui->lw_ModType->clear();
+            ui->lw_ModType->addItem("16QAM");
+            ui->lw_ModType->addItem("16QAM EDGE");
+            ui->lw_ModType->addItem("32QAM");
+            ui->lw_ModType->addItem("32QAM EDGE");
+            ui->lw_ModType->addItem("64QAM");
+            ui->lw_ModType->addItem("128QAM");
+            ui->lw_ModType->addItem("256QAM");
+            ui->lw_ModType->addItem("512QAM");
+            ui->lw_ModType->addItem("1024QAM");
+            ui->lw_ModType->addItem("2048QAM");
+            ui->lw_ModType->addItem("4096QAM");
+        break;
+
+        case 3:
+            ui->lw_ModType->clear();
+            ui->lw_ModType->addItem("MSK");
+            ui->lw_ModType->addItem("2FSK");
+            ui->lw_ModType->addItem("4FSK");
+            ui->lw_ModType->addItem("8FSK");
+            ui->lw_ModType->addItem("16FSK");
+            ui->lw_ModType->addItem("32FSK");
+            ui->lw_ModType->addItem("64FSK");
+            ui->lw_ModType->addItem("Variable FSK");
+        break;
+
+        case 4:
+            ui->lw_ModType->clear();
+            ui->lw_ModType->addItem("16APSK");
+            ui->lw_ModType->addItem("32APSK");
+        break;
+
+        case 5:
+            ui->lw_ModType->clear();
+        break;
+    }
+}
+void MainWindow::on_lw_ModType_currentRowChanged(int currentRow)
+{
+    slotSendToServer(SMW200A->SetModulationType(currentRow, ui->cb_ModType->currentIndex()));
+    slotSendToServer(SMW200A->Send_Request_Standard());
+    UpdateStandart(response_From_Device);
+    slotSendToServer(SMW200A->Send_Request_SymbolRate());
+    UpdateSymbolRate(response_From_Device);
+
 }

@@ -34,10 +34,14 @@ signals:
     void signalSendToServer(string);
     void signalGetData(QStringList);
     void signalGetSweepData();
+    void signalGetModData();
 
 public:
     void keyPressEvent(QKeyEvent *event);
     QString delSpace(QString command);
+    void UpdateStandart(QString response);
+    void UpdateModulation(QString response);
+    void UpdateSymbolRate(QString response);
 
 private slots:
     void slotReadyRead();
@@ -53,6 +57,8 @@ private slots:
     void slotRunFreqSweep(QStringList data);
 
     void slotGetSweepData();
+
+    void slotGetModData();
 
     void on_pb_Send_clicked();
 
@@ -81,6 +87,14 @@ private slots:
     void on_pb_StopFreqSweep_clicked();
 
     void on_pb_ResetFreqSweep_clicked();
+
+    void on_cb_AccordingToStandard_currentIndexChanged(int index);
+
+    void on_lw_AccordingToStandard_currentRowChanged(int currentRow);
+
+    void on_cb_ModType_currentIndexChanged(int index);
+
+    void on_lw_ModType_currentRowChanged(int currentRow);
 
 private:
     QTcpSocket *tcpSocket;

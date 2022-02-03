@@ -49,70 +49,14 @@ class RnSSCPI
         string response_From_Device;
 
         // Стандартные конфигурации устройства и их сокращенные названия для команд
-
-        array<array<string, 2>, 25> standard_sheet = {{{"PHASE1 C4FM", "APCOPH1C4"},
-                                                       {"PHASE1 CQPSK", "APCOPH1CQ"},
-                                                       {"PHASE2 H-CPM", "APCOPH2HC"},
-                                                       {"PHASE2 H-DQPSK", "APCOPH2HDQ"},
-                                                       {"PHASE2 H-D8PSK WIDE", "APCOPH2HD8PSKW"},
-                                                       {"PHASE2 H-D8PSK NARROW", "APCOPH2HD8PSKN"},
-                                                       {"PHASE1 LSM", "APCOPH1L"},
-                                                       {"PHASE1 WCQPSK", "APCOPH1W"},
-                                                       {"BLUETOOTH", "BLU"},
-                                                       {"CDMA2000 FORWARD", "CFOR"},
-                                                       {"CDMA2000 REVERSE","CREV"},
-                                                       {"CW IN BASEBAND", "CWBP"},
-                                                       {"DECT", "DECT"},
-                                                       {"ETC", "ETC"},
-                                                       {"GSM", "GSM"},
-                                                       {"GSM EDGE", "GSME"},
-                                                       {"NADC", "NADC"},
-                                                       {"PDC", "PDC"},
-                                                       {"PHS", "PHS"},
-                                                       {"TD-SCDMA", "TDSC"},
-                                                       {"TETRA", "TETR"},
-                                                       {"TFTS", "TFTS"},
-                                                       {"WCDMA-3GPP", "W3GP"},
-                                                       {"WORLDSPACE", "WORL"},
-                                                       {"USER", "USER"}}};
-
+        array<string, 8> standard_sheet_apco = {"APCOPH1C4", "APCOPH1CQ", "APCOPH2HC", "APCOPH2HDQ", "APCOPH2HD8PSKW", "APCOPH2HD8PSKN", "APCOPH1L", "APCOPH1W"};
+        array<string, 16> standard_sheet = {"BLU", "CFOR", "CREV", "CWBP", "DECT", "ETC", "GSM", "GSME", "NADC", "PDC", "PHS", "TDSC", "TETR", "TFTS", "W3GP", "WORL"};
 
         // Типы модуляции и их сокращенные названия для команд
-        array<array<string, 2>, 35> mod_type_sheet = {{{"ASK", "ASK"},
-                                                       {"BPSK", "BPSK"},
-                                                       {"QPSK", "QPSK"},
-                                                       {"QPSK 45 OFFSET", "QPSK45"},
-                                                       {"QPSK EDGE", "QEDG"},
-                                                       {"AQPSK", "AQPS"},
-                                                       {"OQPSK", "OQPS"},
-                                                       {"PI/4-QPSK", "P4QP"},
-                                                       {"PI/2-DBPSK", "P2DB"},
-                                                       {"PI/4-DQPSK", "P4DQ"},
-                                                       {"PI/8-D8PSK", "P8D8"},
-                                                       {"8PSK", "PSK8"},
-                                                       {"8PSK EDGE", "P8ED"},
-                                                       {"16QAM", "QAM16"},
-                                                       {"16QAM EDGE", "QAM16ED"},
-                                                       {"32QAM", "QAM32"},
-                                                       {"32QAM EDGE", "QAM32ED"},
-                                                       {"64QAM", "QAM64"},
-                                                       {"128QAM", "QAM128"},
-                                                       {"256QAM", "QAM256"},
-                                                       {"512QAM", "QAM512"},
-                                                       {"1024QAM", "QAM1024"},
-                                                       {"2048QAM", "QAM2048"},
-                                                       {"4096QAM", "QAM4096"},
-                                                       {"MSK", "MSK"},
-                                                       {"2FSK", "FSK2"},
-                                                       {"4FSK", "FSK4"},
-                                                       {"8FSK", "FSK8"},
-                                                       {"16FSK", "FSK16"},
-                                                       {"32FSK", "FSK32"},
-                                                       {"64FSK", "FSK64"},
-                                                       {"VARIABLE FSK", "FSKV"},
-                                                       {"16APSK", "APSK16"},
-                                                       {"32APSK", "APSK32"},
-                                                       {"USER", "USER"}}};
+        array<string, 12> mod_type_sheet_PSK = {"BPSK", "QPSK", "QPSK45", "QEDG", "AQPS", "OQPS", "P4QP", "P2DB", "P4DQ", "P8D8", "PSK8", "P8ED"};
+        array<string, 11> mod_type_sheet_QAM = {"QAM16", "QAM16ED", "QAM32", "QAM32ED", "QAM64", "QAM128", "QAM256", "QAM512", "QAM1024", "QAM2048", "QAM4096"};
+        array<string, 8> mod_type_sheet_FSK = {"MSK", "FSK2", "FSK4", "FSK8", "FSK16", "FSK32", "FSK64", "FSKV"};
+        array<string, 2> mod_type_sheet_APSK = {"APSK16", "APSK32"};
 
         array<string, 6> trigger_for_sweeps_values = {"AUTO", "IMMediate", "SINGle", "BUS", "EXTernal", "EAUTo"};
         array<string, 3> sweep_freq_mode_values = {"AUTO", "MANual", "STEP"};
@@ -163,8 +107,8 @@ class RnSSCPI
         string SetBasebandState(bool value, int sour_hw = 1);                                                              // Метод активации Baseband
 
         // Настройки модуляции
-        string SetAccordingToStandard(int value, int sour_hw = 1);                                                         // Установка стандартных режимов
-        string SetModulationType(int num_type, int sour_hw = 1);                                                           // Установка типа модуляции
+        string SetAccordingToStandard(int value, int isAPCO, int sour_hw = 1);                                                         // Установка стандартных режимов
+        string SetModulationType(int num_subtype, int num_type, int sour_hw = 1);                                                           // Установка типа модуляции
         string SetSymbolRate(double value, int unit = 3, int sour_hw = 1);                                                 // Установка скорости передачи символов
 
         // Настройки частотной развертки
