@@ -452,6 +452,81 @@ string RnSSCPI::Preset()
     return "SYSTem:PRESet\n";
 }
 
+int RnSSCPI::Search_StandardAPCO(string response)
+{
+    int number = -1;
+    int count = sizeof(standard_sheet_apco)/sizeof(standard_sheet_apco[0]);
+    for(int i = 0; i < count; i++)
+    {
+        if(response == standard_sheet_apco.at(i))
+        {
+            number = i;
+            break;
+        }
+    }
+    return number;
+}
+
+int RnSSCPI::Search_Standard(string response)
+{
+    int number = -1;
+    int count = sizeof(standard_sheet)/sizeof(standard_sheet[0]);
+    for(int i = 0; i < count; i++)
+    {
+        if(response == standard_sheet.at(i))
+        {
+            number = i;
+            break;
+        }
+    }
+    return number;
+}
+
+int RnSSCPI::Search_ModPSK(string response)
+{
+    int number = -1;
+    int count = sizeof(mod_type_sheet_PSK)/ sizeof(mod_type_sheet_PSK.at(0));
+    for(int i = 0; i < count; i++)
+    {
+        if(response == mod_type_sheet_PSK.at(i))
+        {
+            number = i;
+            break;
+        }
+    }
+    return number;
+}
+
+int RnSSCPI::Search_ModQAM(string response)
+{
+    int number = -1;
+    int count = sizeof(mod_type_sheet_QAM)/sizeof(mod_type_sheet_QAM[0]);
+    for(int i = 0; i < count; i++)
+    {
+        if(response == mod_type_sheet_QAM.at(i))
+        {
+            number = i;
+            break;
+        }
+    }
+    return number;
+}
+
+int RnSSCPI::Search_ModFSK(string response)
+{
+    int number = -1;
+    int count = sizeof(mod_type_sheet_FSK)/sizeof(mod_type_sheet_FSK[0]);
+    for(int i = 0; i < count; i++)
+    {
+        if(response == mod_type_sheet_FSK.at(i))
+        {
+            number = i;
+            break;
+        }
+    }
+    return number;
+}
+
 // Выбор триггера для разверток
 string RnSSCPI::SetTriggerForSweeps(int value, int trig_hw)
 {
