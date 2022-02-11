@@ -71,6 +71,7 @@ class RnSSCPI
         int Search_Standard(string response);
         int Search_ModPSK(string response);
         int Search_ModQAM(string response);
+        int Search_ModFSK(string response);
 
         // Основные запросы
         string Send_Request_IDN();                                                                                         // Идентификация устройства
