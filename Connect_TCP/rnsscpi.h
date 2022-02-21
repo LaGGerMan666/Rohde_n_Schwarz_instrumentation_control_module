@@ -15,6 +15,11 @@
 #define MIN_POW_V 12.57/pow(10,9)
 #define MAX_POW_V 7.071
 #define MIN_SRATE 50
+
+/**
+ * @def MAX_SRATE
+ * @brief ...
+ */
 #define MAX_SRATE 300000000
 
 using namespace std;
@@ -26,6 +31,10 @@ enum unitsFreq {
     eHZ
 
 };
+
+/**
+ * @brief Перечисление единиц мощности
+ */
 enum unitsPower{
     edBM,
     edBUV,
@@ -34,17 +43,21 @@ enum unitsPower{
     euV,
     enV
 };
+
+/**
+ * @brief The unitsTime enum
+ */
 enum unitsTime{
     s,
     ms,
     us
 };
 
+/**
+ * @brief The RnSSCPI class
+ */
 class RnSSCPI
 {
-    public:
-
-
     private:
         string response_From_Device;
 
@@ -58,6 +71,7 @@ class RnSSCPI
         array<string, 8> mod_type_sheet_FSK = {"MSK", "FSK2", "FSK4", "FSK8", "FSK16", "FSK32", "FSK64", "FSKV"};
         array<string, 2> mod_type_sheet_APSK = {"APSK16", "APSK32"};
 
+        //  Массивы команд для частотной развертки
         array<string, 6> trigger_for_sweeps_values = {"AUTO", "IMMediate", "SINGle", "BUS", "EXTernal", "EAUTo"};
         array<string, 3> sweep_freq_mode_values = {"AUTO", "MANual", "STEP"};
         array<string, 2> sweep_spacing_values = {"LINear", "LOGarithmic"};
@@ -67,12 +81,23 @@ class RnSSCPI
     public:
         RnSSCPI();
         string Get_Last_Response();                                                                                        // Последний запрос
+
+        /**
+         * @brief Response_Handling
+         * @param answer - Ответ для ...
+         */
         void Response_Handling(string answer);                                                                             // Обработчик ответов от устройства (удаление \n из строки)
         string Preset();                                                                                                   // Сброс настроек устройства
+        int Search_StandardAPCO(string response);
+        int Search_Standard(string response);
+        int Search_ModPSK(string response);
+        int Search_ModQAM(string response);
+        int Search_ModFSK(string response);
+        int Search_ModAPSK(string response);
 
         // Основные запросы
-        string Send_Request_IDN();                                                                                         // Идентификация устройства
-        string Send_Request_Error();                                                                                       // Запрос стека ошибок
+        string Send_Request_IDN() const;                                                                                      // Идентификация устройства
+        string Send_Request_Error() noexcept;                                                                                       // Запрос стека ошибок
         string Send_Request_Frequency(int sour_hw = 1);                                                                    // Запрос значения частоты
         string Send_Request_Level(int sour_hw = 1);                                                                        // Запрос значение уровня
         string Send_Request_PEP(int sour_hw = 1);                                                                          // Запрос значения PEP
