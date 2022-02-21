@@ -13,12 +13,7 @@ string RnSSCPI::Get_Last_Response()
     return result;
 }
 
-string RnSSCPI::Send_Request_IDN()
-{
-    return "*IDN?\n";
-}
-
-string RnSSCPI::Send_Request_Error()
+string RnSSCPI::Send_Request_Error() noexcept
 {
     return "SYSTem:ERRor?\n";
 }
@@ -366,7 +361,7 @@ string RnSSCPI::SetModulationType(int num_subtype, int num_type, int sour_hw)
 
         case 1: // PSK
             count_modType = sizeof(mod_type_sheet_PSK)/sizeof(mod_type_sheet_PSK[0]);
-            if(num_type >= 0 && num_type <= count_modType - 1)
+            if(num_subtype >= 0 && num_subtype <= count_modType - 1)
             {
                 return "SOURce" + to_string(sour_hw) + ":BB:DM:FORMat " + mod_type_sheet_PSK[num_subtype] + "\n";
             } else return "";
@@ -374,23 +369,23 @@ string RnSSCPI::SetModulationType(int num_subtype, int num_type, int sour_hw)
 
         case 2: // QAM
             count_modType = sizeof(mod_type_sheet_QAM)/sizeof(mod_type_sheet_QAM[0]);
-            if(num_type >= 0 && num_type <= count_modType - 1)
+            if(num_subtype >= 0 && num_subtype <= count_modType - 1)
             {
                 return "SOURce" + to_string(sour_hw) + ":BB:DM:FORMat " + mod_type_sheet_QAM[num_subtype] + "\n";
             }else return "";
         break;
 
-        case 4: // FSK
+        case 3: // FSK
             count_modType = sizeof(mod_type_sheet_FSK)/sizeof(mod_type_sheet_FSK[0]);
-            if(num_type >= 0 && num_type <= count_modType - 1)
+            if(num_subtype >= 0 && num_subtype <= count_modType - 1)
             {
                 return "SOURce" + to_string(sour_hw) + ":BB:DM:FORMat " + mod_type_sheet_FSK[num_subtype] + "\n";
             }else return "";
         break;
 
-        case 5: // APSK
+        case 4: // APSK
             count_modType = sizeof(mod_type_sheet_APSK)/sizeof(mod_type_sheet_APSK[0]);
-            if(num_type >= 0 && num_type <= count_modType - 1)
+            if(num_subtype >= 0 && num_subtype <= count_modType - 1)
             {
                 return "SOURce" + to_string(sour_hw) + ":BB:DM:FORMat " + mod_type_sheet_APSK[num_subtype] + "\n";
             }else return "";
@@ -525,6 +520,25 @@ int RnSSCPI::Search_ModFSK(string response)
         }
     }
     return number;
+}
+
+int RnSSCPI::Search_ModAPSK(string response)
+{
+    int number = -1;
+    int count = sizeof(mod_type_sheet_APSK)/sizeof(mod_type_sheet_APSK[0]);
+    for(int i = 0; i < count; i++)
+    {
+        if(response == mod_type_sheet_APSK.at(i))
+        {
+            number = i;
+            break;
+        }
+    }
+    return number;
+}
+
+string RnSSCPI::Send_Request_IDN() const {
+    return "*IDN?\n";
 }
 
 // Выбор триггера для разверток
