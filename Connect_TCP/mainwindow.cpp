@@ -12,6 +12,7 @@ MainWindow::MainWindow(QWidget *parent)
 
 
     // Активность виджетов главного окна
+    ui->menuBar->setVisible(false);
     ui->te_Log->setReadOnly(true);
     ui->pb_Disconnect->setEnabled(false);
     ui->le_Command->setEnabled(false);
@@ -26,6 +27,7 @@ MainWindow::MainWindow(QWidget *parent)
     set_FreqSweep->setModal(true);
     ui->action_FreqSweep->setEnabled(false);
     ui->tw_Settings->setEnabled(false);
+
 
     // Настрокйки List widget
     ui->lw_AccordingToStandard->addItem("Phase1 C4FM");
@@ -1220,6 +1222,17 @@ void MainWindow::on_le_Level_editingFinished()
 // Настройка единиц измерения частоты при переключении
 void MainWindow::on_cb_FrequencyUnits_currentIndexChanged(const QString &arg1)
 {
+    bool trig = false;
+    try {
+        if(trig == false)
+        {
+            throw "Ebal rot";
+        }
+
+    }  catch (const char *exception) {
+        QMessageBox::information(this, "Err", exception);
+    }
+
     if(arg1 == "GHz")
     {
 

@@ -5,12 +5,17 @@ RnSSCPI::RnSSCPI()
 
 }
 
-string RnSSCPI::Get_Last_Response()
+//string RnSSCPI::Get_Last_Response()
+//{
+//    string result;
+//    !response_From_Device.empty() ? result = response_From_Device :  result = "Ответа от устройства еще не было";
+//    response_From_Device.clear();
+//    return result;
+//}
+
+string RnSSCPI::Send_Request_IDN() const
 {
-    string result;
-    !response_From_Device.empty() ? result = response_From_Device :  result = "Ответа от устройства еще не было";
-    response_From_Device.clear();
-    return result;
+    return "*IDN?\n";
 }
 
 string RnSSCPI::Send_Request_Error() noexcept
@@ -123,29 +128,29 @@ string RnSSCPI::Send_Request_SweepFreqRun(int sour_hw)
     return "SOURce" + to_string(sour_hw) + ":SWEep:FREQuency:RUNNing?\n";
 }
 
-void RnSSCPI::Response_Handling(string answer)
-{
+//void RnSSCPI::Response_Handling(string answer)
+//{
 
 
-    if (*answer.end() == '\n')
-    {
-        response_From_Device = answer.erase(answer.size()-1, 1);
-    }
-
-//    Возможно где нибудь пригодится QRegExp checkNoError("^(0,\"No error\")\\n$");
-//    regex searchNewLine("^(.+)\\n$");
-//    "^.+(?=\\n)"
-//    regex searchNullTerm("\\n$");
-//    string delNullTerm = "";
-//    if(!answer.empty())
+//    if (*answer.end() == '\n')
 //    {
-//        bool found = regex_match(answer.cbegin(), answer.cend(), searchNullTerm);
-//        if(found)
-//        {
-//            response_From_Device = regex_replace(answer, searchNullTerm, delNullTerm);
-//        }
+//        response_From_Device = answer.erase(answer.size()-1, 1);
 //    }
-}
+
+////    Возможно где нибудь пригодится QRegExp checkNoError("^(0,\"No error\")\\n$");
+////    regex searchNewLine("^(.+)\\n$");
+////    "^.+(?=\\n)"
+////    regex searchNullTerm("\\n$");
+////    string delNullTerm = "";
+////    if(!answer.empty())
+////    {
+////        bool found = regex_match(answer.cbegin(), answer.cend(), searchNullTerm);
+////        if(found)
+////        {
+////            response_From_Device = regex_replace(answer, searchNullTerm, delNullTerm);
+////        }
+////    }
+//}
 
 // Установка частоты
 string RnSSCPI::SetFrequency(double value, int unit, int sour_hw)
@@ -535,10 +540,6 @@ int RnSSCPI::Search_ModAPSK(string response)
         }
     }
     return number;
-}
-
-string RnSSCPI::Send_Request_IDN() const {
-    return "*IDN?\n";
 }
 
 // Выбор триггера для разверток

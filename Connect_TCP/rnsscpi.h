@@ -59,7 +59,7 @@ enum unitsTime{
 class RnSSCPI
 {
     private:
-        string response_From_Device;
+//        string response_From_Device;
 
         // Стандартные конфигурации устройства и их сокращенные названия для команд
         array<string, 8> standard_sheet_apco = {"APCOPH1C4", "APCOPH1CQ", "APCOPH2HC", "APCOPH2HDQ", "APCOPH2HD8PSKW", "APCOPH2HD8PSKN", "APCOPH1L", "APCOPH1W"};
