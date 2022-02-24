@@ -18,9 +18,19 @@ string RnSSCPI::Send_Request_IDN() const
     return "*IDN?\n";
 }
 
+void RnSSCPI::request_IDN(string &request_buffer) const noexcept
+{
+    request_buffer = "*IDN?\n";
+}
+
 string RnSSCPI::Send_Request_Error() noexcept
 {
     return "SYSTem:ERRor?\n";
+}
+
+void RnSSCPI::request_LastError(string &request_buffer) const noexcept
+{
+    request_buffer = "SYSTem:ERRor?\n";
 }
 
 string RnSSCPI::Send_Request_Frequency(int sour_hw)
@@ -28,9 +38,19 @@ string RnSSCPI::Send_Request_Frequency(int sour_hw)
     return "SOURce" + to_string(sour_hw) + ":FREQuency:CW?\n";
 }
 
+void RnSSCPI::request_Frequency(string &request_buffer, int sour_hw) const
+{
+    request_buffer = "SOURce" + to_string(sour_hw) + "FREQuency:CW?\n";
+}
+
 string RnSSCPI::Send_Request_FrequencyMode(int sour_hw)
 {
     return  "SOURce" + to_string(sour_hw) + ":FREQuency:MODE?\n";
+}
+
+void RnSSCPI::request_FrequencyMode(string &request_buffer, int sour_hw) const
+{
+    request_buffer = "SOURce" + to_string(sour_hw) + ":FREQuency:MODE?\n";
 }
 
 string RnSSCPI::Send_Request_Level(int sour_hw)
@@ -38,9 +58,19 @@ string RnSSCPI::Send_Request_Level(int sour_hw)
     return "SOURce" + to_string(sour_hw) + ":POWer:LEVel:IMMediate:AMPLitude?\n";
 }
 
+void RnSSCPI::request_Level(string &request_buffer, int sour_hw) const
+{
+    request_buffer = "SOURce" + to_string(sour_hw) + ":POWer:LEVel:IMMediate:AMPLitude?\n";
+}
+
 string RnSSCPI::Send_Request_PEP(int sour_hw)
 {
     return "SOURce" + to_string(sour_hw) + ":POWer:PEP?\n";
+}
+
+void RnSSCPI::request_PEP(string &request_buffer, int sour_hw) const
+{
+    request_buffer = "SOURce" + to_string(sour_hw) + ":POWer:PEP?\n";
 }
 
 string RnSSCPI::Send_Request_Standard(int sour_hw)
@@ -63,9 +93,19 @@ string RnSSCPI::Send_Request_TriggerForSweeps(int trig_hw)
     return "TRIGger" + to_string(trig_hw) + ":FSWeep:SOURce?\n";
 }
 
+void RnSSCPI::request_TriggerForSweeps(string &request_buffer, int trig_hw) const
+{
+    request_buffer = "TRIGger" + to_string(trig_hw) + ":FSWeep:SOURce?\n";
+}
+
 string RnSSCPI::Send_Request_SweepFreqMode(int sour_hw)
 {
     return "SOURce" + to_string(sour_hw) + ":SWEep:FREQuency:MODE?\n";
+}
+
+void RnSSCPI::request_SweepFreqMod(string &request_buffer, int sour_hw) const
+{
+    request_buffer = "SOURce" + to_string(sour_hw) + ":SWEep:FREQuency:MODE?\n";
 }
 
 string RnSSCPI::Send_Request_FreqSpan(int sour_hw)
@@ -73,9 +113,19 @@ string RnSSCPI::Send_Request_FreqSpan(int sour_hw)
     return "SOURce" + to_string(sour_hw) + ":FREQuency:SPAN?\n";
 }
 
+void RnSSCPI::request_FreqSpan(string &request_buffer, int sour_hw) const
+{
+    request_buffer = "SOURce" + to_string(sour_hw) + ":FREQuency:SPAN?\n";
+}
+
 string RnSSCPI::Send_Request_FreqCenter(int sour_hw)
 {
     return "SOURce" + to_string(sour_hw) + ":FREQuency:CENTer?\n";
+}
+
+void RnSSCPI::request_FreqCenter(string &request_buffer, int sour_hw) const
+{
+    request_buffer = "SOURce" + to_string(sour_hw) + ":FREQuency:CENTer?\n";
 }
 
 string RnSSCPI::Send_Request_FreqStart(int sour_hw)
@@ -83,9 +133,19 @@ string RnSSCPI::Send_Request_FreqStart(int sour_hw)
     return "SOURce" + to_string(sour_hw) + ":FREQuency:STARt?\n";
 }
 
+void RnSSCPI::request_FreqStart(string &request_buffer, int sour_hw) const
+{
+    request_buffer = "SOURce" + to_string(sour_hw) + ":FREQuency:STARt?\n";
+}
+
 string RnSSCPI::Send_Request_FreqStop(int sour_hw)
 {
     return "SOURce" + to_string(sour_hw)+ ":FREQuency:STOP?\n";
+}
+
+void RnSSCPI::request_FreqStop(string &request_buffer, int sour_hw) const
+{
+    request_buffer = "SOURce" + to_string(sour_hw) + ":FREQuency:STOP?\n";
 }
 
 string RnSSCPI::Send_Request_SweepSpacing(int sour_hw)
@@ -93,9 +153,19 @@ string RnSSCPI::Send_Request_SweepSpacing(int sour_hw)
     return "SOURce" + to_string(sour_hw) + ":SWEep:FREQuency:SPACing?\n";
 }
 
+void RnSSCPI::request_SweepSpacing(string &request_buffer, int sour_hw) const
+{
+    request_buffer = "SOURce" + to_string(sour_hw) + ":SWEep:FREQuebcy:SPACing?\n";
+}
+
 string RnSSCPI::Send_Request_SweepShape(int sour_hw)
 {
     return "SOURce" + to_string(sour_hw) + ":SWEep:FREQuency:SHAPe?\n";
+}
+
+void RnSSCPI::request_SweepShape(string &request_buffer, int sour_hw) const
+{
+    request_buffer = "SOURce" + to_string(sour_hw) + ":SWEep:FREQuency:SHAPe?\n";
 }
 
 string RnSSCPI::Send_Request_SweepRetrace(int sour_hw)
@@ -108,9 +178,19 @@ string RnSSCPI::Send_Request_SweepStepLinear(int sour_hw)
     return "SOURce" + to_string(sour_hw) + ":SWEep:FREQuency:STEP:LINear?\n";
 }
 
+void RnSSCPI::request_SweepStepLinear(string &request_buffer, int sour_hw) const
+{
+    request_buffer = "SOURce" + to_string(sour_hw) + ":SWEep:FREQuency:STEP:LINear?\n";
+}
+
 string RnSSCPI::Send_Request_SweepStepLogarithmic(int sour_hw)
 {
     return "SOURce" + to_string(sour_hw) + ":SWEep:FREQuency:STEP:LOGarithmic?\n";
+}
+
+void RnSSCPI::request_SweepStepLog(string &request_buffer, int sour_hw) const
+{
+    request_buffer = "SOURce" + to_string(sour_hw) + ":SWEep:FREQuency:STEP:LOGarithmic?\n";
 }
 
 string RnSSCPI::Send_Request_SweepPoints(int sour_hw)
@@ -118,14 +198,29 @@ string RnSSCPI::Send_Request_SweepPoints(int sour_hw)
     return "SOURce" + to_string(sour_hw) + ":SWEep:FREQuency:POINts?\n";
 }
 
+void RnSSCPI::request_SweepPoints(string &request_buffer, int sour_hw) const
+{
+    request_buffer = "SOURce" + to_string(sour_hw) + ":SWEep:FREQuency:POINts?\n";
+}
+
 string RnSSCPI::Send_Request_SweepFreqDwell(int sour_hw)
 {
     return "SOURce" + to_string(sour_hw) + ":SWEep:FREQuency:DWELl?\n";
 }
 
+void RnSSCPI::request_SweepFreqDwell(string &request_buffer, int sour_hw) const
+{
+    request_buffer = "SOURce" + to_string(sour_hw) + ":SWEep:FREQuency:DWELl?\n";
+}
+
 string RnSSCPI::Send_Request_SweepFreqRun(int sour_hw)
 {
     return "SOURce" + to_string(sour_hw) + ":SWEep:FREQuency:RUNNing?\n";
+}
+
+void RnSSCPI::request_SweepFreqRun(string &request_buffer, int sour_hw) const
+{
+    request_buffer = "SOURce" + to_string(sour_hw) + "SWEep:FREQuency:RUNNing?\n";
 }
 
 //void RnSSCPI::Response_Handling(string answer)
@@ -196,6 +291,49 @@ string RnSSCPI::SetFrequency(double value, int unit, int sour_hw)
     return command;
 }
 
+void RnSSCPI::set_Frequency(string &request_buffer, double &value, int &error, int unit, int sour_hw) const
+{
+    error = 0;
+    switch (unit)
+    {
+        case unitsFreq::eGHz:
+            if(value * pow(10, 9) <= MAX_FREQ && value * pow(10, 9) >= MIN_FREQ)
+            {
+                request_buffer = "SOURce" + to_string(sour_hw) + ":FREQuency:CW " + to_string(value) + " GHz\n";
+            }
+            else error = errorFreqCW::Value_out_of_range;
+        break;
+
+        case unitsFreq::eMHz:
+            if(value * pow(10, 6) <= MAX_FREQ && value * pow(10, 6) >= MIN_FREQ)
+            {
+                request_buffer = "SOURce" + to_string(sour_hw) + ":FREQuency:CW " + to_string(value) + " MHz\n";
+            }
+            else error = errorFreqCW::Value_out_of_range;
+        break;
+
+        case unitsFreq::ekHz:
+            if(value * pow(10, 3) <= MAX_FREQ && value * pow(10, 3) >= MIN_FREQ)
+            {
+                request_buffer = "SOURce" + to_string(sour_hw) + ":FREQuency:CW " + to_string(value) + " kHz\n";
+            }
+            else error = errorFreqCW::Value_out_of_range;
+        break;
+
+        case unitsFreq::eHZ:
+            if(value <= MAX_FREQ && value >= MIN_FREQ)
+            {
+                request_buffer = "SOURce" + to_string(sour_hw) + ":FREQuency:CW " + to_string(value) + "Hz\n";
+            }
+            else error = errorFreqCW::Value_out_of_range;
+        break;
+
+        default:
+            error = errorFreqCW::Wrong_unit_of_measure;
+
+    }
+}
+
 // Устанавливает частотный режим для генерации выходного ВЧ-сигнала.
 // 0 ="CW", 1 = "FIXed", 2 = "SWEep", 3 = "LIST", 4 = "COMBined"
 string RnSSCPI::SetFrequencyMode(int value, int sour_hw)
@@ -207,6 +345,17 @@ string RnSSCPI::SetFrequencyMode(int value, int sour_hw)
         command = "SOURce" + to_string(sour_hw) + ":FREQuency:MODE " + freq_mode_values[value] + "\n";
     }
     return  command;
+}
+
+void RnSSCPI::set_FrequencyMode(string &request_buffer, int &value, int &error, int sour_hw) const
+{
+    error = 0;
+    int count_values = sizeof(freq_mode_values)/sizeof(freq_mode_values[0]);
+    if(value >= 0 && value <= count_values - 1)
+    {
+        request_buffer = "SOURce" + to_string(sour_hw) + ":FREQuency:MODE " + freq_mode_values.at(value) + "\n";
+    }
+    else error = 1;
 }
 
 // Установка мощности

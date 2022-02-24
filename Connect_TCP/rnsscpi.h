@@ -7,8 +7,9 @@
 #include <regex>
 #include <QVariant>
 #include <array>
-#define MAX_FREQ 12750000000
-#define MIN_FREQ 100
+
+#define MAX_FREQ 12.75 * pow(10,9)
+#define MIN_FREQ 100 * pow(10,3)
 #define MIN_CENTER_FREQ 300000
 #define MAX_POW_DBM 30
 #define MIN_POW_DBM -145
@@ -53,6 +54,11 @@ enum unitsTime{
     us
 };
 
+enum errorFreqCW{
+    Value_out_of_range = 1,
+    Wrong_unit_of_measure
+};
+
 /**
  * @brief The RnSSCPI class
  */
@@ -80,7 +86,7 @@ class RnSSCPI
 
     public:
         RnSSCPI();
-        string Get_Last_Response();                                                                                        // Последний запрос
+//        string Get_Last_Response();                                                                                        // Последний запрос
 
         /**
          * @brief Response_Handling
@@ -97,10 +103,15 @@ class RnSSCPI
 
         // Основные запросы
         string Send_Request_IDN() const;                                                                                      // Идентификация устройства
+        void request_IDN(string &request_buffer) const noexcept;
         string Send_Request_Error() noexcept;                                                                                       // Запрос стека ошибок
+        void request_LastError(string &request_buffer) const noexcept;
         string Send_Request_Frequency(int sour_hw = 1);                                                                    // Запрос значения частоты
+        void request_Frequency(string &request_buffer, int sour_hw = 1) const;
         string Send_Request_Level(int sour_hw = 1);                                                                        // Запрос значение уровня
+        void request_Level(string &request_buffer, int sour_hw = 1) const;
         string Send_Request_PEP(int sour_hw = 1);                                                                          // Запрос значения PEP
+        void request_PEP(string &request_buffer, int sour_hw = 1) const;
 
         // Запросы модуляция
         string Send_Request_Standard(int sour_hw = 1);                                                                     // Запрос названия стандартного режима
@@ -109,24 +120,41 @@ class RnSSCPI
 
         // Запросы частотная развертка
         string Send_Request_TriggerForSweeps(int trig_hw = 1);                                                             // Запрос вида триггера для разверток
+        void request_TriggerForSweeps(string &request_buffer, int trig_hw = 1) const;
         string Send_Request_SweepFreqMode(int sour_hw = 1);                                                                // Запрос циклического режима для развертки по частоте
+        void request_SweepFreqMod(string &request_buffer, int sour_hw = 1) const;
         string Send_Request_FreqSpan(int sour_hw = 1);                                                                     // Запрос диапазона частотной развертки
+        void request_FreqSpan(string &request_buffer, int sour_hw = 1) const;
         string Send_Request_FreqCenter(int sour_hw = 1);                                                                   // Запрос центральной частоты развертки
+        void request_FreqCenter(string &request_buffer, int sour_hw = 1) const;
         string Send_Request_FreqStart(int sour_hw = 1);                                                                    // Запрос начальной частоты развертки
+        void request_FreqStart(string &request_buffer, int sour_hw = 1) const;
         string Send_Request_FreqStop(int sour_hw = 1);                                                                     // Запрос конечную частоту развертки
+        void request_FreqStop(string &request_buffer, int sour_hw = 1) const;
         string Send_Request_SweepSpacing(int sour_hw = 1);                                                                 // Запрос режима расчета частотных интервалов
+        void request_SweepSpacing(string &request_buffer, int sour_hw = 1) const;
         string Send_Request_SweepShape(int sour_hw = 1);                                                                   // Запрос установленной формы сигнала для последовательности развертки частоты
+        void request_SweepShape(string &request_buffer, int sour_hw = 1) const;
         string Send_Request_SweepRetrace(int sour_hw = 1);                                                                 // Запрос активности изменения начальной частоты в ожидании следующего триггера
+        void request_SweepRetrace(string &request_buffer, int sour_hw = 1) const;
         string Send_Request_SweepStepLinear(int sour_hw = 1);                                                              // Запрос ширины шага для линейной развертки
+        void request_SweepStepLinear(string &request_buffer, int sour_hw = 1) const;
         string Send_Request_SweepStepLogarithmic(int sour_hw = 1);                                                         // Запрос логарифмически определяемой ширины шага для развертки по частоте
+        void request_SweepStepLog(string &request_buffer, int sour_hw = 1) const;
         string Send_Request_SweepPoints(int sour_hw = 1);                                                                  // Запрос количества шагов в пределах диапазона развертки
+        void request_SweepPoints(string &request_buffer, int sour_hw = 1) const;
         string Send_Request_FrequencyMode(int sour_hw = 1);                                                                // Запрос частотного режима для генерации выходного ВЧ-сигнала.
+        void request_FrequencyMode(string &request_buffer, int sour_hw = 1) const;
         string Send_Request_SweepFreqDwell(int sour_hw = 1);                                                               // Запрос времени задержки для шага развертки по частоте
+        void request_SweepFreqDwell(string &request_buffer, int sour_hw = 1) const;
         string Send_Request_SweepFreqRun(int sour_hw = 1);                                                                 // Запрос текущего состояния развертки
+        void request_SweepFreqRun(string &request_buffer, int sour_hw = 1) const;
 
         // Основные настройки
         string SetFrequency(double value, int unit = 3, int sour_hw = 1);                                                  // Установка частоты через число
+        void set_Frequency(string &request_buffer, double &value, int &error, int unit = 3, int sour_hw = 1) const;
         string SetFrequencyMode(int value, int sour_hw = 1);                                                               // Устанавливает частотный режим для генерации выходного ВЧ-сигнала.
+        void set_FrequencyMode(string &request_buffer, int &value, int &error, int sour_hw = 1) const;
         string SetPower(double value, int unit = 0, int sour_hw = 1);                                                      // Установка мощности
         string SetLevel(double value, int unit = 0, int sour_hw = 1);                                                      // Установка уровня
         string SetBasebandState(bool value, int sour_hw = 1);                                                              // Метод активации Baseband
