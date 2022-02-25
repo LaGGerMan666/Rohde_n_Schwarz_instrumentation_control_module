@@ -54,9 +54,10 @@ enum unitsTime{
     us
 };
 
-enum errorFreqCW{
+enum error{
     Value_out_of_range = 1,
-    Wrong_unit_of_measure
+    Wrong_unit_of_measure,
+    Invalid_type_number
 };
 
 /**
@@ -93,7 +94,7 @@ class RnSSCPI
          * @param answer - Ответ для ...
          */
         void Response_Handling(string answer);                                                                             // Обработчик ответов от устройства (удаление \n из строки)
-        string Preset();                                                                                                   // Сброс настроек устройства
+        void Preset(string &request_buffer) const noexcept;                                                                                                   // Сброс настроек устройства
         int Search_StandardAPCO(string response);
         int Search_Standard(string response);
         int Search_ModPSK(string response);
@@ -152,22 +153,31 @@ class RnSSCPI
 
         // Основные настройки
         string SetFrequency(double value, int unit = 3, int sour_hw = 1);                                                  // Установка частоты через число
-        void set_Frequency(string &request_buffer, double &value, int &error, int unit = 3, int sour_hw = 1) const;
+        void set_Frequency(string &request_buffer, double value, int &err, int unit = 3, int sour_hw = 1) const;
         string SetFrequencyMode(int value, int sour_hw = 1);                                                               // Устанавливает частотный режим для генерации выходного ВЧ-сигнала.
-        void set_FrequencyMode(string &request_buffer, int &value, int &error, int sour_hw = 1) const;
+        void set_FrequencyMode(string &request_buffer, int value, int &err, int sour_hw = 1) const;
         string SetPower(double value, int unit = 0, int sour_hw = 1);                                                      // Установка мощности
+        void set_Power(string &request_buffer, double value, int &err, int unit = 0, int sour_hw = 1) const;
         string SetLevel(double value, int unit = 0, int sour_hw = 1);                                                      // Установка уровня
+        void set_Level(string &request_buffer, double value, int &err, int unit = 0, int sour_hw = 1) const;
         string SetBasebandState(bool value, int sour_hw = 1);                                                              // Метод активации Baseband
+        void set_BasebandState(string &request_buffer, bool value, int sour_hw = 1) const noexcept;
 
         // Настройки модуляции
         string SetAccordingToStandard(int value, int isAPCO, int sour_hw = 1);                                                         // Установка стандартных режимов
+        void set_AccordingToStandard(string &request_buffer, int standard_number, bool isAPCO, int &err, int sour_hw = 1) const;
         string SetModulationType(int num_subtype, int num_type, int sour_hw = 1);                                                           // Установка типа модуляции
+        void set_ModulationType(string &request_buffer, int num_type, int num_subtype, int &err, int sour_hw = 1) const;
         string SetSymbolRate(double value, int unit = 3, int sour_hw = 1);                                                 // Установка скорости передачи символов
+        void set_SymbolRate(string &request_buffer, double value, int &err, int unit = 3, int sour_hw = 1) const;
 
         // Настройки частотной развертки
         string SetTriggerForSweeps(int value, int trig_hw = 1);                                                            // Выбор триггера для разверток
+        void set_TriggerForSweeps(string &request_buffer, int value, int &err, int trig_hw = 1) const;
         string SetSweepFreqMode(int value, int sour_hw = 1);                                                               // Установка циклического режима для развертки по частоте
+        void set_SweepFreqMode(string &request_buffer, int value, int &err, int sour_hw = 1) const;
         string SetFreqSpan(double value, int unit = 3, int sour_hw = 1);                                                   // Установка диапазона частотной развертки
+        void set_FreqSpan(string &request_buffer, double value, int &err, int unit = 3, int sour_hw = 1) const;
         string SetFreqCenter(double value, int unit = 3, int sour_hw = 1);                                                 // Установка центральной частоты развертки
         string SetFreqStart(double value, int unit = 3, int sour_hw = 1);                                                  // Установка начальной частоты развертки
         string SetFreqStop(double value, int unit = 3, int sour_hw = 1);                                                   // Установка конечной частоты развертки

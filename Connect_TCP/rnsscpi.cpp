@@ -5,6 +5,11 @@ RnSSCPI::RnSSCPI()
 
 }
 
+// Сброс настроек устройства
+void RnSSCPI::Preset(string &request_buffer) const noexcept
+{
+    request_buffer = "SYSTem:PRESet\n";
+}
 //string RnSSCPI::Get_Last_Response()
 //{
 //    string result;
@@ -291,9 +296,9 @@ string RnSSCPI::SetFrequency(double value, int unit, int sour_hw)
     return command;
 }
 
-void RnSSCPI::set_Frequency(string &request_buffer, double &value, int &error, int unit, int sour_hw) const
+void RnSSCPI::set_Frequency(string &request_buffer, double value, int &err, int unit, int sour_hw) const
 {
-    error = 0;
+    err = 0;
     switch (unit)
     {
         case unitsFreq::eGHz:
@@ -301,7 +306,7 @@ void RnSSCPI::set_Frequency(string &request_buffer, double &value, int &error, i
             {
                 request_buffer = "SOURce" + to_string(sour_hw) + ":FREQuency:CW " + to_string(value) + " GHz\n";
             }
-            else error = errorFreqCW::Value_out_of_range;
+            else err = error::Value_out_of_range;
         break;
 
         case unitsFreq::eMHz:
@@ -309,7 +314,7 @@ void RnSSCPI::set_Frequency(string &request_buffer, double &value, int &error, i
             {
                 request_buffer = "SOURce" + to_string(sour_hw) + ":FREQuency:CW " + to_string(value) + " MHz\n";
             }
-            else error = errorFreqCW::Value_out_of_range;
+            else err = error::Value_out_of_range;
         break;
 
         case unitsFreq::ekHz:
@@ -317,7 +322,7 @@ void RnSSCPI::set_Frequency(string &request_buffer, double &value, int &error, i
             {
                 request_buffer = "SOURce" + to_string(sour_hw) + ":FREQuency:CW " + to_string(value) + " kHz\n";
             }
-            else error = errorFreqCW::Value_out_of_range;
+            else err = error::Value_out_of_range;
         break;
 
         case unitsFreq::eHZ:
@@ -325,11 +330,11 @@ void RnSSCPI::set_Frequency(string &request_buffer, double &value, int &error, i
             {
                 request_buffer = "SOURce" + to_string(sour_hw) + ":FREQuency:CW " + to_string(value) + "Hz\n";
             }
-            else error = errorFreqCW::Value_out_of_range;
+            else err = error::Value_out_of_range;
         break;
 
         default:
-            error = errorFreqCW::Wrong_unit_of_measure;
+            err = error::Wrong_unit_of_measure;
 
     }
 }
@@ -347,15 +352,15 @@ string RnSSCPI::SetFrequencyMode(int value, int sour_hw)
     return  command;
 }
 
-void RnSSCPI::set_FrequencyMode(string &request_buffer, int &value, int &error, int sour_hw) const
+void RnSSCPI::set_FrequencyMode(string &request_buffer, int value, int &err, int sour_hw) const
 {
-    error = 0;
+    err = 0;
     int count_values = sizeof(freq_mode_values)/sizeof(freq_mode_values[0]);
     if(value >= 0 && value <= count_values - 1)
     {
         request_buffer = "SOURce" + to_string(sour_hw) + ":FREQuency:MODE " + freq_mode_values.at(value) + "\n";
     }
-    else error = 1;
+    else err = error::Value_out_of_range;
 }
 
 // Установка мощности
@@ -418,6 +423,63 @@ string RnSSCPI::SetPower(double value, int unit, int sour_hw)
     return command;
 }
 
+void RnSSCPI::set_Power(string &request_buffer, double value, int &err, int unit, int sour_hw) const
+{
+    err = 0;
+    switch (unit)
+    {
+        case unitsPower::edBM:
+            if(value <= MAX_POW_DBM && value >= MIN_POW_DBM)
+            {
+                request_buffer = "SOURce" + to_string(sour_hw) + ":POWer:POWer " + to_string(value) + " dBm\n";
+            }
+            else err = error::Value_out_of_range;
+        break;
+
+        case unitsPower::edBUV:
+            if(value - 108.75 <= MIN_POW_DBM && value - 108.75 >= MIN_POW_DBM)
+            {
+                request_buffer = "SOURce" + to_string(sour_hw) + ":POWer:POWer " + to_string(value) + " dBUV\n";
+            }
+            else err = error::Value_out_of_range;
+        break;
+
+        case unitsPower::eV:
+            if(value <= MAX_POW_V && value >= MIN_POW_V)
+            {
+                request_buffer = "SOURce" + to_string(sour_hw) + ":POWer:POWer " + to_string(value) + " V\n";
+            }
+            else err = error::Value_out_of_range;
+        break;
+
+        case unitsPower::emV:
+            if(value * pow(10, -3) <= MAX_POW_V && value * pow(10, -3) >= MIN_POW_V)
+            {
+                request_buffer = "SOURce" + to_string(sour_hw) + ":POWer:POWer " + to_string(value) + " mV\n";
+            }
+            else err = error::Value_out_of_range;
+        break;
+
+        case unitsPower::euV:
+            if(value * pow(10, -6) <= MAX_POW_V && value * pow(10, -6) >= MIN_POW_V)
+            {
+                request_buffer = "SOURce" + to_string(sour_hw) + ":POWer:POWer " + to_string(value) + " uV\n";
+            }
+            else err = error::Value_out_of_range;
+        break;
+
+        case unitsPower::enV:
+            if(value * pow(10, -9) <= MAX_POW_V && value * pow(10, -9) >= MIN_POW_DBM)
+            {
+                request_buffer = "SOURce" + to_string(sour_hw) + ":POWer:POWer " + to_string(value) + " nV\n";
+            }
+        break;
+
+        default:
+            err = error::Wrong_unit_of_measure;
+    }
+}
+
 // Установка уровня
 string RnSSCPI::SetLevel(double value, int unit, int sour_hw)
 {
@@ -427,7 +489,7 @@ string RnSSCPI::SetLevel(double value, int unit, int sour_hw)
         case unitsPower::edBM:
             if(value <= MAX_POW_DBM && value >= MIN_POW_DBM)
             {
-                command = "SOURce" + to_string(sour_hw) + ":POWer:LEVel:IMMediate:AMPLiteude " + to_string(value) + " dBm" + "\n";
+                command = "SOURce" + to_string(sour_hw) + ":POWer:LEVel:IMMediate:AMPLitude " + to_string(value) + " dBm" + "\n";
             }
             else command = "Получено недопустимое значение LEVel";
         break;
@@ -435,7 +497,7 @@ string RnSSCPI::SetLevel(double value, int unit, int sour_hw)
         case unitsPower::edBUV:
             if(value - 108.75 <= MAX_POW_DBM && value - 108.75 >= MIN_POW_DBM)
             {
-                command = "SOURce" + to_string(sour_hw) + ":POWer:LEVel:IMMediate:AMPLiteude " + to_string(value) + " dBUV" + "\n";
+                command = "SOURce" + to_string(sour_hw) + ":POWer:LEVel:IMMediate:AMPLitude " + to_string(value) + " dBUV" + "\n";
             }
             else command = "Получено недопустимое значение LEVel";
         break;
@@ -443,7 +505,7 @@ string RnSSCPI::SetLevel(double value, int unit, int sour_hw)
         case unitsPower::eV:
             if(value <= MAX_POW_V && value >= MIN_POW_V)
             {
-                command = "SOURce" + to_string(sour_hw) + ":POWer:LEVel:IMMediate:AMPLiteude " + to_string(value) + " V" + "\n";
+                command = "SOURce" + to_string(sour_hw) + ":POWer:LEVel:IMMediate:AMPLitude " + to_string(value) + " V" + "\n";
             }
             else command = "Получено недопустимое значение LEVel.";
         break;
@@ -451,7 +513,7 @@ string RnSSCPI::SetLevel(double value, int unit, int sour_hw)
         case unitsPower::emV:
             if(value * pow(10, -3) <= MAX_POW_V && value * pow(10, -3) >= MIN_POW_V)
             {
-                command = "SOURce" + to_string(sour_hw) + ":POWer:LEVel:IMMediate:AMPLiteude " + to_string(value) + " mV" + "\n";
+                command = "SOURce" + to_string(sour_hw) + ":POWer:LEVel:IMMediate:AMPLitude " + to_string(value) + " mV" + "\n";
             }
             else command = "Получено недопустимое значение LEVel.";
         break;
@@ -459,7 +521,7 @@ string RnSSCPI::SetLevel(double value, int unit, int sour_hw)
         case unitsPower::euV:
             if(value * pow(10, -6) <= MAX_POW_V && value * pow(10, -6) >= MIN_POW_V)
             {
-                command = "SOURce" + to_string(sour_hw) + ":POWer:LEVel:IMMediate:AMPLiteude " + to_string(value) + " uV" + "\n";
+                command = "SOURce" + to_string(sour_hw) + ":POWer:LEVel:IMMediate:AMPLitude " + to_string(value) + " uV" + "\n";
             }
             else command = "Получено недопустимое значени LEVel.";
         break;
@@ -467,7 +529,7 @@ string RnSSCPI::SetLevel(double value, int unit, int sour_hw)
         case unitsPower::enV:
             if(value * pow(10, -9) <= MAX_POW_V && value * pow(10, -9) >= MIN_POW_V)
             {
-                command = "SOURce" + to_string(sour_hw) + ":POWer:LEVel:IMMediate:AMPLiteude " + to_string(value) + " nV" + "\n";
+                command = "SOURce" + to_string(sour_hw) + ":POWer:LEVel:IMMediate:AMPLitude " + to_string(value) + " nV" + "\n";
             }
             else command = "Получено недопустимое значение LEVel.";
         break;
@@ -476,6 +538,64 @@ string RnSSCPI::SetLevel(double value, int unit, int sour_hw)
             command = "";
     }
     return command;
+}
+
+void RnSSCPI::set_Level(string &request_buffer, double value, int &err, int unit, int sour_hw) const
+{
+    err = 0;
+    switch (unit)
+    {
+        case unitsPower::edBM:
+            if(value <= MAX_POW_DBM && value >= MIN_POW_DBM)
+            {
+                request_buffer = "SOURce" + to_string(sour_hw) + ":POWer:LEVel:IMMediate:AMPLitude " + to_string(value) + " dBm\n";
+            }
+            else err = error::Value_out_of_range;
+        break;
+
+        case unitsPower::edBUV:
+            if(value - 108.75 <= MAX_POW_DBM && value - 108.75 >= MIN_POW_DBM)
+            {
+                request_buffer = "SOURce" + to_string(sour_hw) + ":POWer:LEVel:IMMediate:AMPLitude " + to_string(value) + " dBUV\n";
+            }
+            else err = error::Value_out_of_range;
+        break;
+
+        case unitsPower::eV:
+            if(value <= MAX_POW_V && value >= MIN_POW_V)
+            {
+                request_buffer = "SOURce" + to_string(sour_hw) + ":POWer:LEVel:IMMediate:AMPLitude " + to_string(value) + " V\n";
+            }
+            else err = error::Value_out_of_range;
+        break;
+
+        case unitsPower::emV:
+            if(value * pow(10, -3) <= MAX_POW_V && value * pow(10, -3) >= MIN_POW_V)
+            {
+                request_buffer = "SOURce" + to_string(sour_hw) + ":POWer:LEVel:IMMediate:AMPLitude " + to_string(value) + " mV\n";
+            }
+            else err = error::Value_out_of_range;
+        break;
+
+        case unitsPower::euV:
+             if(value * pow(10, -6) <= MAX_POW_V && value * pow(10, -6) >= MIN_POW_V)
+             {
+                 request_buffer = "SOURce" + to_string(sour_hw) + ":POWer:LEVel:IMMediate:AMPLitude " + to_string(value) + " uV\n";
+             }
+             else err = error::Value_out_of_range;
+        break;
+
+        case unitsPower::enV:
+            if(value * pow(10, -9) <= MAX_POW_V && value * pow(10, -9) >= MIN_POW_V)
+            {
+                request_buffer = "SOURce" + to_string(sour_hw) + ":POWer:LEVel:IMMediate:AMPLitude " + to_string(value) + " nV\n";
+            }
+            else err = error::Value_out_of_range;
+        break;
+
+        default:
+            err = error::Wrong_unit_of_measure;
+    }
 }
 
 // Установка стандартных режимов
@@ -501,6 +621,29 @@ string RnSSCPI::SetAccordingToStandard(int standard_number, int isAPCO, int sour
         else return "";
     }
 
+}
+
+void RnSSCPI::set_AccordingToStandard(string &request_buffer, int standard_number, bool isAPCO, int &err, int sour_hw) const
+{
+    err = 0;
+    if(!isAPCO)
+    {
+        int count_StandardSheet = sizeof(standard_sheet)/sizeof(standard_sheet[0]);
+        if(standard_number >= 0 && standard_number <= count_StandardSheet - 1)
+        {
+            request_buffer = "SOURce" + to_string(sour_hw) + ":BB:DM:STANdard " + standard_sheet.at(standard_number) + "\n";
+        }
+        else err = error::Value_out_of_range;
+    }
+    else
+    {
+        int count_StandardSheet_APCO = sizeof(standard_sheet_apco)/sizeof(standard_sheet_apco[0]);
+        if(standard_number >= 0 && standard_number <= count_StandardSheet_APCO)
+        {
+            request_buffer = "SOURce" + to_string(sour_hw) + ":BB:DMLSTANdard " + standard_sheet_apco.at(standard_number) + "\n";
+        }
+        else err = error::Value_out_of_range;
+    }
 }
 
 // Установка типа модуляции
@@ -549,6 +692,56 @@ string RnSSCPI::SetModulationType(int num_subtype, int num_type, int sour_hw)
     }
 }
 
+void RnSSCPI::set_ModulationType(string &request_buffer, int num_type, int num_subtype, int &err, int sour_hw) const
+{
+    err = 0;
+    int count_modType = 0;
+    switch (num_type)
+    {
+        case 0: // ASK
+            request_buffer = "SOURce" + to_string(sour_hw) + ":BB:DM:FORMat ASK\n";
+        break;
+
+        case 1: // PSK
+            count_modType = sizeof(mod_type_sheet_PSK)/sizeof(mod_type_sheet_PSK[0]);
+            if(num_subtype >= 0 && num_subtype <= count_modType - 1)
+            {
+                request_buffer = "SOURce" + to_string(sour_hw) + ":BB:DM:FORMat " + mod_type_sheet_PSK.at(num_subtype) + "\n";
+            }
+            else err = error::Value_out_of_range;
+        break;
+
+        case 2: // QAM
+            count_modType = sizeof(mod_type_sheet_QAM)/sizeof(mod_type_sheet_QAM[0]);
+            if(num_subtype >= 0 && num_subtype <= count_modType)
+            {
+                request_buffer = "SOURce" + to_string(sour_hw) + ":BB:DM:FORMat " + mod_type_sheet_QAM.at(num_subtype) + "\n";
+            }
+        break;
+
+        case 3: // FSK
+            count_modType = sizeof(mod_type_sheet_FSK)/sizeof(mod_type_sheet_FSK[0]);
+            if(num_subtype >= 0 && num_subtype <= count_modType)
+            {
+                request_buffer = "SOURce" + to_string(sour_hw) + ":BB:DM:FORMat " + mod_type_sheet_FSK.at(num_subtype) + "\n";
+            }
+            else err = error::Value_out_of_range;
+        break;
+
+        case 4: // APSK
+            count_modType = sizeof(mod_type_sheet_APSK)/sizeof(mod_type_sheet_APSK[0]);
+            if(num_subtype >= 0 && num_subtype <= count_modType)
+            {
+                request_buffer = "SOURce" + to_string(sour_hw) + ":BB:DM:FORMat " + mod_type_sheet_APSK.at(num_subtype) + "\n";
+            }
+            else err = error::Value_out_of_range;
+        break;
+
+        default:
+            err = error::Invalid_type_number;
+    }
+}
+
 // Установка скорости передачи символов
 // Задавать в единицах измерения Hz(sym/s можно не указывать), kHz(kSym/s), MHz(MSym/s)
 string RnSSCPI::SetSymbolRate(double value, int unit, int sour_hw)
@@ -585,6 +778,40 @@ string RnSSCPI::SetSymbolRate(double value, int unit, int sour_hw)
     return "";
 }
 
+void RnSSCPI::set_SymbolRate(string &request_buffer, double value, int &err, int unit, int sour_hw) const
+{
+    err = 0;
+    double translate_value = 0;
+    string current_unit = "";
+    switch (unit)
+    {
+        case unitsFreq::eHZ:
+            current_unit = "Hz";
+        break;
+
+        case unitsFreq::ekHz:
+            translate_value = value * pow(10, 3);
+            current_unit = "kHz";
+        break;
+
+        case unitsFreq::eMHz:
+            translate_value = value * pow(10, 6);
+            current_unit = "MHz";
+        break;
+
+        default:
+            err = error::Wrong_unit_of_measure;
+    }
+    if(err == 0)
+    {
+        if(translate_value >= MIN_SRATE && translate_value <= MAX_SRATE)
+        {
+            request_buffer = "SOURce" + to_string(sour_hw) + ":BB:DM:SRATe " + to_string(value) + current_unit + "\n";
+        }
+        else err = error::Value_out_of_range;
+    }
+}
+
 // Метод активации Baseband
 string RnSSCPI::SetBasebandState(bool value, int sour_hw)
 {
@@ -595,11 +822,16 @@ string RnSSCPI::SetBasebandState(bool value, int sour_hw)
     else return "SOURce" + to_string(sour_hw) + ":BB:DM:STATe OFF\n";
 }
 
-// Сброс настроек устройства
-string RnSSCPI::Preset()
+void RnSSCPI::set_BasebandState(string &request_buffer, bool value, int sour_hw) const noexcept
 {
-    return "SYSTem:PRESet\n";
+    if(value)
+    {
+        request_buffer = "SOURce" + to_string(sour_hw) + ":BB:DM:STATe ON\n";
+    }
+    else request_buffer = "SOURce" + to_string(sour_hw) + ":BB:DM:STATe OFF\n";
 }
+
+
 
 int RnSSCPI::Search_StandardAPCO(string response)
 {
@@ -703,6 +935,17 @@ string RnSSCPI::SetTriggerForSweeps(int value, int trig_hw)
     return command;
 }
 
+void RnSSCPI::set_TriggerForSweeps(string &request_buffer, int value, int &err, int trig_hw) const
+{
+    err = 0;
+    int count_value = sizeof(trigger_for_sweeps_values)/sizeof(trigger_for_sweeps_values[0]);
+    if(value >= 0 && value <= count_value - 1)
+    {
+        request_buffer = "SOURce" + to_string(trig_hw) + ":FSWeep:SOURce " + trigger_for_sweeps_values.at(value) + "\n";
+    }
+    else err = error::Value_out_of_range;
+}
+
 // Установка циклического режима для развертки по частоте
 string RnSSCPI::SetSweepFreqMode(int value, int sour_hw)
 {
@@ -713,6 +956,16 @@ string RnSSCPI::SetSweepFreqMode(int value, int sour_hw)
         command = "SOURce" + to_string(sour_hw) + ":SWEep:FREQuency:MODE " + sweep_freq_mode_values[value] + "\n";
     }
     return command;
+}
+
+void RnSSCPI::set_SweepFreqMode(string &request_buffer, int value, int &err, int sour_hw) const
+{
+    int count_mode = sizeof(sweep_freq_mode_values)/sizeof(sweep_freq_mode_values[0]);
+    if(value >= 0 && value <= count_mode - 1)
+    {
+        request_buffer = "SOURce" + to_string(sour_hw) + ":SWEep:FREQuency:MODE " + sweep_freq_mode_values.at(value) + "\n";
+    }
+    else err = error::Value_out_of_range;
 }
 
 // Установка диапазона частотной развертки
@@ -750,6 +1003,40 @@ string RnSSCPI::SetFreqSpan(double value, int unit, int sour_hw)
         return "SOURce" + to_string(sour_hw) + ":FREQuency:SPAN " + to_string(value) + current_unit + "\n";
     }
     return "";
+}
+
+void RnSSCPI::set_FreqSpan(string &request_buffer, double value, int &err, int unit, int sour_hw) const
+{
+    err = 0;
+    string current_unit = "";
+    switch (unit)
+    {
+        case unitsFreq::eHZ:
+            current_unit = "Hz";
+        break;
+
+        case unitsFreq::ekHz:
+            //translate_value = value * pow(10, 3);
+            current_unit = "kHz";
+        break;
+
+        case unitsFreq::eMHz:
+            //translate_value = value * pow(10, 6);
+            current_unit = "MHz";
+        break;
+
+        case unitsFreq::eGHz:
+            //translate_value = value * pow(10, 9);
+            current_unit = "GHz";
+        break;
+
+        default:
+            err = error::Wrong_unit_of_measure;
+    }
+    if(err == 0)
+    {
+        request_buffer = "SOURce" + to_string(sour_hw) + ":FREQuency:SPAN " + to_string(value) + current_unit + "\n";
+    }
 }
 
 // Установка центральной частоты развертки через число
