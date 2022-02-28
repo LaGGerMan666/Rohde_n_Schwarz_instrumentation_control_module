@@ -100,7 +100,8 @@ private:
     QTcpSocket *tcpSocket;
     QString SMW_ADDRESS = "172.16.13.41"; //42
     quint16 SMW_PORT = 5025;
-    QString response_From_Device;
+    QString response_From_Device = "";
+    string request_buffer = "";
     QFile *log_commands;
     int countPressBut = 0;
     RnSSCPI *SMW200A;

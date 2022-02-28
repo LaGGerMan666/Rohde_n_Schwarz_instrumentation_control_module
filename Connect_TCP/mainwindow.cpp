@@ -100,7 +100,7 @@ void MainWindow::keyPressEvent(QKeyEvent *event)
         {
             if(!log_commands->open(QIODevice::ReadOnly | QFile::Text))
             {
-               throw std::exception();
+               throw "Неудалось прочитать файл.";
             }
             else
             {
@@ -118,9 +118,9 @@ void MainWindow::keyPressEvent(QKeyEvent *event)
                 }
             }
         }
-        catch(std::exception &err)
+        catch(const char *err)
         {
-            QMessageBox::warning(this, "Ошибка чтения файла команд.", err.what(), QMessageBox::Ok);
+            QMessageBox::warning(this, "Ошибка!", err, QMessageBox::Ok);
         }
         log_commands->close();
     }
@@ -130,7 +130,7 @@ void MainWindow::keyPressEvent(QKeyEvent *event)
         {
             if(!log_commands->open(QIODevice::ReadOnly | QFile::Text))
             {
-                throw std::exception();
+                throw "Неудалось прочитать файл.";
             }
             else
             {
@@ -152,9 +152,9 @@ void MainWindow::keyPressEvent(QKeyEvent *event)
                 }
             }
         }
-        catch (std::exception &err)
+        catch (const char *err)
         {
-            QMessageBox::warning(this, "Ошибка чтения файла команд.", err.what(), QMessageBox::Ok);
+            QMessageBox::warning(this, "Ошибка.", err, QMessageBox::Ok);
         }
         log_commands->close();
     }
@@ -385,6 +385,7 @@ void MainWindow::slotError(QAbstractSocket::SocketError error)
 // Уведомление о подключении к устройству
 void MainWindow::slotConnected()
 {
+    ui->te_Log->clear();
     ui->te_Log->append(QTime::currentTime().toString() + " -  Соединение с SMW200A установлено.\n");
 
     // Активность виджетов главного окна
@@ -401,10 +402,13 @@ void MainWindow::slotConnected()
     ui->action_FreqSweep->setEnabled(true);
     ui->tw_Settings->setEnabled(true);
     ui->le_Command->setFocus();
-    slotSendToServer(SMW200A->Send_Request_IDN());
-    slotSendToServer(SMW200A->Send_Request_Error());
     ui->statusbar->showMessage("Состояние: подключено.");
 
+    // Стандартные запросы
+    RnSSCPI::request_IDN(request_buffer);
+    slotSendToServer(request_buffer);
+    RnSSCPI::request_LastError(request_buffer);
+    slotSendToServer(request_buffer);
     // Подгрузка текущей частоты
     slotSendToServer(SMW200A->Send_Request_Frequency());
     double result = 0;
@@ -431,12 +435,22 @@ void MainWindow::slotConnected()
     }
 
     // Подгрузка текущего значения PEP
-    slotSendToServer(SMW200A->Send_Request_PEP());
+//    slotSendToServer(SMW200A->Send_Request_PEP());
+//    double val_PEP = delSpace(response_From_Device).toDouble();
+//    ui->le_PEP->setText(QString::number(val_PEP));
+
+    RnSSCPI::request_PEP(request_buffer);
+    slotSendToServer(request_buffer);
     double val_PEP = delSpace(response_From_Device).toDouble();
     ui->le_PEP->setText(QString::number(val_PEP));
 
     // Подгрузка текущего значения Level
-    slotSendToServer(SMW200A->Send_Request_Level());
+//    slotSendToServer(SMW200A->Send_Request_Level());
+//    double val_Level = delSpace(response_From_Device).toDouble();
+//    ui->le_Level->setText(QString::number(val_Level));
+
+    RnSSCPI::request_Level(request_buffer);
+    slotSendToServer(request_buffer);
     double val_Level = delSpace(response_From_Device).toDouble();
     ui->le_Level->setText(QString::number(val_Level));
 
@@ -501,7 +515,9 @@ void MainWindow::slotRunFreqSweep(QStringList data)
 // Текущие данные для частотной развертки
 void MainWindow::slotGetSweepData()
 {
-    slotSendToServer(SMW200A->Send_Request_TriggerForSweeps());
+//    slotSendToServer(SMW200A->Send_Request_TriggerForSweeps());
+    RnSSCPI::request_TriggerForSweeps(request_buffer);
+    slotSendToServer(request_buffer);
     if(delSpace(response_From_Device) == "AUTO")
     {
         ui->cb_TriggerSource->setCurrentIndex(0);
