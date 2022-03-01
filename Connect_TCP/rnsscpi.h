@@ -25,43 +25,6 @@
 
 using namespace std;
 
-enum unitsFreq {
-    eGHz,
-    eMHz,
-    ekHz,
-    eHZ
-
-};
-
-/**
- * @brief Перечисление единиц мощности
- */
-enum unitsPower{
-    edBM,
-    edBUV,
-    eV,
-    emV,
-    euV,
-    enV
-};
-
-/**
- * @brief The unitsTime enum
- */
-enum unitsTime{
-    s,
-    ms,
-    us
-};
-
-enum error{
-    No_error,
-    Value_out_of_range,
-    Wrong_unit_of_measure,
-    Invalid_type_number,
-    Element_not_found
-};
-
 // Стандартные конфигурации устройства и их сокращенные названия для команд
 static const array<string, 8> standard_sheet_apco = {"APCOPH1C4", "APCOPH1CQ", "APCOPH2HC", "APCOPH2HDQ", "APCOPH2HD8PSKW", "APCOPH2HD8PSKN", "APCOPH1L", "APCOPH1W"};
 static const array<string, 16> standard_sheet = {"BLU", "CFOR", "CREV", "CWBP", "DECT", "ETC", "GSM", "GSME", "NADC", "PDC", "PHS", "TDSC", "TETR", "TFTS", "W3GP", "WORL"};
@@ -86,6 +49,43 @@ class RnSSCPI
 {
     private:
 
+    public:
+    enum unitsFreq {
+        eGHz,
+        eMHz,
+        ekHz,
+        eHZ
+
+    };
+
+    /**
+     * @brief Перечисление единиц мощности
+     */
+    enum unitsPower{
+        edBM,
+        edBUV,
+        eV,
+        emV,
+        euV,
+        enV
+    };
+
+    /**
+     * @brief The unitsTime enum
+     */
+    enum unitsTime{
+        s,
+        ms,
+        us
+    };
+
+    enum error{
+        No_error,
+        Value_out_of_range,
+        Wrong_unit_of_measure,
+        Invalid_type_number,
+        Element_not_found
+    };
 
     public:
         RnSSCPI();
@@ -96,17 +96,17 @@ class RnSSCPI
         void Response_Handling(string answer);                                                                             // Обработчик ответов от устройства (удаление \n из строки)
         static void Preset(string &request_buffer) noexcept;                                                                                                   // Сброс настроек устройства
         int Search_StandardAPCO(string response);
-        static void search_StandardAPCO(string &device_response, int &number_standard, int &err);
+        static int search_StandardAPCO(string &device_response, int &number_standard);
         int Search_Standard(string response);
-        static void search_Standard(string &device_response, int &number_standard, int &err);
+        static int search_Standard(string &device_response, int &number_standard);
         int Search_ModPSK(string response);
-        static void search_ModPSK(string &device_response, int &number_mod, int &err);
+        static int search_ModPSK(string &device_response, int &number_mod);
         int Search_ModQAM(string response);
-        static void search_ModQAM(string &device_response, int &number_mod, int &err);
+        static int search_ModQAM(string &device_response, int &number_mod);
         int Search_ModFSK(string response);
-        static void search_ModFSK(string &device_response, int &number_mod, int &err);
+        static int search_ModFSK(string &device_response, int &number_mod);
         int Search_ModAPSK(string response);
-        static void search_Mod_APSK(string &device_response, int &number_mod, int &err);
+        static int search_Mod_APSK(string &device_response, int &number_mod);
 
         // Основные запросы
         string Send_Request_IDN() const;                                                                                      // Идентификация устройства
@@ -202,7 +202,7 @@ class RnSSCPI
         string SetSweepSpacing(int value, int sour_hw = 1);                                                                // Установка режима расчета частотных интервалов
         static void set_SweepSpacing(string &request_buffer, int value, int &err, int sour_hw = 1);
         string SetSweepShape(int value, int sour_hw = 1);                                                                  // Установка формы сигнала для последовательности развертки частоты
-        static void set_Sweephape(string &request_buffer, int value, int &err, int sour_hw = 1);
+        static void set_SweepShape(string &request_buffer, int value, int &err, int sour_hw = 1);
         string SetSweepRetrace(bool value, int sour_hw = 1);                                                               // Активировать изменение начальной частоты в ожидании следующего триггера
         static void set_SweepRetrace(string &request_buffer, bool value, int sour_hw = 1) noexcept;
         string SetSweepResetAll(int sour_hw = 1);                                                                          // Сброс всех активных разверток в начальную точку (альтернатива SetSweepRetrace())

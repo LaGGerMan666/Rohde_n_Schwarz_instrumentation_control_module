@@ -39,7 +39,7 @@ signals:
 public:
     void keyPressEvent(QKeyEvent *event);
     QString delSpace(QString command);
-    void UpdateStandart(QString response);
+    void UpdateStandard(QString response);
     void UpdateModulation(QString response);
     void UpdateSymbolRate(QString response);
 
@@ -102,6 +102,7 @@ private:
     quint16 SMW_PORT = 5025;
     QString response_From_Device = "";
     string request_buffer = "";
+    int error_buffer = 0;
     QFile *log_commands;
     int countPressBut = 0;
     RnSSCPI *SMW200A;

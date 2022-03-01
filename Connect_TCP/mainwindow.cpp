@@ -173,55 +173,98 @@ QString MainWindow::delSpace(QString command)
 }
 
 // Обновление стандартных настроек
-void MainWindow::UpdateStandart(QString response)
+void MainWindow::UpdateStandard(QString response)
 {
-    if(SMW200A->Search_StandardAPCO(delSpace(response).toStdString()) != -1)
+
+//    if(SMW200A->Search_StandardAPCO(delSpace(response).toStdString()) != -1)
+//    {
+//        ui->cb_AccordingToStandard->setCurrentIndex(0);
+//        ui->lw_AccordingToStandard->setCurrentRow(SMW200A->Search_StandardAPCO(delSpace(response).toStdString()));
+//    }
+//    else if(SMW200A->Search_Standard(delSpace(response).toStdString()) != -1)
+//    {
+//        ui->cb_AccordingToStandard->setCurrentIndex(SMW200A->Search_Standard(delSpace(response).toStdString()) + 1);
+//    }
+//    else if(delSpace(response) == "USER")
+//    {
+//        ui->cb_AccordingToStandard->setCurrentIndex(17);
+//    }
+    string device_response = delSpace(response).toStdString();
+    int number_standard = 0;
+    if(RnSSCPI::search_StandardAPCO(device_response, number_standard) == RnSSCPI::No_error)
     {
         ui->cb_AccordingToStandard->setCurrentIndex(0);
-        ui->lw_AccordingToStandard->setCurrentRow(SMW200A->Search_StandardAPCO(delSpace(response).toStdString()));
+        ui->lw_AccordingToStandard->setCurrentRow(number_standard);
     }
-    else if(SMW200A->Search_Standard(delSpace(response).toStdString()) != -1)
+    else if(RnSSCPI::search_Standard(device_response, number_standard) == RnSSCPI::No_error)
     {
-        ui->cb_AccordingToStandard->setCurrentIndex(SMW200A->Search_Standard(delSpace(response).toStdString()) + 1);
+        ui->cb_AccordingToStandard->setCurrentIndex(number_standard + 1);
     }
-    else if(delSpace(response) == "USER")
-    {
-        ui->cb_AccordingToStandard->setCurrentIndex(17);
-    }
+    else if(device_response == "USER") ui->cb_AccordingToStandard->setCurrentIndex(17);
 }
 
 // Обновление режима модуляции
 void MainWindow::UpdateModulation(QString response)
 {
-    if(delSpace(response) == "ASK")
+//    if(delSpace(response) == "ASK")
+//    {
+//        ui->cb_ModType->setCurrentIndex(0);
+//        ui->lw_ModType->clear();
+//    }
+//    else if(SMW200A->Search_ModPSK(delSpace(response).toStdString()) != -1)
+//    {
+//        ui->cb_ModType->setCurrentIndex(1);
+//        ui->lw_ModType->setCurrentRow(SMW200A->Search_ModPSK(delSpace(response).toStdString()));
+//    }
+//    else if(SMW200A->Search_ModQAM(delSpace(response).toStdString()) != -1)
+//    {
+//        ui->cb_ModType->setCurrentIndex(2);
+//        ui->lw_ModType->setCurrentRow(SMW200A->Search_ModQAM(delSpace(response).toStdString()));
+//    }
+//    else if(SMW200A->Search_ModFSK(delSpace(response).toStdString()) != -1)
+//    {
+//        ui->cb_ModType->setCurrentIndex(3);
+//        ui->lw_ModType->setCurrentRow(SMW200A->Search_ModFSK(delSpace(response).toStdString()));
+//    }
+//    else if(SMW200A->Search_ModAPSK(delSpace(response).toStdString()) != -1)
+//    {
+//        ui->cb_ModType->setCurrentIndex(4);
+//        ui->lw_ModType->setCurrentRow(SMW200A->Search_ModAPSK(delSpace(response).toStdString()));
+//    }
+//    else if(delSpace(response) == "USER")
+//    {
+//        ui->cb_ModType->setCurrentIndex(5);
+//    }
+
+    string device_response = delSpace(response).toStdString();
+    int number_mod = 0;
+    if(device_response == "ASK")
     {
         ui->cb_ModType->setCurrentIndex(0);
         ui->lw_ModType->clear();
     }
-    else if(SMW200A->Search_ModPSK(delSpace(response).toStdString()) != -1)
+    else if(RnSSCPI::search_ModPSK(device_response, number_mod) == RnSSCPI::No_error)
     {
         ui->cb_ModType->setCurrentIndex(1);
-        ui->lw_ModType->setCurrentRow(SMW200A->Search_ModPSK(delSpace(response).toStdString()));
+        ui->lw_ModType->setCurrentRow(number_mod);
     }
-    else if(SMW200A->Search_ModQAM(delSpace(response).toStdString()) != -1)
+    else if(RnSSCPI::search_ModQAM(device_response, number_mod) == RnSSCPI::No_error)
     {
         ui->cb_ModType->setCurrentIndex(2);
-        ui->lw_ModType->setCurrentRow(SMW200A->Search_ModQAM(delSpace(response).toStdString()));
+        ui->lw_ModType->setCurrentRow(number_mod);
     }
-    else if(SMW200A->Search_ModFSK(delSpace(response).toStdString()) != -1)
+    else if(RnSSCPI::search_ModFSK(device_response, number_mod) == RnSSCPI::No_error)
     {
         ui->cb_ModType->setCurrentIndex(3);
-        ui->lw_ModType->setCurrentRow(SMW200A->Search_ModFSK(delSpace(response).toStdString()));
+        ui->lw_ModType->setCurrentRow(number_mod);
     }
-    else if(SMW200A->Search_ModAPSK(delSpace(response).toStdString()) != -1)
+    else if(RnSSCPI::search_Mod_APSK(device_response, number_mod) == RnSSCPI::No_error)
     {
         ui->cb_ModType->setCurrentIndex(4);
-        ui->lw_ModType->setCurrentRow(SMW200A->Search_ModAPSK(delSpace(response).toStdString()));
+        ui->lw_ModType->setCurrentRow(number_mod);
     }
-    else if(delSpace(response) == "USER")
-    {
-        ui->cb_ModType->setCurrentIndex(5);
-    }
+    else if(device_response == "USER") ui->cb_ModType->setCurrentIndex(5);
+
 }
 
 // Обновление Symbol Rate
@@ -409,6 +452,7 @@ void MainWindow::slotConnected()
     slotSendToServer(request_buffer);
     RnSSCPI::request_LastError(request_buffer);
     slotSendToServer(request_buffer);
+
     // Подгрузка текущей частоты
     slotSendToServer(SMW200A->Send_Request_Frequency());
     double result = 0;
@@ -494,22 +538,149 @@ void MainWindow::slotDisconnected()
 
 void MainWindow::slotRunFreqSweep(QStringList data)
 {
-    slotSendToServer(SMW200A->SetTriggerForSweeps(data.at(0).toInt()));                                                     // Установка триггера для развертки
-    slotSendToServer(SMW200A->SetSweepFreqMode(data.at(1).toInt()));                                                        // Установка циклического режима для развертки по частоте
-    slotSendToServer(SMW200A->SetSweepSpacing(data.at(2).toInt()));                                                         // Установка режима расчета частотных интервалов
-    slotSendToServer(SMW200A->SetSweepShape(data.at(3).toInt()));                                                           // Установка формы сигнала для последовательности развертки частоты
-    slotSendToServer(SMW200A->SetFreqStart(data.at(4).toDouble(), data.at(5).toInt()));                                     // Установка начальной частоты развертки
-    slotSendToServer(SMW200A->SetFreqStop(data.at(6).toDouble(), data.at(7).toInt()));                                      // Установка конечной частоты развертки
-    slotSendToServer(SMW200A->SetSweepRetrace(true));                                                                       // Активация изменения начальной частоты в ожидании следующего триггера
+//    slotSendToServer(SMW200A->SetTriggerForSweeps(data.at(0).toInt()));                                                     // Установка триггера для развертки
+    RnSSCPI::set_TriggerForSweeps(request_buffer, data.at(0).toInt(), error_buffer);
+    if(error_buffer == RnSSCPI::No_error)
+    {
+        slotSendToServer(request_buffer);
+    }else QMessageBox::critical(this, "Ошибка данных!", "Введен не существующий индекс TriggerForSweeps.", QMessageBox::Ok);
+
+//    slotSendToServer(SMW200A->SetSweepFreqMode(data.at(1).toInt()));                                                        // Установка циклического режима для развертки по частоте
+    RnSSCPI::set_SweepFreqMode(request_buffer, data.at(1).toInt(), error_buffer);
+    if(error_buffer == RnSSCPI::No_error)
+    {
+        slotSendToServer(request_buffer);
+    }
+    else QMessageBox::critical(this, "Ошибка данных!", "Введен не существующий индекс SweepFreqMode.", QMessageBox::Ok);
+
+//    slotSendToServer(SMW200A->SetSweepSpacing(data.at(2).toInt()));                                                         // Установка режима расчета частотных интервалов
+    RnSSCPI::set_SweepSpacing(request_buffer, data.at(2).toInt(), error_buffer);
+    if(error_buffer == RnSSCPI::No_error)
+    {
+        slotSendToServer(request_buffer);
+    }
+    else QMessageBox::critical(this, "Ошибка данных!", "Введен не существующий индекс SweepSpacing.", QMessageBox::Ok);
+
+//    slotSendToServer(SMW200A->SetSweepShape(data.at(3).toInt()));                                                           // Установка формы сигнала для последовательности развертки частоты
+    RnSSCPI::set_SweepShape(request_buffer, data.at(3).toInt(), error_buffer);
+    if(error_buffer == RnSSCPI::No_error)
+    {
+        slotSendToServer(request_buffer);
+    }
+    else QMessageBox::critical(this, "Ошибка данных!", "Введен не существующий индекс SweepShape.", QMessageBox::Ok);
+
+//    slotSendToServer(SMW200A->SetFreqStart(data.at(4).toDouble(), data.at(5).toInt()));                                     // Установка начальной частоты развертки
+    RnSSCPI::set_FreqStart(request_buffer, data.at(4).toDouble(), error_buffer, data.at(5).toInt());
+    if(error_buffer == RnSSCPI::No_error)
+    {
+        slotSendToServer(request_buffer);
+    }
+    else QMessageBox::critical(this, "Ошибка данных!", "Неверно указано значение начальной частоты.", QMessageBox::Ok);
+
+//    slotSendToServer(SMW200A->SetFreqStop(data.at(6).toDouble(), data.at(7).toInt()));                                      // Установка конечной частоты развертки
+    RnSSCPI::set_FreqStop(request_buffer, data.at(6).toDouble(), error_buffer, data.at(7).toInt());
+    if(error_buffer == RnSSCPI::No_error)
+    {
+        slotSendToServer(request_buffer);
+    }
+    else QMessageBox::critical(this, "Ошибка данных!", "Неверно указано значение конечной частоты.", QMessageBox::Ok);
+
+//    slotSendToServer(SMW200A->SetSweepRetrace(true));                                                                       // Активация изменения начальной частоты в ожидании следующего триггера
+    RnSSCPI::set_SweepRetrace(request_buffer, true);
+    slotSendToServer(request_buffer);
+
+/*------------------------------------------------ Пока без этого -------------------------------------------------------------------------*/
 //    slotSendToServer(SMW200A->SetSweepResetAll());                                                                          // Сброс всех активных разверток в начальную точку (альтернатива SetSweepRetrace())
+//    RnSSCPI::sweepResetAll(request_buffer);
+//    slotSendToServer(request_buffer);
+
 //    slotSendToServer(SMW200A->SetFreqSpan(data.at(8).toDouble(), data.at(9).toInt()));                                      // Установка диапазона частотной развертки
+//    RnSSCPI::set_FreqSpan(request_buffer, data.at(8).toDouble(), error_buffer, data.at(9).toInt());
+//    switch(error_buffer)
+//    {
+//        case RnSSCPI::No_error:
+//            slotSendToServer(request_buffer);
+//        break;
+
+//        case RnSSCPI::Value_out_of_range:
+//            QMessageBox::critical(this, "Ошибка!", "Введенное значение FreqSpan вне допустимого диапазона.", QMessageBox::Ok);
+//        break;
+
+//        case RnSSCPI::Wrong_unit_of_measure:
+//            QMessageBox::critical(this, "Ошибка!", "Неверно указаны единицы измерения FrqSpan.", QMessageBox::Ok);
+//        break;
+//    }
+
 //    slotSendToServer(SMW200A->SetFreqCenter(data.at(10).toDouble(), data.at(11).toInt()));                                  // Установка центральной частоты развертки
-    slotSendToServer(SMW200A->SetSweepStepLinear(data.at(12).toDouble(),data.at(4).toDouble(), data.at(6).toDouble()));     // Установка ширины шага для линейной развертки (значения от 0.01Гц до значения STOP - START)
-    slotSendToServer(SMW200A->SetSweepStepLogarithmic(data.at(12).toDouble()));                                             // Установка логарифмически определяемой ширины шага для развертки по частоте (Задается в %(PCT))
-    slotSendToServer(SMW200A->SetSweepPoints(data.at(14).toInt()));                                                         // Установка количества шагов в пределах диапазона развертки
-    slotSendToServer(SMW200A->SetSweepFreqDwell(data.at(15).toDouble(), data.at(16).toInt()));                              // Установка времени задержки для шага развертки по частоте
-    slotSendToServer(SMW200A->SetFrequencyMode(2));                                                                         // Установка частотного режима Sweep.
-    slotSendToServer(SMW200A->SweepFreqExecute());                                                                          // Запуск развертки
+//    RnSSCPI::set_FreqCenter(request_buffer, data.at(10).toDouble(), error_buffer, data.at(11).toInt());
+//    switch(error_buffer)
+//        {
+//            case RnSSCPI::No_error:
+//                slotSendToServer(request_buffer);
+//            break;
+
+//            case RnSSCPI::Value_out_of_range:
+//                QMessageBox::critical(this, "Ошибка!", "Введенное значение FreqCenter вне допустимого диапазона.", QMessageBox::Ok);
+//            break;
+
+//            case RnSSCPI::Wrong_unit_of_measure:
+//                QMessageBox::critical(this, "Ошибка!", "Неверно указаны единицы измерения FreqCenter.", QMessageBox::Ok);
+//            break;
+//        }
+/*------------------------------------------------ Пока без этого -------------------------------------------------------------------------*/
+
+//    slotSendToServer(SMW200A->SetSweepStepLinear(data.at(12).toDouble(),data.at(4).toDouble(), data.at(6).toDouble()));     // Установка ширины шага для линейной развертки (значения от 0.01Гц до значения STOP - START)
+    RnSSCPI::set_SweepStepLinear(request_buffer, data.at(12).toDouble(), data.at(4).toDouble(), data.at(6).toDouble(), error_buffer);
+    switch(error_buffer)
+    {
+        case RnSSCPI::No_error:
+            slotSendToServer(request_buffer);
+        break;
+
+        case RnSSCPI::Value_out_of_range:
+            QMessageBox::critical(this, "Ошибка!", "Введенное значение SweepStepLinea вне допустимого диапазона.", QMessageBox::Ok);
+        break;
+
+        case RnSSCPI::Wrong_unit_of_measure:
+            QMessageBox::critical(this, "Ошибка!", "Неверно указана единица измерения SweepStepLinea.", QMessageBox::Ok);
+        break;
+    }
+
+//    slotSendToServer(SMW200A->SetSweepStepLogarithmic(data.at(12).toDouble()));                                             // Установка логарифмически определяемой ширины шага для развертки по частоте (Задается в %(PCT))
+    RnSSCPI::set_SweepStepLogarithmic(request_buffer, data.at(12).toDouble(), error_buffer);
+    if(error_buffer == RnSSCPI::No_error)
+    {
+        slotSendToServer(request_buffer);
+    }
+    else QMessageBox::critical(this, "Ошибка!", "Введено значение SweepStepLogarithmic вне допустимого диапазона", QMessageBox::Ok);
+
+//    slotSendToServer(SMW200A->SetSweepPoints(data.at(14).toInt()));                                                         // Установка количества шагов в пределах диапазона развертки
+    RnSSCPI::set_SweepPoints(request_buffer, data.at(14).toInt(), error_buffer);
+    if(error_buffer == RnSSCPI::No_error)
+    {
+        slotSendToServer(request_buffer);
+    }
+    else QMessageBox::critical(this, "Ошибка!", "Введено недопустимое значение SweepPoints.", QMessageBox::Ok);
+
+//    slotSendToServer(SMW200A->SetSweepFreqDwell(data.at(15).toDouble(), data.at(16).toInt()));                              // Установка времени задержки для шага развертки по частоте
+    RnSSCPI::set_SweepFreqDwell(request_buffer, data.at(15).toDouble(), error_buffer, data.at(16).toInt());
+    if(error_buffer == RnSSCPI::No_error)
+    {
+        slotSendToServer(request_buffer);
+    }
+    else QMessageBox::critical(this, "Ошибка!", "Неверно указана единица измерения SweepFreqDwell.", QMessageBox::Ok);
+
+//    slotSendToServer(SMW200A->SetFrequencyMode(2));                                                                         // Установка частотного режима Sweep.
+    RnSSCPI::set_FrequencyMode(request_buffer, 2, error_buffer);
+    if(error_buffer == RnSSCPI::No_error)
+    {
+        slotSendToServer(request_buffer);
+    }
+    else QMessageBox::critical(this, "Ошибка!", "Введено неверное значение FrequencyMode.", QMessageBox::Ok);
+
+//    slotSendToServer(SMW200A->SweepFreqExecute());                                                                          // Запуск развертки
+    RnSSCPI::sweepFreqExecute(request_buffer);
+    slotSendToServer(request_buffer);
 }
 
 // Текущие данные для частотной развертки
@@ -517,6 +688,7 @@ void MainWindow::slotGetSweepData()
 {
 //    slotSendToServer(SMW200A->Send_Request_TriggerForSweeps());
     RnSSCPI::request_TriggerForSweeps(request_buffer);
+    ui->te_Log->append(QTime::currentTime().toString() + " -  Выполнена команда: " + QString::fromStdString(request_buffer));
     slotSendToServer(request_buffer);
     if(delSpace(response_From_Device) == "AUTO")
     {
@@ -542,7 +714,10 @@ void MainWindow::slotGetSweepData()
 
 
     // Режим развертки по частоте
-    slotSendToServer(SMW200A->Send_Request_SweepFreqMode());
+//    slotSendToServer(SMW200A->Send_Request_SweepFreqMode());
+    RnSSCPI::request_SweepFreqMod(request_buffer);
+    ui->te_Log->append(QTime::currentTime().toString() + " -  Выполнена команда: " + QString::fromStdString(request_buffer));
+    slotSendToServer(request_buffer);
     if(delSpace(response_From_Device) == "AUTO")
     {
         ui->cb_SweepFreqMode->setCurrentIndex(0);
@@ -555,7 +730,10 @@ void MainWindow::slotGetSweepData()
 
 
     //Режим расчета частотных интервалов
-    slotSendToServer(SMW200A->Send_Request_SweepSpacing());
+//    slotSendToServer(SMW200A->Send_Request_SweepSpacing());
+    RnSSCPI::request_SweepSpacing(request_buffer);
+    ui->te_Log->append(QTime::currentTime().toString() + " -  Выполнена команда: " + QString::fromStdString(request_buffer));
+    slotSendToServer(request_buffer);
     if(delSpace(response_From_Device) == "LIN")
     {
         ui->cb_SweepSpacing->setCurrentIndex(0);
@@ -564,7 +742,10 @@ void MainWindow::slotGetSweepData()
 
 
     // Форма сигнала
-    slotSendToServer(SMW200A->Send_Request_SweepShape());
+//    slotSendToServer(SMW200A->Send_Request_SweepShape());
+    RnSSCPI::request_SweepShape(request_buffer);
+    ui->te_Log->append(QTime::currentTime().toString() + " -  Выполнена команда: " + QString::fromStdString(request_buffer));
+    slotSendToServer(request_buffer);
     if(delSpace(response_From_Device) == "SAWT")
     {
         ui->cb_SweepShape->setCurrentIndex(0);
@@ -573,7 +754,10 @@ void MainWindow::slotGetSweepData()
 
 
     // Текущая начальная частота
-    slotSendToServer(SMW200A->Send_Request_FreqStart());
+//    slotSendToServer(SMW200A->Send_Request_FreqStart());
+    RnSSCPI::request_FreqStart(request_buffer);
+    ui->te_Log->append(QTime::currentTime().toString() + " -  Выполнена команда: " + QString::fromStdString(request_buffer));
+    slotSendToServer(request_buffer);
     double translate_Freq = 0;
     switch (ui->cb_UninsStartFreq->currentIndex())
     {
@@ -596,7 +780,10 @@ void MainWindow::slotGetSweepData()
     ui->le_StartFreq->setText(QString::number(translate_Freq,'g', 10));
 
     // Текущая конечная частота
-    slotSendToServer(SMW200A->Send_Request_FreqStop());
+//    slotSendToServer(SMW200A->Send_Request_FreqStop());
+    RnSSCPI::request_FreqStop(request_buffer);
+    ui->te_Log->append(QTime::currentTime().toString() + " -  Выполнена команда: " + QString::fromStdString(request_buffer));
+    slotSendToServer(request_buffer);
     switch (ui->cb_UnitsStopFreq->currentIndex())
     {
         case 0:
@@ -619,7 +806,10 @@ void MainWindow::slotGetSweepData()
 
 
     // Текущий диапазон
-    slotSendToServer(SMW200A->Send_Request_FreqSpan());
+//    slotSendToServer(SMW200A->Send_Request_FreqSpan());
+    RnSSCPI::request_FreqSpan(request_buffer);
+    ui->te_Log->append(QTime::currentTime().toString() + " -  Выполнена команда: " + QString::fromStdString(request_buffer));
+    slotSendToServer(request_buffer);
     switch (ui->cb_UnitsRange->currentIndex())
     {
         case 0:
@@ -641,7 +831,10 @@ void MainWindow::slotGetSweepData()
     ui->le_SpanFreq->setText(QString::number(translate_Freq,'g', 10));
 
     // Текущая центральная частота
-    slotSendToServer(SMW200A->Send_Request_FreqCenter());
+//    slotSendToServer(SMW200A->Send_Request_FreqCenter());
+    RnSSCPI::request_FreqCenter(request_buffer);
+    ui->te_Log->append(QTime::currentTime().toString() + " -  Выполнена команда: " + QString::fromStdString(request_buffer));
+    slotSendToServer(request_buffer);
     switch (ui->cb_UninsCenter->currentIndex())
     {
         case 0:
@@ -666,7 +859,10 @@ void MainWindow::slotGetSweepData()
     // Текущий тип шага и его значение (Линейный или Логарифмический)
     if(ui->cb_SweepSpacing->currentText() == "Linear")
     {
-        slotSendToServer(SMW200A->Send_Request_SweepStepLinear());
+//        slotSendToServer(SMW200A->Send_Request_SweepStepLinear());
+        RnSSCPI::request_SweepStepLinear(request_buffer);
+        ui->te_Log->append(QTime::currentTime().toString() + " -  Выполнена команда: " + QString::fromStdString(request_buffer));
+        slotSendToServer(request_buffer);
         switch (ui->cb_UnitsLinStep->currentIndex())
         {
             case 0:
@@ -689,16 +885,25 @@ void MainWindow::slotGetSweepData()
     }
     else
     {
-        slotSendToServer(SMW200A->Send_Request_SweepStepLogarithmic());
+//        slotSendToServer(SMW200A->Send_Request_SweepStepLogarithmic());
+        RnSSCPI::request_SweepStepLog(request_buffer);
+        ui->te_Log->append(QTime::currentTime().toString() + " -  Выполнена команда: " + QString::fromStdString(request_buffer));
+        slotSendToServer(request_buffer);
         ui->le_StepSweep->setText(delSpace(response_From_Device));
     }
 
     // Текущее количество точек
-    slotSendToServer(SMW200A->Send_Request_SweepPoints());
+//    slotSendToServer(SMW200A->Send_Request_SweepPoints());
+    RnSSCPI::request_SweepPoints(request_buffer);
+    ui->te_Log->append(QTime::currentTime().toString() + " -  Выполнена команда: " + QString::fromStdString(request_buffer));
+    slotSendToServer(request_buffer);
     ui->le_SweepPoints->setText(delSpace(response_From_Device));
 
     // Текущее время задержки
-    slotSendToServer(SMW200A->Send_Request_SweepFreqDwell());
+//    slotSendToServer(SMW200A->Send_Request_SweepFreqDwell());
+    RnSSCPI::request_SweepFreqDwell(request_buffer);
+    ui->te_Log->append(QTime::currentTime().toString() + " -  Выполнена команда: " + QString::fromStdString(request_buffer));
+    slotSendToServer(request_buffer);
     ui->le_SweepDwell->setText(delSpace(response_From_Device));
 }
 
@@ -706,13 +911,22 @@ void MainWindow::slotGetSweepData()
 void MainWindow::slotGetModData()
 {
     // Текущий стандарт
-    slotSendToServer(SMW200A->Send_Request_Standard());
-    UpdateStandart(response_From_Device);
+//    slotSendToServer(SMW200A->Send_Request_Standard());
+    RnSSCPI::request_Standard(request_buffer);
+    ui->te_Log->append(QTime::currentTime().toString() + " -  Выполнена команда: " + QString::fromStdString(request_buffer));
+    slotSendToServer(request_buffer);
+    UpdateStandard(response_From_Device);
 
-    slotSendToServer(SMW200A->Send_Request_ModType());
+//    slotSendToServer(SMW200A->Send_Request_ModType());
+    RnSSCPI::request_ModType(request_buffer);
+    ui->te_Log->append(QTime::currentTime().toString() + " -  Выполнена команда: " + QString::fromStdString(request_buffer));
+    slotSendToServer(request_buffer);
     UpdateModulation(response_From_Device);
 
-    slotSendToServer(SMW200A->Send_Request_SymbolRate());
+//    slotSendToServer(SMW200A->Send_Request_SymbolRate());
+    RnSSCPI::request_SymbolRate(request_buffer);
+    ui->te_Log->append(QTime::currentTime().toString() + " -  Выполнена команда: " + QString::fromStdString(request_buffer));
+    slotSendToServer(request_buffer);
     UpdateSymbolRate(response_From_Device);
 
 }
@@ -910,44 +1124,123 @@ void MainWindow::on_pb_StartFreqSweep_clicked()
 // Кнопка останова частотной развертки
 void MainWindow::on_pb_StopFreqSweep_clicked()
 {
-    slotSendToServer(SMW200A->SetFrequencyMode(0));
+//    slotSendToServer(SMW200A->SetFrequencyMode(0));
+    RnSSCPI::set_FrequencyMode(request_buffer, 0, error_buffer);
+    if(error_buffer == RnSSCPI::No_error)
+    {
+        slotSendToServer(request_buffer);
+    }
+    else QMessageBox::critical(this, "Ошибка", "Недопустимое значение для FrequencyMode.", QMessageBox::Ok);
 }
 
 // Кнопка сбороcа частотной развертки в начальное значение
 void MainWindow::on_pb_ResetFreqSweep_clicked()
 {
-    slotSendToServer(SMW200A->SetFrequency(ui->le_StartFreq->text().toDouble(), ui->cb_UninsStartFreq->currentIndex()));
+//    slotSendToServer(SMW200A->SetFrequency(ui->le_StartFreq->text().toDouble(), ui->cb_UninsStartFreq->currentIndex()));
+    RnSSCPI::set_Frequency(request_buffer, ui->le_StartFreq->text().toDouble(), error_buffer, ui->cb_UninsStartFreq->currentIndex());
+    switch (error_buffer)
+    {
+        case RnSSCPI::No_error:
+            slotSendToServer(request_buffer);
+        break;
+
+        case RnSSCPI::Value_out_of_range:
+            QMessageBox::critical(this, "Ошибка!", "Введеное значение Frequency вне допустимого диапазона.", QMessageBox::Ok);
+        break;
+
+        case RnSSCPI::Wrong_unit_of_measure:
+            QMessageBox::critical(this, "Ошибка!", "Неверно указана единица измерения Frequency.", QMessageBox::Ok);
+        break;
+    }
 }
 /* -------------------------- Push buttons end --------------------------- */
 
 // Установка Frequency. При смене фокуса или при нажатии на Enter отправляются данные на устройство.
 void MainWindow::on_le_Frequency_editingFinished()
 {
-    string command = SMW200A->SetFrequency(ui->le_Frequency->text().toDouble(), ui->cb_FrequencyUnits->currentIndex());
-    ui->te_Log->append(QTime::currentTime().toString() + " -  Установлено значение Frequency : " + QString::fromStdString(command));
-    emit signalSendToServer(command);
+//    string command = SMW200A->SetFrequency(ui->le_Frequency->text().toDouble(), ui->cb_FrequencyUnits->currentIndex());
+//    ui->te_Log->append(QTime::currentTime().toString() + " -  Установлено значение Frequency : " + QString::fromStdString(command));
+//    emit signalSendToServer(command);
+    RnSSCPI::set_Frequency(request_buffer, ui->le_Frequency->text().toDouble(), error_buffer, ui->cb_FrequencyUnits->currentIndex());
+    switch (error_buffer)
+    {
+        case RnSSCPI::No_error:
+            ui->te_Log->append(QTime::currentTime().toString() + " -  Установлено значение Frequency : " + QString::fromStdString(request_buffer));
+            slotSendToServer(request_buffer);
+        break;
+
+        case RnSSCPI::Value_out_of_range:
+            QMessageBox::critical(this, "Ошибка!", "Введеное значение Frequency вне допустимого диапазона.", QMessageBox::Ok);
+        break;
+
+        case RnSSCPI::Wrong_unit_of_measure:
+            QMessageBox::critical(this, "Ошибка!", "Неверно указана единица измерения Frequency.", QMessageBox::Ok);
+        break;
+    }
 }
 
 // Установка PEP. При смене фокуса или при нажатии на Enter отправляются данные на устройство.
 void MainWindow::on_le_PEP_editingFinished()
 {
-    string command = SMW200A->SetPower(ui->le_PEP->text().toDouble(), ui->cb_PEPUnits_2->currentIndex());
-    ui->te_Log->append(QTime::currentTime().toString() + " -  Установлено значение PEP : " + QString::fromStdString(command));
-    emit signalSendToServer(command);
-    slotSendToServer(SMW200A->Send_Request_Level());
-    double val_Level = delSpace(response_From_Device).toDouble();
-    ui->le_Level->setText(QString::number(val_Level));
+//    string command = SMW200A->SetPower(ui->le_PEP->text().toDouble(), ui->cb_PEPUnits_2->currentIndex());
+//    ui->te_Log->append(QTime::currentTime().toString() + " -  Установлено значение PEP : " + QString::fromStdString(command));
+//    emit signalSendToServer(command);
+//    slotSendToServer(SMW200A->Send_Request_Level());
+//    double val_Level = delSpace(response_From_Device).toDouble();
+//    ui->le_Level->setText(QString::number(val_Level));
+    double val_Level = 0;
+    RnSSCPI::set_Power(request_buffer, ui->le_PEP->text().toDouble(), error_buffer, ui->cb_PEPUnits_2->currentIndex());
+    switch(error_buffer)
+    {
+        case RnSSCPI::No_error:
+            ui->te_Log->append(QTime::currentTime().toString() + " -  Установлено значение PEP : " + QString::fromStdString(request_buffer));
+            slotSendToServer(request_buffer);
+            RnSSCPI::request_Level(request_buffer);
+            slotSendToServer(request_buffer);
+            val_Level = delSpace(response_From_Device).toDouble();
+            ui->le_Level->setText(QString::number(val_Level, 'g', 4));
+        break;
+
+        case RnSSCPI::Value_out_of_range:
+            QMessageBox::critical(this, "Ошибка!", "Введеное значение Power вне допустимого диапазона.", QMessageBox::Ok);
+        break;
+
+        case RnSSCPI::Wrong_unit_of_measure:
+            QMessageBox::critical(this, "Ошибка!", "Неверно указана единица измерения Power.", QMessageBox::Ok);
+        break;
+    }
 }
 
 // Установка Level. При смене фокуса или при нажатии на Enter отправляются данные на устройство.
 void MainWindow::on_le_Level_editingFinished()
 {
-    string command = SMW200A->SetLevel(ui->le_Level->text().toDouble(), ui->cb_LevelUnits->currentIndex());
-    ui->te_Log->append(QTime::currentTime().toString() + " -  Установлено значение Level : " + QString::fromStdString(command));
-    emit signalSendToServer(command);
-    slotSendToServer(SMW200A->Send_Request_PEP());
-    double val_PEP = delSpace(response_From_Device).toDouble();
-    ui->le_PEP->setText(QString::number(val_PEP, 'g', 4));
+//    string command = SMW200A->SetLevel(ui->le_Level->text().toDouble(), ui->cb_LevelUnits->currentIndex());
+//    ui->te_Log->append(QTime::currentTime().toString() + " -  Установлено значение Level : " + QString::fromStdString(command));
+//    emit signalSendToServer(command);
+//    slotSendToServer(SMW200A->Send_Request_PEP());
+//    double val_PEP = delSpace(response_From_Device).toDouble();
+//    ui->le_PEP->setText(QString::number(val_PEP, 'g', 4));
+    double val_PEP = 0;
+    RnSSCPI::set_Level(request_buffer, ui->le_Level->text().toDouble(), error_buffer, ui->cb_LevelUnits->currentIndex());
+    switch(error_buffer)
+    {
+        case RnSSCPI::No_error:
+            ui->te_Log->append(QTime::currentTime().toString() + " -  Установлено значение Level : " + QString::fromStdString(request_buffer));
+            slotSendToServer(request_buffer);
+            RnSSCPI::request_PEP(request_buffer);
+            slotSendToServer(request_buffer);
+            val_PEP = delSpace(response_From_Device).toDouble();
+            ui->le_PEP->setText(QString::number(val_PEP, 'g', 4));
+        break;
+
+        case RnSSCPI::Value_out_of_range:
+            QMessageBox::critical(this, "Ошибка!", "Введеное значение Level вне допустимого диапазона.", QMessageBox::Ok);
+        break;
+
+        case RnSSCPI::Wrong_unit_of_measure:
+            QMessageBox::critical(this, "Ошибка!", "Неверно указана единица измерения Level.", QMessageBox::Ok);
+        break;
+    }
 }
 
 // Настройка единиц измерения частоты при переключении
@@ -1057,20 +1350,49 @@ void MainWindow::on_cb_AccordingToStandard_currentIndexChanged(int index)
     {
         ui->lw_AccordingToStandard->setCurrentRow(-1);
         ui->lw_AccordingToStandard->setEnabled(false);
-        slotSendToServer(SMW200A->SetAccordingToStandard(newIndex, 0));
-        slotSendToServer(SMW200A->Send_Request_ModType());
+//        slotSendToServer(SMW200A->SetAccordingToStandard(newIndex, 0));
+        RnSSCPI::set_AccordingToStandard(request_buffer, newIndex, false, error_buffer);
+        if(error_buffer == RnSSCPI::No_error)
+        {
+            ui->te_Log->append(QTime::currentTime().toString() + " -  Выполнена команда: " + QString::fromStdString(request_buffer));
+            slotSendToServer(request_buffer);
+        }
+        else QMessageBox::critical(this, "Ошибка!", "Введена несуществующая стандартная настройка.", QMessageBox::Ok);
+//        slotSendToServer(SMW200A->Send_Request_ModType());
+        RnSSCPI::request_ModType(request_buffer);
+        ui->te_Log->append(QTime::currentTime().toString() + " -  Выполнена команда: " + QString::fromStdString(request_buffer));
+        slotSendToServer(request_buffer);
         UpdateModulation(response_From_Device);
-        slotSendToServer(SMW200A->Send_Request_SymbolRate());
+
+//        slotSendToServer(SMW200A->Send_Request_SymbolRate());
+        RnSSCPI::request_SymbolRate(request_buffer);
+        ui->te_Log->append(QTime::currentTime().toString() + " -  Выполнена команда: " + QString::fromStdString(request_buffer));
+        slotSendToServer(request_buffer);
         UpdateSymbolRate(response_From_Device);
     }
     else ui->lw_AccordingToStandard->setEnabled(false);
 }
 void MainWindow::on_lw_AccordingToStandard_currentRowChanged(int currentRow)
 {
-    slotSendToServer(SMW200A->SetAccordingToStandard(currentRow, 1));
-    slotSendToServer(SMW200A->Send_Request_ModType());
+//    slotSendToServer(SMW200A->SetAccordingToStandard(currentRow, 1));
+    RnSSCPI::set_AccordingToStandard(request_buffer, currentRow, true, error_buffer);
+    if(error_buffer == RnSSCPI::No_error)
+    {
+        ui->te_Log->append(QTime::currentTime().toString() + " -  Выполнена команда: " + QString::fromStdString(request_buffer));
+        slotSendToServer(request_buffer);
+    }
+    else QMessageBox::critical(this, "Ошибка!", "Введена несуществующая стандартная настройка.", QMessageBox::Ok);
+
+//    slotSendToServer(SMW200A->Send_Request_ModType());
+    RnSSCPI::request_ModType(request_buffer);
+    ui->te_Log->append(QTime::currentTime().toString() + " -  Выполнена команда: " + QString::fromStdString(request_buffer));
+    slotSendToServer(request_buffer);
     UpdateModulation(response_From_Device);
-    slotSendToServer(SMW200A->Send_Request_SymbolRate());
+
+//    slotSendToServer(SMW200A->Send_Request_SymbolRate());
+    RnSSCPI::request_SymbolRate(request_buffer);
+    ui->te_Log->append(QTime::currentTime().toString() + " -  Выполнена команда: " + QString::fromStdString(request_buffer));
+    slotSendToServer(request_buffer);
     UpdateSymbolRate(response_From_Device);
 }
 
@@ -1086,10 +1408,34 @@ void MainWindow::on_cb_ModType_currentIndexChanged(int index)
     {
         case 0:
             ui->lw_ModType->clear();
-            slotSendToServer(SMW200A->SetModulationType(0, ui->cb_ModType->currentIndex())); // Для установки типа ASK первым параметром указываем любое целочисленное число
-            slotSendToServer(SMW200A->Send_Request_Standard());
-            UpdateStandart(response_From_Device);
-            slotSendToServer(SMW200A->Send_Request_SymbolRate());
+//            slotSendToServer(SMW200A->SetModulationType(0, ui->cb_ModType->currentIndex())); // Для установки типа ASK первым параметром указываем любое целочисленное число
+            RnSSCPI::set_ModulationType(request_buffer, ui->cb_ModType->currentIndex(), 0, error_buffer);
+            switch(error_buffer)
+            {
+                case RnSSCPI::No_error:
+                    ui->te_Log->append(QTime::currentTime().toString() + " -  Выполнена команда: " + QString::fromStdString(request_buffer));
+                    slotSendToServer(request_buffer);
+                break;
+
+                case RnSSCPI::Value_out_of_range:
+                    QMessageBox::critical(this, "Ошибка!", "Указан неверный номер sub_type.1", QMessageBox::Ok);
+                break;
+
+                case RnSSCPI::Invalid_type_number:
+                    QMessageBox::critical(this, "Ошибка!", "Указан неверный номер типа.", QMessageBox::Ok);
+                break;
+            }
+
+//            slotSendToServer(SMW200A->Send_Request_Standard());
+            RnSSCPI::request_Standard(request_buffer);
+            ui->te_Log->append(QTime::currentTime().toString() + " -  Выполнена команда: " + QString::fromStdString(request_buffer));
+            slotSendToServer(request_buffer);
+            UpdateStandard(response_From_Device);
+
+//            slotSendToServer(SMW200A->Send_Request_SymbolRate());
+            RnSSCPI::request_SymbolRate(request_buffer);
+            ui->te_Log->append(QTime::currentTime().toString() + " -  Выполнена команда: " + QString::fromStdString(request_buffer));
+            slotSendToServer(request_buffer);
             UpdateSymbolRate(response_From_Device);
         break;
 
@@ -1151,10 +1497,34 @@ void MainWindow::on_cb_ModType_currentIndexChanged(int index)
 void MainWindow::on_lw_ModType_currentRowChanged(int currentRow)
 {
     int current_type = ui->cb_ModType->currentIndex();
-    slotSendToServer(SMW200A->SetModulationType(currentRow, current_type));
-    slotSendToServer(SMW200A->Send_Request_Standard());
-    UpdateStandart(response_From_Device);
-    slotSendToServer(SMW200A->Send_Request_SymbolRate());
+//    slotSendToServer(SMW200A->SetModulationType(currentRow, current_type));
+    RnSSCPI::set_ModulationType(request_buffer, current_type, currentRow, error_buffer);
+    switch(error_buffer)
+    {
+        case RnSSCPI::No_error:
+            ui->te_Log->append(QTime::currentTime().toString() + " -  Выполнена команда: " + QString::fromStdString(request_buffer));
+            slotSendToServer(request_buffer);
+        break;
+
+        case RnSSCPI::Value_out_of_range:
+            QMessageBox::critical(this, "Ошибка!", "Указан неверный номер sub_type.2", QMessageBox::Ok);
+        break;
+
+        case RnSSCPI::Invalid_type_number:
+            QMessageBox::critical(this, "Ошибка!", "Указан неверный номер типа.", QMessageBox::Ok);
+        break;
+    }
+
+//    slotSendToServer(SMW200A->Send_Request_Standard());
+    RnSSCPI::request_Standard(request_buffer);
+    ui->te_Log->append(QTime::currentTime().toString() + " -  Выполнена команда: " + QString::fromStdString(request_buffer));
+    slotSendToServer(request_buffer);
+    UpdateStandard(response_From_Device);
+
+//    slotSendToServer(SMW200A->Send_Request_SymbolRate());
+    RnSSCPI::request_SymbolRate(request_buffer);
+    ui->te_Log->append(QTime::currentTime().toString() + " -  Выполнена команда: " + QString::fromStdString(request_buffer));
+    slotSendToServer(request_buffer);
     UpdateSymbolRate(response_From_Device);
 
 }

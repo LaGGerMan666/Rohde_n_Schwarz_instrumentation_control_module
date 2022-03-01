@@ -175,7 +175,7 @@ string RnSSCPI::Send_Request_SweepSpacing(int sour_hw)
 
 void RnSSCPI::request_SweepSpacing(string &request_buffer, int sour_hw)
 {
-    request_buffer = "SOURce" + to_string(sour_hw) + ":SWEep:FREQuebcy:SPACing?\n";
+    request_buffer = "SOURce" + to_string(sour_hw) + ":SWEep:FREQuency:SPACing?\n";
 }
 
 string RnSSCPI::Send_Request_SweepShape(int sour_hw)
@@ -660,7 +660,7 @@ void RnSSCPI::set_AccordingToStandard(string &request_buffer, int standard_numbe
         int count_StandardSheet_APCO = sizeof(standard_sheet_apco)/sizeof(standard_sheet_apco[0]);
         if(standard_number >= 0 && standard_number <= count_StandardSheet_APCO)
         {
-            request_buffer = "SOURce" + to_string(sour_hw) + ":BB:DMLSTANdard " + standard_sheet_apco.at(standard_number) + "\n";
+            request_buffer = "SOURce" + to_string(sour_hw) + ":BB:DM:STANdard " + standard_sheet_apco.at(standard_number) + "\n";
         }
         else err = error::Value_out_of_range;
     }
@@ -868,7 +868,7 @@ int RnSSCPI::Search_StandardAPCO(string response)
     return number;
 }
 
-void RnSSCPI::search_StandardAPCO(string &device_response, int &number_standard, int &err)
+int RnSSCPI::search_StandardAPCO(string &device_response, int &number_standard)
 {
     int count = sizeof(standard_sheet_apco)/sizeof(standard_sheet_apco[0]);
     for(int i = 0; i < count; i++)
@@ -876,11 +876,11 @@ void RnSSCPI::search_StandardAPCO(string &device_response, int &number_standard,
         if(device_response == standard_sheet_apco.at(i))
         {
             number_standard = i;
-            err = error::No_error;
+            return error::No_error;
             break;
         }
-        else err = error::Element_not_found;
     }
+    return error::Element_not_found;
 }
 
 int RnSSCPI::Search_Standard(string response)
@@ -898,7 +898,7 @@ int RnSSCPI::Search_Standard(string response)
     return number;
 }
 
-void RnSSCPI::search_Standard(string &device_response, int &number_standard, int &err)
+int RnSSCPI::search_Standard(string &device_response, int &number_standard)
 {
     int count = sizeof(standard_sheet)/sizeof(standard_sheet[0]);
     for(int i = 0; i < count; i++)
@@ -906,11 +906,11 @@ void RnSSCPI::search_Standard(string &device_response, int &number_standard, int
         if(device_response == standard_sheet.at(i))
         {
             number_standard = i;
-            err = error::No_error;
+            return error::No_error;
             break;
         }
-        else err = error::Element_not_found;
     }
+    return error::Element_not_found;
 }
 
 int RnSSCPI::Search_ModPSK(string response)
@@ -928,7 +928,7 @@ int RnSSCPI::Search_ModPSK(string response)
     return number;
 }
 
-void RnSSCPI::search_ModPSK(string &device_response, int &number_mod, int &err)
+int RnSSCPI::search_ModPSK(string &device_response, int &number_mod)
 {
     int count = sizeof(mod_type_sheet_PSK)/sizeof(mod_type_sheet_PSK[0]);
     for(int i = 0; i < count; i++)
@@ -936,11 +936,11 @@ void RnSSCPI::search_ModPSK(string &device_response, int &number_mod, int &err)
         if(device_response == mod_type_sheet_PSK.at(i))
         {
             number_mod = i;
-            err = error::No_error;
+            return error::No_error;
             break;
         }
-        else err = error::Element_not_found;
     }
+    return error::Element_not_found;
 }
 
 int RnSSCPI::Search_ModQAM(string response)
@@ -958,7 +958,7 @@ int RnSSCPI::Search_ModQAM(string response)
     return number;
 }
 
-void RnSSCPI::search_ModQAM(string &device_response, int &number_mod, int &err)
+int RnSSCPI::search_ModQAM(string &device_response, int &number_mod)
 {
     int count = sizeof(mod_type_sheet_QAM)/sizeof(mod_type_sheet_QAM[0]);
     for(int i = 0; i < count; i++)
@@ -966,11 +966,11 @@ void RnSSCPI::search_ModQAM(string &device_response, int &number_mod, int &err)
         if(device_response == mod_type_sheet_QAM.at(i))
         {
             number_mod = i;
-            err = error::No_error;
+            return error::No_error;
             break;
         }
-        else err = error::Element_not_found;
     }
+    return error::Element_not_found;
 }
 
 int RnSSCPI::Search_ModFSK(string response)
@@ -988,7 +988,7 @@ int RnSSCPI::Search_ModFSK(string response)
     return number;
 }
 
-void RnSSCPI::search_ModFSK(string &device_response, int &number_mod, int &err)
+int RnSSCPI::search_ModFSK(string &device_response, int &number_mod)
 {
     int count = sizeof(mod_type_sheet_FSK)/sizeof(mod_type_sheet_FSK[0]);
     for(int i = 0; i < count; i++)
@@ -996,11 +996,11 @@ void RnSSCPI::search_ModFSK(string &device_response, int &number_mod, int &err)
         if(device_response == mod_type_sheet_FSK.at(i))
         {
             number_mod = i;
-            err = error::No_error;
+            return error::No_error;
             break;
         }
-        else err = error::Element_not_found;
     }
+    return error::Element_not_found;
 }
 
 int RnSSCPI::Search_ModAPSK(string response)
@@ -1018,7 +1018,7 @@ int RnSSCPI::Search_ModAPSK(string response)
     return number;
 }
 
-void RnSSCPI::search_Mod_APSK(string &device_response, int &number_mod, int &err)
+int RnSSCPI::search_Mod_APSK(string &device_response, int &number_mod)
 {
     int count = sizeof(mod_type_sheet_APSK)/sizeof(mod_type_sheet_APSK[0]);
     for(int i = 0; i < count; i++)
@@ -1026,11 +1026,11 @@ void RnSSCPI::search_Mod_APSK(string &device_response, int &number_mod, int &err
         if(device_response == mod_type_sheet_APSK.at(i))
         {
             number_mod = i;
-            err = error::No_error;
+            return error::No_error;
             break;
         }
-        else err = error::Element_not_found;
     }
+    return error::Element_not_found;
 }
 
 // Выбор триггера для разверток
@@ -1485,7 +1485,7 @@ string RnSSCPI::SetSweepShape(int value, int sour_hw)
     return command;
 }
 
-void RnSSCPI::set_Sweephape(string &request_buffer, int value, int &err, int sour_hw)
+void RnSSCPI::set_SweepShape(string &request_buffer, int value, int &err, int sour_hw)
 {
     err = error::No_error;
     int count_shape = sizeof(sweep_shape_values)/sizeof(sweep_shape_values[0]);
