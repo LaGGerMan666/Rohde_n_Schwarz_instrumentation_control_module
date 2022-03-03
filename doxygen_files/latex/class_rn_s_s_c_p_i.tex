@@ -1,0 +1,1254 @@
+\hypertarget{class_rn_s_s_c_p_i}{}\doxysection{Rn\+SSCPI Class Reference}
+\label{class_rn_s_s_c_p_i}\index{RnSSCPI@{RnSSCPI}}
+
+
+Класс, содержащий методы управления аппаратурой Rohde\&Schwarz.  
+
+
+
+
+{\ttfamily \#include $<$rnsscpi.\+h$>$}
+
+\doxysubsection*{Public Types}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{class_rn_s_s_c_p_i_a461412d45b52ff3bc40525d6897acf25}\label{class_rn_s_s_c_p_i_a461412d45b52ff3bc40525d6897acf25}} 
+enum \mbox{\hyperlink{class_rn_s_s_c_p_i_a461412d45b52ff3bc40525d6897acf25}{units\+Freq}} \{ {\bfseries e\+GHz}
+, {\bfseries e\+MHz}
+, {\bfseries ek\+Hz}
+, {\bfseries e\+HZ}
+ \}
+\begin{DoxyCompactList}\small\item\em Перечисление единиц измерения частоты. \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{class_rn_s_s_c_p_i_a7cb5bd17f8c08e2b03dd709062f3eb8a}\label{class_rn_s_s_c_p_i_a7cb5bd17f8c08e2b03dd709062f3eb8a}} 
+enum \mbox{\hyperlink{class_rn_s_s_c_p_i_a7cb5bd17f8c08e2b03dd709062f3eb8a}{units\+Power}} \{ \newline
+{\bfseries ed\+BM}
+, {\bfseries ed\+BUV}
+, {\bfseries eV}
+, {\bfseries emV}
+, \newline
+{\bfseries euV}
+, {\bfseries enV}
+ \}
+\begin{DoxyCompactList}\small\item\em Перечисление единиц измерения мощности и уровня. \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{class_rn_s_s_c_p_i_a1b0766f51fe4fe059de5748e9dc162df}\label{class_rn_s_s_c_p_i_a1b0766f51fe4fe059de5748e9dc162df}} 
+enum \mbox{\hyperlink{class_rn_s_s_c_p_i_a1b0766f51fe4fe059de5748e9dc162df}{units\+Time}} \{ {\bfseries s}
+, {\bfseries ms}
+, {\bfseries us}
+ \}
+\begin{DoxyCompactList}\small\item\em Перечисление единиц измерения времени. \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{class_rn_s_s_c_p_i_aee285965f23238ad16a04e8e2f01607b}\label{class_rn_s_s_c_p_i_aee285965f23238ad16a04e8e2f01607b}} 
+enum \mbox{\hyperlink{class_rn_s_s_c_p_i_aee285965f23238ad16a04e8e2f01607b}{errors}} \{ \newline
+{\bfseries No\+\_\+error}
+, {\bfseries Value\+\_\+out\+\_\+of\+\_\+range}
+, {\bfseries Wrong\+\_\+unit\+\_\+of\+\_\+measure}
+, {\bfseries Invalid\+\_\+type\+\_\+number}
+, \newline
+{\bfseries Element\+\_\+not\+\_\+found}
+ \}
+\begin{DoxyCompactList}\small\item\em Перечисление возможных ошибок. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsection*{Static Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+static void \mbox{\hyperlink{class_rn_s_s_c_p_i_a2aee79f92efb511c90b39226f6400a7a}{Preset}} (string \&request\+\_\+buffer) noexcept
+\begin{DoxyCompactList}\small\item\em Сброс настроек устройства к предустановленным. \end{DoxyCompactList}\item 
+static int \mbox{\hyperlink{class_rn_s_s_c_p_i_a96255e6741275b89eff9db1cc8d3ad71}{search\+\_\+\+Standard\+APCO}} (string \&device\+\_\+response, int \&number\+\_\+standard)
+\begin{DoxyCompactList}\small\item\em Поиск значения стандартной настройки APSO по номеру в массиве {\ttfamily \mbox{\hyperlink{class_rn_s_s_c_p_i_a91503ceccaec4d82f5f0f1ce8177678a}{standard\+\_\+sheet\+\_\+apco}}}. \end{DoxyCompactList}\item 
+static int \mbox{\hyperlink{class_rn_s_s_c_p_i_a3f8f76ce72a49ecc7c2346d4289a71cd}{search\+\_\+\+Standard}} (string \&device\+\_\+response, int \&number\+\_\+standard)
+\begin{DoxyCompactList}\small\item\em Поиск значения стандартной настройки по номеру в массиве {\ttfamily \mbox{\hyperlink{class_rn_s_s_c_p_i_ae42fbce0becf4468413e8d96b150c678}{standard\+\_\+sheet}}}. \end{DoxyCompactList}\item 
+static int \mbox{\hyperlink{class_rn_s_s_c_p_i_ac12963dfc6e5b9aa374675b19177f762}{search\+\_\+\+Mod\+PSK}} (string \&device\+\_\+response, int \&number\+\_\+mod)
+\begin{DoxyCompactList}\small\item\em Поиск значения типа модуляции PSK по номеру в массиве {\ttfamily \mbox{\hyperlink{class_rn_s_s_c_p_i_a8ac7cbdc8436c96140f4a0393539187f}{mod\+\_\+type\+\_\+sheet\+\_\+\+PSK}}}. \end{DoxyCompactList}\item 
+static int \mbox{\hyperlink{class_rn_s_s_c_p_i_a6e05249fd60ebc375730acd37c99b52a}{search\+\_\+\+Mod\+QAM}} (string \&device\+\_\+response, int \&number\+\_\+mod)
+\begin{DoxyCompactList}\small\item\em Поиск значения типа модуляции QAM по номеру в массиве {\ttfamily \mbox{\hyperlink{class_rn_s_s_c_p_i_a75101c640efd15a6e48be0e2eaafb5bb}{mod\+\_\+type\+\_\+sheet\+\_\+\+QAM}}}. \end{DoxyCompactList}\item 
+static int \mbox{\hyperlink{class_rn_s_s_c_p_i_a1051aa122f22a0366666849a002395f9}{search\+\_\+\+Mod\+FSK}} (string \&device\+\_\+response, int \&number\+\_\+mod)
+\begin{DoxyCompactList}\small\item\em Поиск значения типа модуляции FSK по номеру в массиве {\ttfamily \mbox{\hyperlink{class_rn_s_s_c_p_i_a1f91d2ad8403675a5ad940e8a52c98ae}{mod\+\_\+type\+\_\+sheet\+\_\+\+FSK}}}. \end{DoxyCompactList}\item 
+static int \mbox{\hyperlink{class_rn_s_s_c_p_i_a22533c6d4b0472e54d6efc6908793d3d}{search\+\_\+\+Mod\+\_\+\+APSK}} (string \&device\+\_\+response, int \&number\+\_\+mod)
+\begin{DoxyCompactList}\small\item\em Поиск значения типа модуляции APSK по номеру в массиве {\ttfamily \mbox{\hyperlink{class_rn_s_s_c_p_i_a720b59c80f17f395d722fcb404c9bb1d}{mod\+\_\+type\+\_\+sheet\+\_\+\+APSK}}}. \end{DoxyCompactList}\item 
+static void \mbox{\hyperlink{class_rn_s_s_c_p_i_ac84fb3da02b84ce2f522cf6003a8c47a}{request\+\_\+\+IDN}} (string \&request\+\_\+buffer) noexcept
+\begin{DoxyCompactList}\small\item\em Идентификация устройства. \end{DoxyCompactList}\item 
+static void \mbox{\hyperlink{class_rn_s_s_c_p_i_ac4a7dfb550a6256f7448e13bb1ee6ba7}{request\+\_\+\+Last\+Error}} (string \&request\+\_\+buffer) noexcept
+\begin{DoxyCompactList}\small\item\em Запрос последней ошибки из стека. \end{DoxyCompactList}\item 
+static void \mbox{\hyperlink{class_rn_s_s_c_p_i_a74f89ecbba0f6d76be88db84532bc2ce}{request\+\_\+\+Frequency}} (string \&request\+\_\+buffer, int sour\+\_\+hw=1)
+\begin{DoxyCompactList}\small\item\em Запрос значения частоты. \end{DoxyCompactList}\item 
+static void \mbox{\hyperlink{class_rn_s_s_c_p_i_a0a1b1c3edf087a2d892ddbc58ca47ac8}{request\+\_\+\+Level}} (string \&request\+\_\+buffer, int sour\+\_\+hw=1)
+\begin{DoxyCompactList}\small\item\em Запрос значение уровня. \end{DoxyCompactList}\item 
+static void \mbox{\hyperlink{class_rn_s_s_c_p_i_a2305447b6b140298407ebd75566f74c3}{request\+\_\+\+PEP}} (string \&request\+\_\+buffer, int sour\+\_\+hw=1)
+\begin{DoxyCompactList}\small\item\em Запрос значения PEP. \end{DoxyCompactList}\item 
+static void \mbox{\hyperlink{class_rn_s_s_c_p_i_aa55363cc6eff7970bde2c89a21e135f1}{request\+\_\+\+Standard}} (string \&request\+\_\+buffer, int sour\+\_\+hw=1)
+\begin{DoxyCompactList}\small\item\em Запрос названия стандартного режима. \end{DoxyCompactList}\item 
+static void \mbox{\hyperlink{class_rn_s_s_c_p_i_a7cbbc985fd12bd298c470ff27e5fb36a}{request\+\_\+\+Mod\+Type}} (string \&request\+\_\+buffer, int sour\+\_\+hw=1)
+\begin{DoxyCompactList}\small\item\em Запрос типа модуляции. \end{DoxyCompactList}\item 
+static void \mbox{\hyperlink{class_rn_s_s_c_p_i_a5f3b4427768d79f08b0c9d8adac9b66a}{request\+\_\+\+Symbol\+Rate}} (string \&request\+\_\+buffer, int sour\+\_\+hw=1)
+\begin{DoxyCompactList}\small\item\em Запрос скорости передачи символов. \end{DoxyCompactList}\item 
+static void \mbox{\hyperlink{class_rn_s_s_c_p_i_a7b43db5d86603ffe653188e7c37bdeb8}{request\+\_\+\+Trigger\+For\+Sweeps}} (string \&request\+\_\+buffer, int trig\+\_\+hw=1)
+\begin{DoxyCompactList}\small\item\em Запрос режима триггера для разверток. \end{DoxyCompactList}\item 
+static void \mbox{\hyperlink{class_rn_s_s_c_p_i_a0f06cfbd0a607eb5b283626afc7b7fd3}{request\+\_\+\+Sweep\+Freq\+Mod}} (string \&request\+\_\+buffer, int sour\+\_\+hw=1)
+\begin{DoxyCompactList}\small\item\em Запрос режима для развертки по частоте. \end{DoxyCompactList}\item 
+static void \mbox{\hyperlink{class_rn_s_s_c_p_i_a96e52b07ec6ff40fcc29d061b2075e90}{request\+\_\+\+Freq\+Span}} (string \&request\+\_\+buffer, int sour\+\_\+hw=1)
+\begin{DoxyCompactList}\small\item\em Запрос диапазона частотной развертки. \end{DoxyCompactList}\item 
+static void \mbox{\hyperlink{class_rn_s_s_c_p_i_a498abf168c5bac22645ddaa507e3a5bf}{request\+\_\+\+Freq\+Center}} (string \&request\+\_\+buffer, int sour\+\_\+hw=1)
+\begin{DoxyCompactList}\small\item\em Запрос центральной частоты развертки. \end{DoxyCompactList}\item 
+static void \mbox{\hyperlink{class_rn_s_s_c_p_i_a399d211eb204ed1a1dc0dfc3a55beb6b}{request\+\_\+\+Freq\+Start}} (string \&request\+\_\+buffer, int sour\+\_\+hw=1)
+\begin{DoxyCompactList}\small\item\em Запрос начальной частоты развертки. \end{DoxyCompactList}\item 
+static void \mbox{\hyperlink{class_rn_s_s_c_p_i_a0f1a1e537478188e339f0f769392669f}{request\+\_\+\+Freq\+Stop}} (string \&request\+\_\+buffer, int sour\+\_\+hw=1)
+\begin{DoxyCompactList}\small\item\em Запрос конечной частоты развертки. \end{DoxyCompactList}\item 
+static void \mbox{\hyperlink{class_rn_s_s_c_p_i_a84aed04ddd8a2314a976dadac91c56b7}{request\+\_\+\+Sweep\+Spacing}} (string \&request\+\_\+buffer, int sour\+\_\+hw=1)
+\begin{DoxyCompactList}\small\item\em Запрос режима расчета частотных интервалов. \end{DoxyCompactList}\item 
+static void \mbox{\hyperlink{class_rn_s_s_c_p_i_ad8fd04c4f6051d4fdc0585d57353fa44}{request\+\_\+\+Sweep\+Shape}} (string \&request\+\_\+buffer, int sour\+\_\+hw=1)
+\begin{DoxyCompactList}\small\item\em Запрос установленной формы сигнала для последовательности развертки частоты. \end{DoxyCompactList}\item 
+static void \mbox{\hyperlink{class_rn_s_s_c_p_i_a0fcf8e33f8ce936c5f761c5e3e7be3cb}{request\+\_\+\+Sweep\+Retrace}} (string \&request\+\_\+buffer, int sour\+\_\+hw=1)
+\begin{DoxyCompactList}\small\item\em Запрос активности изменения начальной частоты в ожидании следующего триггера. \end{DoxyCompactList}\item 
+static void \mbox{\hyperlink{class_rn_s_s_c_p_i_ab16c6e60cf58489c0329bb700c86d480}{request\+\_\+\+Sweep\+Step\+Linear}} (string \&request\+\_\+buffer, int sour\+\_\+hw=1)
+\begin{DoxyCompactList}\small\item\em Запрос ширины шага для линейной развертки. \end{DoxyCompactList}\item 
+static void \mbox{\hyperlink{class_rn_s_s_c_p_i_a187e4a272b83fe0895697d90feb61fd9}{request\+\_\+\+Sweep\+Step\+Log}} (string \&request\+\_\+buffer, int sour\+\_\+hw=1)
+\begin{DoxyCompactList}\small\item\em Запрос логарифмически определяемой ширины шага для развертки по частоте. \end{DoxyCompactList}\item 
+static void \mbox{\hyperlink{class_rn_s_s_c_p_i_a3836f083da725d5d74c79d2f409e7ebc}{request\+\_\+\+Sweep\+Points}} (string \&request\+\_\+buffer, int sour\+\_\+hw=1)
+\begin{DoxyCompactList}\small\item\em Запрос количества шагов в пределах диапазона развертки. \end{DoxyCompactList}\item 
+static void \mbox{\hyperlink{class_rn_s_s_c_p_i_adb040286a0b9c276d161aa63ac6e34fe}{request\+\_\+\+Frequency\+Mode}} (string \&request\+\_\+buffer, int sour\+\_\+hw=1)
+\begin{DoxyCompactList}\small\item\em Запрос частотного режима для генерации выходного ВЧ-\/сигнала. \end{DoxyCompactList}\item 
+static void \mbox{\hyperlink{class_rn_s_s_c_p_i_aa210f2fb414a722e75ae9a6e01a2649a}{request\+\_\+\+Sweep\+Freq\+Dwell}} (string \&request\+\_\+buffer, int sour\+\_\+hw=1)
+\begin{DoxyCompactList}\small\item\em Запрос времени задержки для шага развертки по частоте. \end{DoxyCompactList}\item 
+static void \mbox{\hyperlink{class_rn_s_s_c_p_i_a01c7379bd08adc8ad89b61785ca0a1aa}{request\+\_\+\+Sweep\+Freq\+Run}} (string \&request\+\_\+buffer, int sour\+\_\+hw=1)
+\begin{DoxyCompactList}\small\item\em Запрос текущего состояния развертки. \end{DoxyCompactList}\item 
+static void \mbox{\hyperlink{class_rn_s_s_c_p_i_a268162c324aaa14603415e59d5266e4d}{sweep\+Reset\+All}} (string \&request\+\_\+buffer, int sour\+\_\+hw=1) noexcept
+\begin{DoxyCompactList}\small\item\em Сброс всех активных разверток в начальную точку (альтернатива {\ttfamily \mbox{\hyperlink{class_rn_s_s_c_p_i_a8f0403ed3aa295183e0a86f6d24b8bb8}{set\+\_\+\+Sweep\+Retrace}}}). \end{DoxyCompactList}\item 
+static void \mbox{\hyperlink{class_rn_s_s_c_p_i_a7f9ce650dcdf460beb4267d0215a8664}{set\+\_\+\+Frequency}} (string \&request\+\_\+buffer, double value, int \&err, int unit=3, int sour\+\_\+hw=1)
+\begin{DoxyCompactList}\small\item\em Метод, позволяющий установить частоту. \end{DoxyCompactList}\item 
+static void \mbox{\hyperlink{class_rn_s_s_c_p_i_a0b3f286591aa9aae2c63742e2aa34e9a}{set\+\_\+\+Frequency\+Mode}} (string \&request\+\_\+buffer, int value, int \&err, int sour\+\_\+hw=1)
+\begin{DoxyCompactList}\small\item\em Устанавливает частотный режим для генерации выходного ВЧ-\/сигнала. \end{DoxyCompactList}\item 
+static void \mbox{\hyperlink{class_rn_s_s_c_p_i_a78e65d8ea331bbce5f8fddcca2e4ba3d}{set\+\_\+\+Power}} (string \&request\+\_\+buffer, double value, int \&err, int unit=0, int sour\+\_\+hw=1)
+\begin{DoxyCompactList}\small\item\em Метод, позволяющий установить мощность. \end{DoxyCompactList}\item 
+static void \mbox{\hyperlink{class_rn_s_s_c_p_i_a95d2ffcbf5125c32190f44c5915f8eeb}{set\+\_\+\+Level}} (string \&request\+\_\+buffer, double value, int \&err, int unit=0, int sour\+\_\+hw=1)
+\begin{DoxyCompactList}\small\item\em Метод, позволяющий установить уровень. \end{DoxyCompactList}\item 
+static void \mbox{\hyperlink{class_rn_s_s_c_p_i_ab5db5c29273d9e3225319c918e5b10a0}{set\+\_\+\+Baseband\+State}} (string \&request\+\_\+buffer, bool value, int sour\+\_\+hw=1) noexcept
+\begin{DoxyCompactList}\small\item\em Метод активации Baseband. \end{DoxyCompactList}\item 
+static void \mbox{\hyperlink{class_rn_s_s_c_p_i_ab2ef8059843305e361f58145a777c163}{set\+\_\+\+According\+To\+Standard}} (string \&request\+\_\+buffer, int standard\+\_\+number, bool is\+APCO, int \&err, int sour\+\_\+hw=1)
+\begin{DoxyCompactList}\small\item\em Установка стандартных режимов. \end{DoxyCompactList}\item 
+static void \mbox{\hyperlink{class_rn_s_s_c_p_i_a82bc8e43c910982f80c86272b1fecff7}{set\+\_\+\+Modulation\+Type}} (string \&request\+\_\+buffer, int num\+\_\+type, int num\+\_\+subtype, int \&err, int sour\+\_\+hw=1)
+\begin{DoxyCompactList}\small\item\em Установка типа модуляции. \end{DoxyCompactList}\item 
+static void \mbox{\hyperlink{class_rn_s_s_c_p_i_a783ec6d242106c8af19a289efa262fa2}{set\+\_\+\+Symbol\+Rate}} (string \&request\+\_\+buffer, double value, int \&err, int unit=3, int sour\+\_\+hw=1)
+\begin{DoxyCompactList}\small\item\em Установка скорости передачи символов. Задавать необходимо в единицах измерения Hz(sym/s можно не указывать), k\+Hz(k\+Sym/s), MHz(MSym/s). \end{DoxyCompactList}\item 
+static void \mbox{\hyperlink{class_rn_s_s_c_p_i_ad499b6a81bf4d93273c07e86fdc3aa32}{set\+\_\+\+Trigger\+For\+Sweeps}} (string \&request\+\_\+buffer, int value, int \&err, int trig\+\_\+hw=1)
+\begin{DoxyCompactList}\small\item\em Установка режима триггера для разверток. \end{DoxyCompactList}\item 
+static void \mbox{\hyperlink{class_rn_s_s_c_p_i_a5cb466a3f025e8d906fb842ce764bcb0}{set\+\_\+\+Sweep\+Freq\+Mode}} (string \&request\+\_\+buffer, int value, int \&err, int sour\+\_\+hw=1)
+\begin{DoxyCompactList}\small\item\em Установка циклического режима для развертки по частоте. \end{DoxyCompactList}\item 
+static void \mbox{\hyperlink{class_rn_s_s_c_p_i_a397551caaecf6b4b76a85aab7665b56f}{set\+\_\+\+Freq\+Span}} (string \&request\+\_\+buffer, double value, int \&err, int unit=3, int sour\+\_\+hw=1)
+\begin{DoxyCompactList}\small\item\em Установка диапазона частотной развертки. \end{DoxyCompactList}\item 
+static void \mbox{\hyperlink{class_rn_s_s_c_p_i_a0734d471496f9893527bf80cd1defdb3}{set\+\_\+\+Freq\+Center}} (string \&request\+\_\+buffer, double value, int \&err, int unit=3, int sour\+\_\+hw=1)
+\begin{DoxyCompactList}\small\item\em Установка центральной частоты развертки. \end{DoxyCompactList}\item 
+static void \mbox{\hyperlink{class_rn_s_s_c_p_i_ad3df2b0b5cae80b926028dcacfc68876}{set\+\_\+\+Freq\+Start}} (string \&request\+\_\+buffer, double value, int \&err, int unit=3, int sour\+\_\+hw=1)
+\begin{DoxyCompactList}\small\item\em Установка начальной частоты развертки. \end{DoxyCompactList}\item 
+static void \mbox{\hyperlink{class_rn_s_s_c_p_i_ab8235bf65bd1df39ffe0f55980a487e3}{set\+\_\+\+Freq\+Stop}} (string \&request\+\_\+buffer, double value, int \&err, int unit=3, int sour\+\_\+hw=1)
+\begin{DoxyCompactList}\small\item\em Установка конечной частоты развертки. \end{DoxyCompactList}\item 
+static void \mbox{\hyperlink{class_rn_s_s_c_p_i_a1b54e0cf58bfebaf66cec7f8c42f3347}{set\+\_\+freq\+Sweep\+Range}} (string \&start\+\_\+freq\+\_\+buffer, string \&stop\+\_\+freq\+\_\+buffer, double start\+\_\+freq, double stop\+\_\+freq, int \&err, int unit=3, int sour\+\_\+hw=1)
+\begin{DoxyCompactList}\small\item\em Установка начальной и конечной частот одновременно с учетом граничных значений. \end{DoxyCompactList}\item 
+static void \mbox{\hyperlink{class_rn_s_s_c_p_i_af5b596030f7fdf67244287e54e20d352}{set\+\_\+\+Sweep\+Spacing}} (string \&request\+\_\+buffer, int value, int \&err, int sour\+\_\+hw=1)
+\begin{DoxyCompactList}\small\item\em Установка режима расчета частотных интервалов. \end{DoxyCompactList}\item 
+static void \mbox{\hyperlink{class_rn_s_s_c_p_i_af211ff7f145dff5cb4bb954efb8fca0b}{set\+\_\+\+Sweep\+Shape}} (string \&request\+\_\+buffer, int value, int \&err, int sour\+\_\+hw=1)
+\begin{DoxyCompactList}\small\item\em Установка формы сигнала для развертки. \end{DoxyCompactList}\item 
+static void \mbox{\hyperlink{class_rn_s_s_c_p_i_a8f0403ed3aa295183e0a86f6d24b8bb8}{set\+\_\+\+Sweep\+Retrace}} (string \&request\+\_\+buffer, bool value, int sour\+\_\+hw=1) noexcept
+\begin{DoxyCompactList}\small\item\em Активировация/деактивация изменения начальной частоты в ожидании следующего триггера \end{DoxyCompactList}\item 
+static void \mbox{\hyperlink{class_rn_s_s_c_p_i_a4a545668df27f2022cca1ad923f6c3aa}{set\+\_\+\+Sweep\+Step\+Linear}} (string \&request\+\_\+buffer, double value, double freq\+\_\+start, double freq\+\_\+stop, int \&err, int unit=3, int sour\+\_\+hw=1)
+\begin{DoxyCompactList}\small\item\em Установка линейно определяемой ширины шага для развертки по частоте (значения от 0.\+01Гц до значения STOP -\/ START). \end{DoxyCompactList}\item 
+static void \mbox{\hyperlink{class_rn_s_s_c_p_i_ad806c5b1795aa62308fa3fa340f34980}{set\+\_\+\+Sweep\+Step\+Logarithmic}} (string \&request\+\_\+buffer, double value, int \&err, int sour\+\_\+hw=1)
+\begin{DoxyCompactList}\small\item\em Установка логарифмически определяемой ширины шага для развертки по частоте. \end{DoxyCompactList}\item 
+static void \mbox{\hyperlink{class_rn_s_s_c_p_i_aec042c1b0de19b242435f3257c3b8f47}{set\+\_\+\+Sweep\+Points}} (string \&request\+\_\+buffer, int value, int \&err, int sour\+\_\+hw=1)
+\begin{DoxyCompactList}\small\item\em Установка количества шагов в пределах диапазона развертки. \end{DoxyCompactList}\item 
+static void \mbox{\hyperlink{class_rn_s_s_c_p_i_a5f0ae31f586ae4872974427edee1f8fb}{set\+\_\+\+Sweep\+Freq\+Dwell}} (string \&request\+\_\+buffer, double value, int \&err, int unit=0, int sour\+\_\+hw=1)
+\begin{DoxyCompactList}\small\item\em Установка времени задержки для шага развертки по частоте. \end{DoxyCompactList}\item 
+static void \mbox{\hyperlink{class_rn_s_s_c_p_i_aff41e30cc0690ec8b192f6a776f262c1}{sweep\+Freq\+Execute}} (string \&request\+\_\+buffer, int sour\+\_\+hw=1) noexcept
+\begin{DoxyCompactList}\small\item\em Запуск развертки. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsection*{Static Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{class_rn_s_s_c_p_i_a91503ceccaec4d82f5f0f1ce8177678a}\label{class_rn_s_s_c_p_i_a91503ceccaec4d82f5f0f1ce8177678a}} 
+static array$<$ string, 8 $>$ {\bfseries standard\+\_\+sheet\+\_\+apco}
+\begin{DoxyCompactList}\small\item\em Статический массив, содержащий сокращенные названия для команд установки стандартных настроек APCO. \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{class_rn_s_s_c_p_i_ae42fbce0becf4468413e8d96b150c678}\label{class_rn_s_s_c_p_i_ae42fbce0becf4468413e8d96b150c678}} 
+static array$<$ string, 16 $>$ {\bfseries standard\+\_\+sheet}
+\begin{DoxyCompactList}\small\item\em Статический массив, содержащий сокращенные названия для команд установки стандартных настроек. \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{class_rn_s_s_c_p_i_a8ac7cbdc8436c96140f4a0393539187f}\label{class_rn_s_s_c_p_i_a8ac7cbdc8436c96140f4a0393539187f}} 
+static array$<$ string, 12 $>$ {\bfseries mod\+\_\+type\+\_\+sheet\+\_\+\+PSK}
+\begin{DoxyCompactList}\small\item\em Статический массив, содержащий сокращенные названия для команд установки типа модуляции PSK. \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{class_rn_s_s_c_p_i_a75101c640efd15a6e48be0e2eaafb5bb}\label{class_rn_s_s_c_p_i_a75101c640efd15a6e48be0e2eaafb5bb}} 
+static array$<$ string, 11 $>$ {\bfseries mod\+\_\+type\+\_\+sheet\+\_\+\+QAM}
+\begin{DoxyCompactList}\small\item\em Статический массив, содержащий сокращенные названия для команд установки типа модуляции QAM. \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{class_rn_s_s_c_p_i_a1f91d2ad8403675a5ad940e8a52c98ae}\label{class_rn_s_s_c_p_i_a1f91d2ad8403675a5ad940e8a52c98ae}} 
+static array$<$ string, 8 $>$ {\bfseries mod\+\_\+type\+\_\+sheet\+\_\+\+FSK}
+\begin{DoxyCompactList}\small\item\em Статический массив, содержащий сокращенные названия для команд установки типа модуляции FSK. \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{class_rn_s_s_c_p_i_a720b59c80f17f395d722fcb404c9bb1d}\label{class_rn_s_s_c_p_i_a720b59c80f17f395d722fcb404c9bb1d}} 
+static array$<$ string, 2 $>$ {\bfseries mod\+\_\+type\+\_\+sheet\+\_\+\+APSK}
+\begin{DoxyCompactList}\small\item\em Статический массив, содержащий сокращенные названия для команд установки типа модуляции APSK. \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{class_rn_s_s_c_p_i_acf3d9c988dfc236da80b2ff4f113cf4e}\label{class_rn_s_s_c_p_i_acf3d9c988dfc236da80b2ff4f113cf4e}} 
+static array$<$ string, 6 $>$ {\bfseries trigger\+\_\+for\+\_\+sweeps\+\_\+values}
+\begin{DoxyCompactList}\small\item\em Статический массив, содержащий сокращенные названия для команд установки триггера частотной развертки. \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{class_rn_s_s_c_p_i_a5b1f1360a3bb02bedc26a8140f5c642f}\label{class_rn_s_s_c_p_i_a5b1f1360a3bb02bedc26a8140f5c642f}} 
+static array$<$ string, 3 $>$ {\bfseries sweep\+\_\+freq\+\_\+mode\+\_\+values}
+\begin{DoxyCompactList}\small\item\em Статический массив, содержащий сокращенные названия для команд установки режима частотной развертки. \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{class_rn_s_s_c_p_i_a7f526aca0bc9dbb5fba996d3da56478b}\label{class_rn_s_s_c_p_i_a7f526aca0bc9dbb5fba996d3da56478b}} 
+static array$<$ string, 2 $>$ {\bfseries sweep\+\_\+spacing\+\_\+values}
+\begin{DoxyCompactList}\small\item\em Статический массив, содержащий сокращенные названия для команд установки режима шага частотной развертки. \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{class_rn_s_s_c_p_i_a172a4b55fb7de457665a254a26a22a85}\label{class_rn_s_s_c_p_i_a172a4b55fb7de457665a254a26a22a85}} 
+static array$<$ string, 2 $>$ {\bfseries sweep\+\_\+shape\+\_\+values}
+\begin{DoxyCompactList}\small\item\em Статический массив, содержащий сокращенные названия для команд установки типа сигнала частотной развертки. \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{class_rn_s_s_c_p_i_a10ee3e0cd38ce42e01782630b2433d80}\label{class_rn_s_s_c_p_i_a10ee3e0cd38ce42e01782630b2433d80}} 
+static array$<$ string, 5 $>$ {\bfseries freq\+\_\+mode\+\_\+values}
+\begin{DoxyCompactList}\small\item\em Статический массив, содержащий сокращенные названия для команд установки частотного режима. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+Класс, содержащий методы управления аппаратурой Rohde\&Schwarz. 
+
+\doxysubsection{Member Function Documentation}
+\mbox{\Hypertarget{class_rn_s_s_c_p_i_a2aee79f92efb511c90b39226f6400a7a}\label{class_rn_s_s_c_p_i_a2aee79f92efb511c90b39226f6400a7a}} 
+\index{RnSSCPI@{RnSSCPI}!Preset@{Preset}}
+\index{Preset@{Preset}!RnSSCPI@{RnSSCPI}}
+\doxysubsubsection{\texorpdfstring{Preset()}{Preset()}}
+{\footnotesize\ttfamily static void Rn\+SSCPI\+::\+Preset (\begin{DoxyParamCaption}\item[{string \&}]{request\+\_\+buffer }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}, {\ttfamily [noexcept]}}
+
+
+
+Сброс настроек устройства к предустановленным. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em request\+\_\+buffer} & -\/ ссылка на переменную, которая будет хранить сформированную команду. \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{class_rn_s_s_c_p_i_a498abf168c5bac22645ddaa507e3a5bf}\label{class_rn_s_s_c_p_i_a498abf168c5bac22645ddaa507e3a5bf}} 
+\index{RnSSCPI@{RnSSCPI}!request\_FreqCenter@{request\_FreqCenter}}
+\index{request\_FreqCenter@{request\_FreqCenter}!RnSSCPI@{RnSSCPI}}
+\doxysubsubsection{\texorpdfstring{request\_FreqCenter()}{request\_FreqCenter()}}
+{\footnotesize\ttfamily static void Rn\+SSCPI\+::request\+\_\+\+Freq\+Center (\begin{DoxyParamCaption}\item[{string \&}]{request\+\_\+buffer,  }\item[{int}]{sour\+\_\+hw = {\ttfamily 1} }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}}
+
+
+
+Запрос центральной частоты развертки. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em request\+\_\+buffer} & -\/ ссылка на переменную, которая будет хранить сформированную команду. \\
+\hline
+{\em sour\+\_\+hw} & -\/ номер источника (по умолчанию 1). \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{class_rn_s_s_c_p_i_a96e52b07ec6ff40fcc29d061b2075e90}\label{class_rn_s_s_c_p_i_a96e52b07ec6ff40fcc29d061b2075e90}} 
+\index{RnSSCPI@{RnSSCPI}!request\_FreqSpan@{request\_FreqSpan}}
+\index{request\_FreqSpan@{request\_FreqSpan}!RnSSCPI@{RnSSCPI}}
+\doxysubsubsection{\texorpdfstring{request\_FreqSpan()}{request\_FreqSpan()}}
+{\footnotesize\ttfamily static void Rn\+SSCPI\+::request\+\_\+\+Freq\+Span (\begin{DoxyParamCaption}\item[{string \&}]{request\+\_\+buffer,  }\item[{int}]{sour\+\_\+hw = {\ttfamily 1} }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}}
+
+
+
+Запрос диапазона частотной развертки. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em request\+\_\+buffer} & -\/ ссылка на переменную, которая будет хранить сформированную команду. \\
+\hline
+{\em sour\+\_\+hw} & -\/ номер источника (по умолчанию 1). \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{class_rn_s_s_c_p_i_a399d211eb204ed1a1dc0dfc3a55beb6b}\label{class_rn_s_s_c_p_i_a399d211eb204ed1a1dc0dfc3a55beb6b}} 
+\index{RnSSCPI@{RnSSCPI}!request\_FreqStart@{request\_FreqStart}}
+\index{request\_FreqStart@{request\_FreqStart}!RnSSCPI@{RnSSCPI}}
+\doxysubsubsection{\texorpdfstring{request\_FreqStart()}{request\_FreqStart()}}
+{\footnotesize\ttfamily static void Rn\+SSCPI\+::request\+\_\+\+Freq\+Start (\begin{DoxyParamCaption}\item[{string \&}]{request\+\_\+buffer,  }\item[{int}]{sour\+\_\+hw = {\ttfamily 1} }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}}
+
+
+
+Запрос начальной частоты развертки. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em request\+\_\+buffer} & -\/ ссылка на переменную, которая будет хранить сформированную команду. \\
+\hline
+{\em sour\+\_\+hw} & -\/ номер источника (по умолчанию 1). \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{class_rn_s_s_c_p_i_a0f1a1e537478188e339f0f769392669f}\label{class_rn_s_s_c_p_i_a0f1a1e537478188e339f0f769392669f}} 
+\index{RnSSCPI@{RnSSCPI}!request\_FreqStop@{request\_FreqStop}}
+\index{request\_FreqStop@{request\_FreqStop}!RnSSCPI@{RnSSCPI}}
+\doxysubsubsection{\texorpdfstring{request\_FreqStop()}{request\_FreqStop()}}
+{\footnotesize\ttfamily static void Rn\+SSCPI\+::request\+\_\+\+Freq\+Stop (\begin{DoxyParamCaption}\item[{string \&}]{request\+\_\+buffer,  }\item[{int}]{sour\+\_\+hw = {\ttfamily 1} }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}}
+
+
+
+Запрос конечной частоты развертки. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em request\+\_\+buffer} & -\/ ссылка на переменную, которая будет хранить сформированную команду. \\
+\hline
+{\em sour\+\_\+hw} & -\/ номер источника (по умолчанию 1). \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{class_rn_s_s_c_p_i_a74f89ecbba0f6d76be88db84532bc2ce}\label{class_rn_s_s_c_p_i_a74f89ecbba0f6d76be88db84532bc2ce}} 
+\index{RnSSCPI@{RnSSCPI}!request\_Frequency@{request\_Frequency}}
+\index{request\_Frequency@{request\_Frequency}!RnSSCPI@{RnSSCPI}}
+\doxysubsubsection{\texorpdfstring{request\_Frequency()}{request\_Frequency()}}
+{\footnotesize\ttfamily static void Rn\+SSCPI\+::request\+\_\+\+Frequency (\begin{DoxyParamCaption}\item[{string \&}]{request\+\_\+buffer,  }\item[{int}]{sour\+\_\+hw = {\ttfamily 1} }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}}
+
+
+
+Запрос значения частоты. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em request\+\_\+buffer} & -\/ ссылка на переменную, которая будет хранить сформированную команду. \\
+\hline
+{\em sour\+\_\+hw} & -\/ номер источника (по умолчанию 1). \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{class_rn_s_s_c_p_i_adb040286a0b9c276d161aa63ac6e34fe}\label{class_rn_s_s_c_p_i_adb040286a0b9c276d161aa63ac6e34fe}} 
+\index{RnSSCPI@{RnSSCPI}!request\_FrequencyMode@{request\_FrequencyMode}}
+\index{request\_FrequencyMode@{request\_FrequencyMode}!RnSSCPI@{RnSSCPI}}
+\doxysubsubsection{\texorpdfstring{request\_FrequencyMode()}{request\_FrequencyMode()}}
+{\footnotesize\ttfamily static void Rn\+SSCPI\+::request\+\_\+\+Frequency\+Mode (\begin{DoxyParamCaption}\item[{string \&}]{request\+\_\+buffer,  }\item[{int}]{sour\+\_\+hw = {\ttfamily 1} }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}}
+
+
+
+Запрос частотного режима для генерации выходного ВЧ-\/сигнала. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em request\+\_\+buffer} & -\/ ссылка на переменную, которая будет хранить сформированную команду. \\
+\hline
+{\em sour\+\_\+hw} & -\/ номер источника (по умолчанию 1). \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{class_rn_s_s_c_p_i_ac84fb3da02b84ce2f522cf6003a8c47a}\label{class_rn_s_s_c_p_i_ac84fb3da02b84ce2f522cf6003a8c47a}} 
+\index{RnSSCPI@{RnSSCPI}!request\_IDN@{request\_IDN}}
+\index{request\_IDN@{request\_IDN}!RnSSCPI@{RnSSCPI}}
+\doxysubsubsection{\texorpdfstring{request\_IDN()}{request\_IDN()}}
+{\footnotesize\ttfamily static void Rn\+SSCPI\+::request\+\_\+\+IDN (\begin{DoxyParamCaption}\item[{string \&}]{request\+\_\+buffer }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}, {\ttfamily [noexcept]}}
+
+
+
+Идентификация устройства. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em request\+\_\+buffer} & -\/ ссылка на переменную, которая будет хранить сформированную команду. \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{class_rn_s_s_c_p_i_ac4a7dfb550a6256f7448e13bb1ee6ba7}\label{class_rn_s_s_c_p_i_ac4a7dfb550a6256f7448e13bb1ee6ba7}} 
+\index{RnSSCPI@{RnSSCPI}!request\_LastError@{request\_LastError}}
+\index{request\_LastError@{request\_LastError}!RnSSCPI@{RnSSCPI}}
+\doxysubsubsection{\texorpdfstring{request\_LastError()}{request\_LastError()}}
+{\footnotesize\ttfamily static void Rn\+SSCPI\+::request\+\_\+\+Last\+Error (\begin{DoxyParamCaption}\item[{string \&}]{request\+\_\+buffer }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}, {\ttfamily [noexcept]}}
+
+
+
+Запрос последней ошибки из стека. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em request\+\_\+buffer} & -\/ ссылка на переменную, которая будет хранить сформированную команду. \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{class_rn_s_s_c_p_i_a0a1b1c3edf087a2d892ddbc58ca47ac8}\label{class_rn_s_s_c_p_i_a0a1b1c3edf087a2d892ddbc58ca47ac8}} 
+\index{RnSSCPI@{RnSSCPI}!request\_Level@{request\_Level}}
+\index{request\_Level@{request\_Level}!RnSSCPI@{RnSSCPI}}
+\doxysubsubsection{\texorpdfstring{request\_Level()}{request\_Level()}}
+{\footnotesize\ttfamily static void Rn\+SSCPI\+::request\+\_\+\+Level (\begin{DoxyParamCaption}\item[{string \&}]{request\+\_\+buffer,  }\item[{int}]{sour\+\_\+hw = {\ttfamily 1} }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}}
+
+
+
+Запрос значение уровня. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em request\+\_\+buffer} & -\/ ссылка на переменную, которая будет хранить сформированную команду. \\
+\hline
+{\em sour\+\_\+hw} & -\/ номер источника (по умолчанию 1). \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{class_rn_s_s_c_p_i_a7cbbc985fd12bd298c470ff27e5fb36a}\label{class_rn_s_s_c_p_i_a7cbbc985fd12bd298c470ff27e5fb36a}} 
+\index{RnSSCPI@{RnSSCPI}!request\_ModType@{request\_ModType}}
+\index{request\_ModType@{request\_ModType}!RnSSCPI@{RnSSCPI}}
+\doxysubsubsection{\texorpdfstring{request\_ModType()}{request\_ModType()}}
+{\footnotesize\ttfamily static void Rn\+SSCPI\+::request\+\_\+\+Mod\+Type (\begin{DoxyParamCaption}\item[{string \&}]{request\+\_\+buffer,  }\item[{int}]{sour\+\_\+hw = {\ttfamily 1} }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}}
+
+
+
+Запрос типа модуляции. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em request\+\_\+buffer} & -\/ ссылка на переменную, которая будет хранить сформированную команду. \\
+\hline
+{\em sour\+\_\+hw} & -\/ номер источника (по умолчанию 1). \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{class_rn_s_s_c_p_i_a2305447b6b140298407ebd75566f74c3}\label{class_rn_s_s_c_p_i_a2305447b6b140298407ebd75566f74c3}} 
+\index{RnSSCPI@{RnSSCPI}!request\_PEP@{request\_PEP}}
+\index{request\_PEP@{request\_PEP}!RnSSCPI@{RnSSCPI}}
+\doxysubsubsection{\texorpdfstring{request\_PEP()}{request\_PEP()}}
+{\footnotesize\ttfamily static void Rn\+SSCPI\+::request\+\_\+\+PEP (\begin{DoxyParamCaption}\item[{string \&}]{request\+\_\+buffer,  }\item[{int}]{sour\+\_\+hw = {\ttfamily 1} }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}}
+
+
+
+Запрос значения PEP. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em request\+\_\+buffer} & -\/ ссылка на переменную, которая будет хранить сформированную команду. \\
+\hline
+{\em sour\+\_\+hw} & -\/ номер источника (по умолчанию 1). \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{class_rn_s_s_c_p_i_aa55363cc6eff7970bde2c89a21e135f1}\label{class_rn_s_s_c_p_i_aa55363cc6eff7970bde2c89a21e135f1}} 
+\index{RnSSCPI@{RnSSCPI}!request\_Standard@{request\_Standard}}
+\index{request\_Standard@{request\_Standard}!RnSSCPI@{RnSSCPI}}
+\doxysubsubsection{\texorpdfstring{request\_Standard()}{request\_Standard()}}
+{\footnotesize\ttfamily static void Rn\+SSCPI\+::request\+\_\+\+Standard (\begin{DoxyParamCaption}\item[{string \&}]{request\+\_\+buffer,  }\item[{int}]{sour\+\_\+hw = {\ttfamily 1} }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}}
+
+
+
+Запрос названия стандартного режима. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em request\+\_\+buffer} & -\/ ссылка на переменную, которая будет хранить сформированную команду. \\
+\hline
+{\em sour\+\_\+hw} & -\/ номер источника (по умолчанию 1). \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{class_rn_s_s_c_p_i_aa210f2fb414a722e75ae9a6e01a2649a}\label{class_rn_s_s_c_p_i_aa210f2fb414a722e75ae9a6e01a2649a}} 
+\index{RnSSCPI@{RnSSCPI}!request\_SweepFreqDwell@{request\_SweepFreqDwell}}
+\index{request\_SweepFreqDwell@{request\_SweepFreqDwell}!RnSSCPI@{RnSSCPI}}
+\doxysubsubsection{\texorpdfstring{request\_SweepFreqDwell()}{request\_SweepFreqDwell()}}
+{\footnotesize\ttfamily static void Rn\+SSCPI\+::request\+\_\+\+Sweep\+Freq\+Dwell (\begin{DoxyParamCaption}\item[{string \&}]{request\+\_\+buffer,  }\item[{int}]{sour\+\_\+hw = {\ttfamily 1} }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}}
+
+
+
+Запрос времени задержки для шага развертки по частоте. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em request\+\_\+buffer} & -\/ ссылка на переменную, которая будет хранить сформированную команду. \\
+\hline
+{\em sour\+\_\+hw} & -\/ номер источника (по умолчанию 1). \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{class_rn_s_s_c_p_i_a0f06cfbd0a607eb5b283626afc7b7fd3}\label{class_rn_s_s_c_p_i_a0f06cfbd0a607eb5b283626afc7b7fd3}} 
+\index{RnSSCPI@{RnSSCPI}!request\_SweepFreqMod@{request\_SweepFreqMod}}
+\index{request\_SweepFreqMod@{request\_SweepFreqMod}!RnSSCPI@{RnSSCPI}}
+\doxysubsubsection{\texorpdfstring{request\_SweepFreqMod()}{request\_SweepFreqMod()}}
+{\footnotesize\ttfamily static void Rn\+SSCPI\+::request\+\_\+\+Sweep\+Freq\+Mod (\begin{DoxyParamCaption}\item[{string \&}]{request\+\_\+buffer,  }\item[{int}]{sour\+\_\+hw = {\ttfamily 1} }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}}
+
+
+
+Запрос режима для развертки по частоте. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em request\+\_\+buffer} & -\/ ссылка на переменную, которая будет хранить сформированную команду. \\
+\hline
+{\em sour\+\_\+hw} & -\/ номер источника (по умолчанию 1). \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{class_rn_s_s_c_p_i_a01c7379bd08adc8ad89b61785ca0a1aa}\label{class_rn_s_s_c_p_i_a01c7379bd08adc8ad89b61785ca0a1aa}} 
+\index{RnSSCPI@{RnSSCPI}!request\_SweepFreqRun@{request\_SweepFreqRun}}
+\index{request\_SweepFreqRun@{request\_SweepFreqRun}!RnSSCPI@{RnSSCPI}}
+\doxysubsubsection{\texorpdfstring{request\_SweepFreqRun()}{request\_SweepFreqRun()}}
+{\footnotesize\ttfamily static void Rn\+SSCPI\+::request\+\_\+\+Sweep\+Freq\+Run (\begin{DoxyParamCaption}\item[{string \&}]{request\+\_\+buffer,  }\item[{int}]{sour\+\_\+hw = {\ttfamily 1} }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}}
+
+
+
+Запрос текущего состояния развертки. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em request\+\_\+buffer} & -\/ ссылка на переменную, которая будет хранить сформированную команду. \\
+\hline
+{\em sour\+\_\+hw} & -\/ номер источника (по умолчанию 1). \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{class_rn_s_s_c_p_i_a3836f083da725d5d74c79d2f409e7ebc}\label{class_rn_s_s_c_p_i_a3836f083da725d5d74c79d2f409e7ebc}} 
+\index{RnSSCPI@{RnSSCPI}!request\_SweepPoints@{request\_SweepPoints}}
+\index{request\_SweepPoints@{request\_SweepPoints}!RnSSCPI@{RnSSCPI}}
+\doxysubsubsection{\texorpdfstring{request\_SweepPoints()}{request\_SweepPoints()}}
+{\footnotesize\ttfamily static void Rn\+SSCPI\+::request\+\_\+\+Sweep\+Points (\begin{DoxyParamCaption}\item[{string \&}]{request\+\_\+buffer,  }\item[{int}]{sour\+\_\+hw = {\ttfamily 1} }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}}
+
+
+
+Запрос количества шагов в пределах диапазона развертки. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em request\+\_\+buffer} & -\/ ссылка на переменную, которая будет хранить сформированную команду. \\
+\hline
+{\em sour\+\_\+hw} & -\/ номер источника (по умолчанию 1). \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{class_rn_s_s_c_p_i_a0fcf8e33f8ce936c5f761c5e3e7be3cb}\label{class_rn_s_s_c_p_i_a0fcf8e33f8ce936c5f761c5e3e7be3cb}} 
+\index{RnSSCPI@{RnSSCPI}!request\_SweepRetrace@{request\_SweepRetrace}}
+\index{request\_SweepRetrace@{request\_SweepRetrace}!RnSSCPI@{RnSSCPI}}
+\doxysubsubsection{\texorpdfstring{request\_SweepRetrace()}{request\_SweepRetrace()}}
+{\footnotesize\ttfamily static void Rn\+SSCPI\+::request\+\_\+\+Sweep\+Retrace (\begin{DoxyParamCaption}\item[{string \&}]{request\+\_\+buffer,  }\item[{int}]{sour\+\_\+hw = {\ttfamily 1} }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}}
+
+
+
+Запрос активности изменения начальной частоты в ожидании следующего триггера. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em request\+\_\+buffer} & -\/ ссылка на переменную, которая будет хранить сформированную команду. \\
+\hline
+{\em sour\+\_\+hw} & -\/ номер источника (по умолчанию 1). \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{class_rn_s_s_c_p_i_ad8fd04c4f6051d4fdc0585d57353fa44}\label{class_rn_s_s_c_p_i_ad8fd04c4f6051d4fdc0585d57353fa44}} 
+\index{RnSSCPI@{RnSSCPI}!request\_SweepShape@{request\_SweepShape}}
+\index{request\_SweepShape@{request\_SweepShape}!RnSSCPI@{RnSSCPI}}
+\doxysubsubsection{\texorpdfstring{request\_SweepShape()}{request\_SweepShape()}}
+{\footnotesize\ttfamily static void Rn\+SSCPI\+::request\+\_\+\+Sweep\+Shape (\begin{DoxyParamCaption}\item[{string \&}]{request\+\_\+buffer,  }\item[{int}]{sour\+\_\+hw = {\ttfamily 1} }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}}
+
+
+
+Запрос установленной формы сигнала для последовательности развертки частоты. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em request\+\_\+buffer} & -\/ ссылка на переменную, которая будет хранить сформированную команду. \\
+\hline
+{\em sour\+\_\+hw} & -\/ номер источника (по умолчанию 1). \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{class_rn_s_s_c_p_i_a84aed04ddd8a2314a976dadac91c56b7}\label{class_rn_s_s_c_p_i_a84aed04ddd8a2314a976dadac91c56b7}} 
+\index{RnSSCPI@{RnSSCPI}!request\_SweepSpacing@{request\_SweepSpacing}}
+\index{request\_SweepSpacing@{request\_SweepSpacing}!RnSSCPI@{RnSSCPI}}
+\doxysubsubsection{\texorpdfstring{request\_SweepSpacing()}{request\_SweepSpacing()}}
+{\footnotesize\ttfamily static void Rn\+SSCPI\+::request\+\_\+\+Sweep\+Spacing (\begin{DoxyParamCaption}\item[{string \&}]{request\+\_\+buffer,  }\item[{int}]{sour\+\_\+hw = {\ttfamily 1} }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}}
+
+
+
+Запрос режима расчета частотных интервалов. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em request\+\_\+buffer} & -\/ ссылка на переменную, которая будет хранить сформированную команду. \\
+\hline
+{\em sour\+\_\+hw} & -\/ номер источника (по умолчанию 1). \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{class_rn_s_s_c_p_i_ab16c6e60cf58489c0329bb700c86d480}\label{class_rn_s_s_c_p_i_ab16c6e60cf58489c0329bb700c86d480}} 
+\index{RnSSCPI@{RnSSCPI}!request\_SweepStepLinear@{request\_SweepStepLinear}}
+\index{request\_SweepStepLinear@{request\_SweepStepLinear}!RnSSCPI@{RnSSCPI}}
+\doxysubsubsection{\texorpdfstring{request\_SweepStepLinear()}{request\_SweepStepLinear()}}
+{\footnotesize\ttfamily static void Rn\+SSCPI\+::request\+\_\+\+Sweep\+Step\+Linear (\begin{DoxyParamCaption}\item[{string \&}]{request\+\_\+buffer,  }\item[{int}]{sour\+\_\+hw = {\ttfamily 1} }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}}
+
+
+
+Запрос ширины шага для линейной развертки. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em request\+\_\+buffer} & -\/ ссылка на переменную, которая будет хранить сформированную команду. \\
+\hline
+{\em sour\+\_\+hw} & -\/ номер источника (по умолчанию 1). \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{class_rn_s_s_c_p_i_a187e4a272b83fe0895697d90feb61fd9}\label{class_rn_s_s_c_p_i_a187e4a272b83fe0895697d90feb61fd9}} 
+\index{RnSSCPI@{RnSSCPI}!request\_SweepStepLog@{request\_SweepStepLog}}
+\index{request\_SweepStepLog@{request\_SweepStepLog}!RnSSCPI@{RnSSCPI}}
+\doxysubsubsection{\texorpdfstring{request\_SweepStepLog()}{request\_SweepStepLog()}}
+{\footnotesize\ttfamily static void Rn\+SSCPI\+::request\+\_\+\+Sweep\+Step\+Log (\begin{DoxyParamCaption}\item[{string \&}]{request\+\_\+buffer,  }\item[{int}]{sour\+\_\+hw = {\ttfamily 1} }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}}
+
+
+
+Запрос логарифмически определяемой ширины шага для развертки по частоте. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em request\+\_\+buffer} & -\/ ссылка на переменную, которая будет хранить сформированную команду. \\
+\hline
+{\em sour\+\_\+hw} & -\/ номер источника (по умолчанию 1). \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{class_rn_s_s_c_p_i_a5f3b4427768d79f08b0c9d8adac9b66a}\label{class_rn_s_s_c_p_i_a5f3b4427768d79f08b0c9d8adac9b66a}} 
+\index{RnSSCPI@{RnSSCPI}!request\_SymbolRate@{request\_SymbolRate}}
+\index{request\_SymbolRate@{request\_SymbolRate}!RnSSCPI@{RnSSCPI}}
+\doxysubsubsection{\texorpdfstring{request\_SymbolRate()}{request\_SymbolRate()}}
+{\footnotesize\ttfamily static void Rn\+SSCPI\+::request\+\_\+\+Symbol\+Rate (\begin{DoxyParamCaption}\item[{string \&}]{request\+\_\+buffer,  }\item[{int}]{sour\+\_\+hw = {\ttfamily 1} }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}}
+
+
+
+Запрос скорости передачи символов. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em request\+\_\+buffer} & -\/ ссылка на переменную, которая будет хранить сформированную команду. \\
+\hline
+{\em sour\+\_\+hw} & -\/ номер источника (по умолчанию 1). \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{class_rn_s_s_c_p_i_a7b43db5d86603ffe653188e7c37bdeb8}\label{class_rn_s_s_c_p_i_a7b43db5d86603ffe653188e7c37bdeb8}} 
+\index{RnSSCPI@{RnSSCPI}!request\_TriggerForSweeps@{request\_TriggerForSweeps}}
+\index{request\_TriggerForSweeps@{request\_TriggerForSweeps}!RnSSCPI@{RnSSCPI}}
+\doxysubsubsection{\texorpdfstring{request\_TriggerForSweeps()}{request\_TriggerForSweeps()}}
+{\footnotesize\ttfamily static void Rn\+SSCPI\+::request\+\_\+\+Trigger\+For\+Sweeps (\begin{DoxyParamCaption}\item[{string \&}]{request\+\_\+buffer,  }\item[{int}]{trig\+\_\+hw = {\ttfamily 1} }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}}
+
+
+
+Запрос режима триггера для разверток. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em request\+\_\+buffer} & -\/ ссылка на переменную, которая будет хранить сформированную команду. \\
+\hline
+{\em trig\+\_\+hw} & -\/ номер триггера (по умолчанию 1). \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{class_rn_s_s_c_p_i_a22533c6d4b0472e54d6efc6908793d3d}\label{class_rn_s_s_c_p_i_a22533c6d4b0472e54d6efc6908793d3d}} 
+\index{RnSSCPI@{RnSSCPI}!search\_Mod\_APSK@{search\_Mod\_APSK}}
+\index{search\_Mod\_APSK@{search\_Mod\_APSK}!RnSSCPI@{RnSSCPI}}
+\doxysubsubsection{\texorpdfstring{search\_Mod\_APSK()}{search\_Mod\_APSK()}}
+{\footnotesize\ttfamily static int Rn\+SSCPI\+::search\+\_\+\+Mod\+\_\+\+APSK (\begin{DoxyParamCaption}\item[{string \&}]{device\+\_\+response,  }\item[{int \&}]{number\+\_\+mod }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}}
+
+
+
+Поиск значения типа модуляции APSK по номеру в массиве {\ttfamily \mbox{\hyperlink{class_rn_s_s_c_p_i_a720b59c80f17f395d722fcb404c9bb1d}{mod\+\_\+type\+\_\+sheet\+\_\+\+APSK}}}. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em device\+\_\+response} & -\/ ответ от устройства после запроса типа модуляции {\ttfamily \mbox{\hyperlink{class_rn_s_s_c_p_i_a7cbbc985fd12bd298c470ff27e5fb36a}{request\+\_\+\+Mod\+Type}}}. \\
+\hline
+{\em number\+\_\+mod} & -\/ возвразаемый номер найденного элемента массива {\ttfamily \mbox{\hyperlink{class_rn_s_s_c_p_i_a720b59c80f17f395d722fcb404c9bb1d}{mod\+\_\+type\+\_\+sheet\+\_\+\+APSK}}}. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Eсли элемент найден метод возваращает No\+\_\+error из {\ttfamily \mbox{\hyperlink{class_rn_s_s_c_p_i_aee285965f23238ad16a04e8e2f01607b}{errors}}}, в противном случае Element\+\_\+not\+\_\+found из {\ttfamily \mbox{\hyperlink{class_rn_s_s_c_p_i_aee285965f23238ad16a04e8e2f01607b}{errors}}}. 
+\end{DoxyReturn}
+\mbox{\Hypertarget{class_rn_s_s_c_p_i_a1051aa122f22a0366666849a002395f9}\label{class_rn_s_s_c_p_i_a1051aa122f22a0366666849a002395f9}} 
+\index{RnSSCPI@{RnSSCPI}!search\_ModFSK@{search\_ModFSK}}
+\index{search\_ModFSK@{search\_ModFSK}!RnSSCPI@{RnSSCPI}}
+\doxysubsubsection{\texorpdfstring{search\_ModFSK()}{search\_ModFSK()}}
+{\footnotesize\ttfamily static int Rn\+SSCPI\+::search\+\_\+\+Mod\+FSK (\begin{DoxyParamCaption}\item[{string \&}]{device\+\_\+response,  }\item[{int \&}]{number\+\_\+mod }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}}
+
+
+
+Поиск значения типа модуляции FSK по номеру в массиве {\ttfamily \mbox{\hyperlink{class_rn_s_s_c_p_i_a1f91d2ad8403675a5ad940e8a52c98ae}{mod\+\_\+type\+\_\+sheet\+\_\+\+FSK}}}. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em device\+\_\+response} & -\/ ответ от устройства после запроса типа модуляции {\ttfamily \mbox{\hyperlink{class_rn_s_s_c_p_i_a7cbbc985fd12bd298c470ff27e5fb36a}{request\+\_\+\+Mod\+Type}}}. \\
+\hline
+{\em number\+\_\+mod} & -\/ возвразаемый номер найденного элемента массива {\ttfamily \mbox{\hyperlink{class_rn_s_s_c_p_i_a1f91d2ad8403675a5ad940e8a52c98ae}{mod\+\_\+type\+\_\+sheet\+\_\+\+FSK}}}. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Eсли элемент найден метод возваращает No\+\_\+error из {\ttfamily \mbox{\hyperlink{class_rn_s_s_c_p_i_aee285965f23238ad16a04e8e2f01607b}{errors}}}, в противном случае Element\+\_\+not\+\_\+found из {\ttfamily \mbox{\hyperlink{class_rn_s_s_c_p_i_aee285965f23238ad16a04e8e2f01607b}{errors}}}. 
+\end{DoxyReturn}
+\mbox{\Hypertarget{class_rn_s_s_c_p_i_ac12963dfc6e5b9aa374675b19177f762}\label{class_rn_s_s_c_p_i_ac12963dfc6e5b9aa374675b19177f762}} 
+\index{RnSSCPI@{RnSSCPI}!search\_ModPSK@{search\_ModPSK}}
+\index{search\_ModPSK@{search\_ModPSK}!RnSSCPI@{RnSSCPI}}
+\doxysubsubsection{\texorpdfstring{search\_ModPSK()}{search\_ModPSK()}}
+{\footnotesize\ttfamily static int Rn\+SSCPI\+::search\+\_\+\+Mod\+PSK (\begin{DoxyParamCaption}\item[{string \&}]{device\+\_\+response,  }\item[{int \&}]{number\+\_\+mod }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}}
+
+
+
+Поиск значения типа модуляции PSK по номеру в массиве {\ttfamily \mbox{\hyperlink{class_rn_s_s_c_p_i_a8ac7cbdc8436c96140f4a0393539187f}{mod\+\_\+type\+\_\+sheet\+\_\+\+PSK}}}. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em device\+\_\+response} & -\/ ответ от устройства после запроса типа модуляции {\ttfamily \mbox{\hyperlink{class_rn_s_s_c_p_i_a7cbbc985fd12bd298c470ff27e5fb36a}{request\+\_\+\+Mod\+Type}}}. \\
+\hline
+{\em number\+\_\+mod} & -\/ возвразаемый номер найденного элемента массива {\ttfamily \mbox{\hyperlink{class_rn_s_s_c_p_i_a8ac7cbdc8436c96140f4a0393539187f}{mod\+\_\+type\+\_\+sheet\+\_\+\+PSK}}}. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Eсли элемент найден метод возваращает No\+\_\+error из {\ttfamily \mbox{\hyperlink{class_rn_s_s_c_p_i_aee285965f23238ad16a04e8e2f01607b}{errors}}}, в противном случае Element\+\_\+not\+\_\+found из {\ttfamily \mbox{\hyperlink{class_rn_s_s_c_p_i_aee285965f23238ad16a04e8e2f01607b}{errors}}}. 
+\end{DoxyReturn}
+\mbox{\Hypertarget{class_rn_s_s_c_p_i_a6e05249fd60ebc375730acd37c99b52a}\label{class_rn_s_s_c_p_i_a6e05249fd60ebc375730acd37c99b52a}} 
+\index{RnSSCPI@{RnSSCPI}!search\_ModQAM@{search\_ModQAM}}
+\index{search\_ModQAM@{search\_ModQAM}!RnSSCPI@{RnSSCPI}}
+\doxysubsubsection{\texorpdfstring{search\_ModQAM()}{search\_ModQAM()}}
+{\footnotesize\ttfamily static int Rn\+SSCPI\+::search\+\_\+\+Mod\+QAM (\begin{DoxyParamCaption}\item[{string \&}]{device\+\_\+response,  }\item[{int \&}]{number\+\_\+mod }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}}
+
+
+
+Поиск значения типа модуляции QAM по номеру в массиве {\ttfamily \mbox{\hyperlink{class_rn_s_s_c_p_i_a75101c640efd15a6e48be0e2eaafb5bb}{mod\+\_\+type\+\_\+sheet\+\_\+\+QAM}}}. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em device\+\_\+response} & -\/ ответ от устройства после запроса типа модуляции {\ttfamily \mbox{\hyperlink{class_rn_s_s_c_p_i_a7cbbc985fd12bd298c470ff27e5fb36a}{request\+\_\+\+Mod\+Type}}}. \\
+\hline
+{\em number\+\_\+mod} & -\/ возвразаемый номер найденного элемента массива {\ttfamily \mbox{\hyperlink{class_rn_s_s_c_p_i_a75101c640efd15a6e48be0e2eaafb5bb}{mod\+\_\+type\+\_\+sheet\+\_\+\+QAM}}}. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Eсли элемент найден метод возваращает No\+\_\+error из {\ttfamily \mbox{\hyperlink{class_rn_s_s_c_p_i_aee285965f23238ad16a04e8e2f01607b}{errors}}}, в противном случае Element\+\_\+not\+\_\+found из {\ttfamily \mbox{\hyperlink{class_rn_s_s_c_p_i_aee285965f23238ad16a04e8e2f01607b}{errors}}}. 
+\end{DoxyReturn}
+\mbox{\Hypertarget{class_rn_s_s_c_p_i_a3f8f76ce72a49ecc7c2346d4289a71cd}\label{class_rn_s_s_c_p_i_a3f8f76ce72a49ecc7c2346d4289a71cd}} 
+\index{RnSSCPI@{RnSSCPI}!search\_Standard@{search\_Standard}}
+\index{search\_Standard@{search\_Standard}!RnSSCPI@{RnSSCPI}}
+\doxysubsubsection{\texorpdfstring{search\_Standard()}{search\_Standard()}}
+{\footnotesize\ttfamily static int Rn\+SSCPI\+::search\+\_\+\+Standard (\begin{DoxyParamCaption}\item[{string \&}]{device\+\_\+response,  }\item[{int \&}]{number\+\_\+standard }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}}
+
+
+
+Поиск значения стандартной настройки по номеру в массиве {\ttfamily \mbox{\hyperlink{class_rn_s_s_c_p_i_ae42fbce0becf4468413e8d96b150c678}{standard\+\_\+sheet}}}. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em device\+\_\+response} & -\/ ответ от устройства после запроса текущей стандарной настройки {\ttfamily \mbox{\hyperlink{class_rn_s_s_c_p_i_aa55363cc6eff7970bde2c89a21e135f1}{request\+\_\+\+Standard}}}. \\
+\hline
+{\em number\+\_\+standard} & возвразаемый номер найденного элемента массива {\ttfamily \mbox{\hyperlink{class_rn_s_s_c_p_i_ae42fbce0becf4468413e8d96b150c678}{standard\+\_\+sheet}}}. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Eсли элемент найден метод возваращает No\+\_\+error из {\ttfamily \mbox{\hyperlink{class_rn_s_s_c_p_i_aee285965f23238ad16a04e8e2f01607b}{errors}}}, в противном случае Element\+\_\+not\+\_\+found из {\ttfamily \mbox{\hyperlink{class_rn_s_s_c_p_i_aee285965f23238ad16a04e8e2f01607b}{errors}}}. 
+\end{DoxyReturn}
+\mbox{\Hypertarget{class_rn_s_s_c_p_i_a96255e6741275b89eff9db1cc8d3ad71}\label{class_rn_s_s_c_p_i_a96255e6741275b89eff9db1cc8d3ad71}} 
+\index{RnSSCPI@{RnSSCPI}!search\_StandardAPCO@{search\_StandardAPCO}}
+\index{search\_StandardAPCO@{search\_StandardAPCO}!RnSSCPI@{RnSSCPI}}
+\doxysubsubsection{\texorpdfstring{search\_StandardAPCO()}{search\_StandardAPCO()}}
+{\footnotesize\ttfamily static int Rn\+SSCPI\+::search\+\_\+\+Standard\+APCO (\begin{DoxyParamCaption}\item[{string \&}]{device\+\_\+response,  }\item[{int \&}]{number\+\_\+standard }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}}
+
+
+
+Поиск значения стандартной настройки APSO по номеру в массиве {\ttfamily \mbox{\hyperlink{class_rn_s_s_c_p_i_a91503ceccaec4d82f5f0f1ce8177678a}{standard\+\_\+sheet\+\_\+apco}}}. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em device\+\_\+response} & -\/ ответ от устройства после запроса текущей стандарной настройки {\ttfamily \mbox{\hyperlink{class_rn_s_s_c_p_i_aa55363cc6eff7970bde2c89a21e135f1}{request\+\_\+\+Standard}}}. \\
+\hline
+{\em number\+\_\+standard} & -\/ возвразаемый номер найденного элемента массива {\ttfamily \mbox{\hyperlink{class_rn_s_s_c_p_i_a91503ceccaec4d82f5f0f1ce8177678a}{standard\+\_\+sheet\+\_\+apco}}}. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Eсли элемент найден метод возваращает No\+\_\+error из {\ttfamily \mbox{\hyperlink{class_rn_s_s_c_p_i_aee285965f23238ad16a04e8e2f01607b}{errors}}}, в противном случае Element\+\_\+not\+\_\+found из {\ttfamily \mbox{\hyperlink{class_rn_s_s_c_p_i_aee285965f23238ad16a04e8e2f01607b}{errors}}}. 
+\end{DoxyReturn}
+\mbox{\Hypertarget{class_rn_s_s_c_p_i_ab2ef8059843305e361f58145a777c163}\label{class_rn_s_s_c_p_i_ab2ef8059843305e361f58145a777c163}} 
+\index{RnSSCPI@{RnSSCPI}!set\_AccordingToStandard@{set\_AccordingToStandard}}
+\index{set\_AccordingToStandard@{set\_AccordingToStandard}!RnSSCPI@{RnSSCPI}}
+\doxysubsubsection{\texorpdfstring{set\_AccordingToStandard()}{set\_AccordingToStandard()}}
+{\footnotesize\ttfamily static void Rn\+SSCPI\+::set\+\_\+\+According\+To\+Standard (\begin{DoxyParamCaption}\item[{string \&}]{request\+\_\+buffer,  }\item[{int}]{standard\+\_\+number,  }\item[{bool}]{is\+APCO,  }\item[{int \&}]{err,  }\item[{int}]{sour\+\_\+hw = {\ttfamily 1} }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}}
+
+
+
+Установка стандартных режимов. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em request\+\_\+buffer} & -\/ ссылка на переменную, которая будет хранить сформированную команду. \\
+\hline
+{\em standard\+\_\+number} & -\/ номер стандартного режима, соответствующий номеру массива {\ttfamily \mbox{\hyperlink{class_rn_s_s_c_p_i_ae42fbce0becf4468413e8d96b150c678}{standard\+\_\+sheet}}} или {\ttfamily \mbox{\hyperlink{class_rn_s_s_c_p_i_a91503ceccaec4d82f5f0f1ce8177678a}{standard\+\_\+sheet\+\_\+apco}}}. \\
+\hline
+{\em is\+APCO} & -\/ переменая, которая определяет относится ли устанавливаемый номер стандартного режима к подгруппе режимов APCO {\ttfamily \mbox{\hyperlink{class_rn_s_s_c_p_i_a91503ceccaec4d82f5f0f1ce8177678a}{standard\+\_\+sheet\+\_\+apco}}}. \\
+\hline
+{\em err} & -\/ ссылка на переменную, которая будет храненить номер ошибки {\ttfamily \mbox{\hyperlink{class_rn_s_s_c_p_i_aee285965f23238ad16a04e8e2f01607b}{errors}}}. \\
+\hline
+{\em sour\+\_\+hw} & -\/ номер источника (по умолчанию 1). \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{class_rn_s_s_c_p_i_ab5db5c29273d9e3225319c918e5b10a0}\label{class_rn_s_s_c_p_i_ab5db5c29273d9e3225319c918e5b10a0}} 
+\index{RnSSCPI@{RnSSCPI}!set\_BasebandState@{set\_BasebandState}}
+\index{set\_BasebandState@{set\_BasebandState}!RnSSCPI@{RnSSCPI}}
+\doxysubsubsection{\texorpdfstring{set\_BasebandState()}{set\_BasebandState()}}
+{\footnotesize\ttfamily static void Rn\+SSCPI\+::set\+\_\+\+Baseband\+State (\begin{DoxyParamCaption}\item[{string \&}]{request\+\_\+buffer,  }\item[{bool}]{value,  }\item[{int}]{sour\+\_\+hw = {\ttfamily 1} }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}, {\ttfamily [noexcept]}}
+
+
+
+Метод активации Baseband. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em request\+\_\+buffer} & -\/ ссылка на переменную, которая будет хранить сформированную команду. \\
+\hline
+{\em value} & -\/ переменная для активации/деактивации Baseband. \\
+\hline
+{\em sour\+\_\+hw} & -\/ номер источника (по умолчанию 1). \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{class_rn_s_s_c_p_i_a0734d471496f9893527bf80cd1defdb3}\label{class_rn_s_s_c_p_i_a0734d471496f9893527bf80cd1defdb3}} 
+\index{RnSSCPI@{RnSSCPI}!set\_FreqCenter@{set\_FreqCenter}}
+\index{set\_FreqCenter@{set\_FreqCenter}!RnSSCPI@{RnSSCPI}}
+\doxysubsubsection{\texorpdfstring{set\_FreqCenter()}{set\_FreqCenter()}}
+{\footnotesize\ttfamily static void Rn\+SSCPI\+::set\+\_\+\+Freq\+Center (\begin{DoxyParamCaption}\item[{string \&}]{request\+\_\+buffer,  }\item[{double}]{value,  }\item[{int \&}]{err,  }\item[{int}]{unit = {\ttfamily 3},  }\item[{int}]{sour\+\_\+hw = {\ttfamily 1} }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}}
+
+
+
+Установка центральной частоты развертки. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em request\+\_\+buffer} & -\/ ссылка на переменную, которая будет хранить сформированную команду. \\
+\hline
+{\em value} & -\/ значение устанавливаемой центральной частоты. \\
+\hline
+{\em err} & -\/ ссылка на переменную, которая будет храненить номер ошибки {\ttfamily \mbox{\hyperlink{class_rn_s_s_c_p_i_aee285965f23238ad16a04e8e2f01607b}{errors}}}. \\
+\hline
+{\em unit} & -\/ значение единицы измерения устанавливаемой центральной частоты {\ttfamily \mbox{\hyperlink{class_rn_s_s_c_p_i_a461412d45b52ff3bc40525d6897acf25}{units\+Freq}}} (по умолчанию 3). \\
+\hline
+{\em sour\+\_\+hw} & -\/ номер источника (по умолчанию 1). \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{class_rn_s_s_c_p_i_a397551caaecf6b4b76a85aab7665b56f}\label{class_rn_s_s_c_p_i_a397551caaecf6b4b76a85aab7665b56f}} 
+\index{RnSSCPI@{RnSSCPI}!set\_FreqSpan@{set\_FreqSpan}}
+\index{set\_FreqSpan@{set\_FreqSpan}!RnSSCPI@{RnSSCPI}}
+\doxysubsubsection{\texorpdfstring{set\_FreqSpan()}{set\_FreqSpan()}}
+{\footnotesize\ttfamily static void Rn\+SSCPI\+::set\+\_\+\+Freq\+Span (\begin{DoxyParamCaption}\item[{string \&}]{request\+\_\+buffer,  }\item[{double}]{value,  }\item[{int \&}]{err,  }\item[{int}]{unit = {\ttfamily 3},  }\item[{int}]{sour\+\_\+hw = {\ttfamily 1} }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}}
+
+
+
+Установка диапазона частотной развертки. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em request\+\_\+buffer} & -\/ ссылка на переменную, которая будет хранить сформированную команду. \\
+\hline
+{\em value} & -\/ значение устанавливаемого диапазона. \\
+\hline
+{\em err} & -\/ ссылка на переменную, которая будет храненить номер ошибки {\ttfamily \mbox{\hyperlink{class_rn_s_s_c_p_i_aee285965f23238ad16a04e8e2f01607b}{errors}}}. \\
+\hline
+{\em unit} & -\/ значение единицы измерения устанавливаемого диапазона частотной развертки {\ttfamily \mbox{\hyperlink{class_rn_s_s_c_p_i_a461412d45b52ff3bc40525d6897acf25}{units\+Freq}}} (по умолчанию 3). \\
+\hline
+{\em sour\+\_\+hw} & -\/ номер источника (по умолчанию 1). \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{class_rn_s_s_c_p_i_ad3df2b0b5cae80b926028dcacfc68876}\label{class_rn_s_s_c_p_i_ad3df2b0b5cae80b926028dcacfc68876}} 
+\index{RnSSCPI@{RnSSCPI}!set\_FreqStart@{set\_FreqStart}}
+\index{set\_FreqStart@{set\_FreqStart}!RnSSCPI@{RnSSCPI}}
+\doxysubsubsection{\texorpdfstring{set\_FreqStart()}{set\_FreqStart()}}
+{\footnotesize\ttfamily static void Rn\+SSCPI\+::set\+\_\+\+Freq\+Start (\begin{DoxyParamCaption}\item[{string \&}]{request\+\_\+buffer,  }\item[{double}]{value,  }\item[{int \&}]{err,  }\item[{int}]{unit = {\ttfamily 3},  }\item[{int}]{sour\+\_\+hw = {\ttfamily 1} }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}}
+
+
+
+Установка начальной частоты развертки. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em request\+\_\+buffer} & -\/ ссылка на переменную, которая будет хранить сформированную команду. \\
+\hline
+{\em value} & -\/ значение устанавливаемой начальной частоты развертки. \\
+\hline
+{\em err} & -\/ ссылка на переменную, которая будет храненить номер ошибки {\ttfamily \mbox{\hyperlink{class_rn_s_s_c_p_i_aee285965f23238ad16a04e8e2f01607b}{errors}}}. \\
+\hline
+{\em unit} & -\/ значение единицы измерения устанавливаемой начальной частоты развертки {\ttfamily \mbox{\hyperlink{class_rn_s_s_c_p_i_a461412d45b52ff3bc40525d6897acf25}{units\+Freq}}} (по умолчанию 3). \\
+\hline
+{\em sour\+\_\+hw} & -\/ номер источника (по умолчанию 1). \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{class_rn_s_s_c_p_i_ab8235bf65bd1df39ffe0f55980a487e3}\label{class_rn_s_s_c_p_i_ab8235bf65bd1df39ffe0f55980a487e3}} 
+\index{RnSSCPI@{RnSSCPI}!set\_FreqStop@{set\_FreqStop}}
+\index{set\_FreqStop@{set\_FreqStop}!RnSSCPI@{RnSSCPI}}
+\doxysubsubsection{\texorpdfstring{set\_FreqStop()}{set\_FreqStop()}}
+{\footnotesize\ttfamily static void Rn\+SSCPI\+::set\+\_\+\+Freq\+Stop (\begin{DoxyParamCaption}\item[{string \&}]{request\+\_\+buffer,  }\item[{double}]{value,  }\item[{int \&}]{err,  }\item[{int}]{unit = {\ttfamily 3},  }\item[{int}]{sour\+\_\+hw = {\ttfamily 1} }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}}
+
+
+
+Установка конечной частоты развертки. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em request\+\_\+buffer} & -\/ ссылка на переменную, которая будет хранить сформированную команду. \\
+\hline
+{\em value} & -\/ значение устанавливаемой конечной частоты развертки. \\
+\hline
+{\em err} & -\/ ссылка на переменную, которая будет храненить номер ошибки {\ttfamily \mbox{\hyperlink{class_rn_s_s_c_p_i_aee285965f23238ad16a04e8e2f01607b}{errors}}}. \\
+\hline
+{\em unit} & -\/ значение единицы измерения устанавливаемой конечной частоты развертки {\ttfamily \mbox{\hyperlink{class_rn_s_s_c_p_i_a461412d45b52ff3bc40525d6897acf25}{units\+Freq}}} (по умолчанию 3). \\
+\hline
+{\em sour\+\_\+hw} & -\/ номер источника (по умолчанию 1). \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{class_rn_s_s_c_p_i_a1b54e0cf58bfebaf66cec7f8c42f3347}\label{class_rn_s_s_c_p_i_a1b54e0cf58bfebaf66cec7f8c42f3347}} 
+\index{RnSSCPI@{RnSSCPI}!set\_freqSweepRange@{set\_freqSweepRange}}
+\index{set\_freqSweepRange@{set\_freqSweepRange}!RnSSCPI@{RnSSCPI}}
+\doxysubsubsection{\texorpdfstring{set\_freqSweepRange()}{set\_freqSweepRange()}}
+{\footnotesize\ttfamily static void Rn\+SSCPI\+::set\+\_\+freq\+Sweep\+Range (\begin{DoxyParamCaption}\item[{string \&}]{start\+\_\+freq\+\_\+buffer,  }\item[{string \&}]{stop\+\_\+freq\+\_\+buffer,  }\item[{double}]{start\+\_\+freq,  }\item[{double}]{stop\+\_\+freq,  }\item[{int \&}]{err,  }\item[{int}]{unit = {\ttfamily 3},  }\item[{int}]{sour\+\_\+hw = {\ttfamily 1} }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}}
+
+
+
+Установка начальной и конечной частот одновременно с учетом граничных значений. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em start\+\_\+freq\+\_\+buffer} & -\/ ссылка на переменную, которая будет хранить сформированную команду установки начальной частоты. \\
+\hline
+{\em stop\+\_\+freq\+\_\+buffer} & -\/ ссылка на переменную, которая будет хранить сформированную команду установки конечной частоты. \\
+\hline
+{\em start\+\_\+freq} & -\/ значение начальной частоты. \\
+\hline
+{\em stop\+\_\+freq} & -\/ значение конечной частоты. \\
+\hline
+{\em err} & -\/ ссылка на переменную, которая будет храненить номер ошибки {\ttfamily \mbox{\hyperlink{class_rn_s_s_c_p_i_aee285965f23238ad16a04e8e2f01607b}{errors}}}. \\
+\hline
+{\em unit} & -\/ значение единицы измерения устанавливаемых конечной и начальной частот развертки {\ttfamily \mbox{\hyperlink{class_rn_s_s_c_p_i_a461412d45b52ff3bc40525d6897acf25}{units\+Freq}}} (по умолчанию 3). \\
+\hline
+{\em sour\+\_\+hw} & -\/ номер источника (по умолчанию 1). \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{class_rn_s_s_c_p_i_a7f9ce650dcdf460beb4267d0215a8664}\label{class_rn_s_s_c_p_i_a7f9ce650dcdf460beb4267d0215a8664}} 
+\index{RnSSCPI@{RnSSCPI}!set\_Frequency@{set\_Frequency}}
+\index{set\_Frequency@{set\_Frequency}!RnSSCPI@{RnSSCPI}}
+\doxysubsubsection{\texorpdfstring{set\_Frequency()}{set\_Frequency()}}
+{\footnotesize\ttfamily static void Rn\+SSCPI\+::set\+\_\+\+Frequency (\begin{DoxyParamCaption}\item[{string \&}]{request\+\_\+buffer,  }\item[{double}]{value,  }\item[{int \&}]{err,  }\item[{int}]{unit = {\ttfamily 3},  }\item[{int}]{sour\+\_\+hw = {\ttfamily 1} }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}}
+
+
+
+Метод, позволяющий установить частоту. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em request\+\_\+buffer} & -\/ ссылка на переменную, которая будет хранить сформированную команду. \\
+\hline
+{\em value} & -\/ значение устанавливаемой частоты. \\
+\hline
+{\em err} & -\/ ссылка на переменную, которая будет храненить номер ошибки {\ttfamily \mbox{\hyperlink{class_rn_s_s_c_p_i_aee285965f23238ad16a04e8e2f01607b}{errors}}}. \\
+\hline
+{\em unit} & -\/ значение единицы измерения устанавливаемой частоты {\ttfamily \mbox{\hyperlink{class_rn_s_s_c_p_i_a461412d45b52ff3bc40525d6897acf25}{units\+Freq}}} (по умолчанию 3). \\
+\hline
+{\em sour\+\_\+hw} & -\/ номер источника (по умолчанию 1). \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{class_rn_s_s_c_p_i_a0b3f286591aa9aae2c63742e2aa34e9a}\label{class_rn_s_s_c_p_i_a0b3f286591aa9aae2c63742e2aa34e9a}} 
+\index{RnSSCPI@{RnSSCPI}!set\_FrequencyMode@{set\_FrequencyMode}}
+\index{set\_FrequencyMode@{set\_FrequencyMode}!RnSSCPI@{RnSSCPI}}
+\doxysubsubsection{\texorpdfstring{set\_FrequencyMode()}{set\_FrequencyMode()}}
+{\footnotesize\ttfamily static void Rn\+SSCPI\+::set\+\_\+\+Frequency\+Mode (\begin{DoxyParamCaption}\item[{string \&}]{request\+\_\+buffer,  }\item[{int}]{value,  }\item[{int \&}]{err,  }\item[{int}]{sour\+\_\+hw = {\ttfamily 1} }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}}
+
+
+
+Устанавливает частотный режим для генерации выходного ВЧ-\/сигнала. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em request\+\_\+buffer} & -\/ ссылка на переменную, которая будет хранить сформированную команду. \\
+\hline
+{\em value} & -\/ номер режима, соответствующий возможным номерам из массива {\ttfamily \mbox{\hyperlink{class_rn_s_s_c_p_i_a10ee3e0cd38ce42e01782630b2433d80}{freq\+\_\+mode\+\_\+values}}} \\
+\hline
+{\em err} & -\/ ссылка на переменную, которая будет храненить номер ошибки {\ttfamily \mbox{\hyperlink{class_rn_s_s_c_p_i_aee285965f23238ad16a04e8e2f01607b}{errors}}}. \\
+\hline
+{\em sour\+\_\+hw} & -\/ номер источника (по умолчанию 1). \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{class_rn_s_s_c_p_i_a95d2ffcbf5125c32190f44c5915f8eeb}\label{class_rn_s_s_c_p_i_a95d2ffcbf5125c32190f44c5915f8eeb}} 
+\index{RnSSCPI@{RnSSCPI}!set\_Level@{set\_Level}}
+\index{set\_Level@{set\_Level}!RnSSCPI@{RnSSCPI}}
+\doxysubsubsection{\texorpdfstring{set\_Level()}{set\_Level()}}
+{\footnotesize\ttfamily static void Rn\+SSCPI\+::set\+\_\+\+Level (\begin{DoxyParamCaption}\item[{string \&}]{request\+\_\+buffer,  }\item[{double}]{value,  }\item[{int \&}]{err,  }\item[{int}]{unit = {\ttfamily 0},  }\item[{int}]{sour\+\_\+hw = {\ttfamily 1} }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}}
+
+
+
+Метод, позволяющий установить уровень. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em request\+\_\+buffer} & -\/ ссылка на переменную, которая будет хранить сформированную команду. \\
+\hline
+{\em value} & -\/ значение устанавливаемого уровня. \\
+\hline
+{\em err} & -\/ ссылка на переменную, которая будет храненить номер ошибки {\ttfamily \mbox{\hyperlink{class_rn_s_s_c_p_i_aee285965f23238ad16a04e8e2f01607b}{errors}}}. \\
+\hline
+{\em unit} & -\/ значение единицы измерения устанавливаемого уровня {\ttfamily \mbox{\hyperlink{class_rn_s_s_c_p_i_a7cb5bd17f8c08e2b03dd709062f3eb8a}{units\+Power}}} (по умолчанию 0). \\
+\hline
+{\em sour\+\_\+hw} & -\/ номер источника (по умолчанию 1). \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{class_rn_s_s_c_p_i_a82bc8e43c910982f80c86272b1fecff7}\label{class_rn_s_s_c_p_i_a82bc8e43c910982f80c86272b1fecff7}} 
+\index{RnSSCPI@{RnSSCPI}!set\_ModulationType@{set\_ModulationType}}
+\index{set\_ModulationType@{set\_ModulationType}!RnSSCPI@{RnSSCPI}}
+\doxysubsubsection{\texorpdfstring{set\_ModulationType()}{set\_ModulationType()}}
+{\footnotesize\ttfamily static void Rn\+SSCPI\+::set\+\_\+\+Modulation\+Type (\begin{DoxyParamCaption}\item[{string \&}]{request\+\_\+buffer,  }\item[{int}]{num\+\_\+type,  }\item[{int}]{num\+\_\+subtype,  }\item[{int \&}]{err,  }\item[{int}]{sour\+\_\+hw = {\ttfamily 1} }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}}
+
+
+
+Установка типа модуляции. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em request\+\_\+buffer} & -\/ ссылка на переменную, которая будет хранить сформированную команду. \\
+\hline
+{\em num\+\_\+type} & -\/ переменная, хранящая значение типа устанавливаемой модуляции (PSK, QAM, FSK, APSK). \\
+\hline
+{\em num\+\_\+subtype} & -\/ переменная, хранящая значение подтипа устанавливаемой модуляции который должен относиться к одному из массивов\+: {\ttfamily \mbox{\hyperlink{class_rn_s_s_c_p_i_a8ac7cbdc8436c96140f4a0393539187f}{mod\+\_\+type\+\_\+sheet\+\_\+\+PSK}}}, {\ttfamily \mbox{\hyperlink{class_rn_s_s_c_p_i_a75101c640efd15a6e48be0e2eaafb5bb}{mod\+\_\+type\+\_\+sheet\+\_\+\+QAM}}}, {\ttfamily \mbox{\hyperlink{class_rn_s_s_c_p_i_a1f91d2ad8403675a5ad940e8a52c98ae}{mod\+\_\+type\+\_\+sheet\+\_\+\+FSK}}}, {\ttfamily \mbox{\hyperlink{class_rn_s_s_c_p_i_a720b59c80f17f395d722fcb404c9bb1d}{mod\+\_\+type\+\_\+sheet\+\_\+\+APSK}}}, \\
+\hline
+{\em err} & -\/ ссылка на переменную, которая будет храненить номер ошибки {\ttfamily \mbox{\hyperlink{class_rn_s_s_c_p_i_aee285965f23238ad16a04e8e2f01607b}{errors}}}. \\
+\hline
+{\em sour\+\_\+hw} & -\/ номер источника (по умолчанию 1). \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{class_rn_s_s_c_p_i_a78e65d8ea331bbce5f8fddcca2e4ba3d}\label{class_rn_s_s_c_p_i_a78e65d8ea331bbce5f8fddcca2e4ba3d}} 
+\index{RnSSCPI@{RnSSCPI}!set\_Power@{set\_Power}}
+\index{set\_Power@{set\_Power}!RnSSCPI@{RnSSCPI}}
+\doxysubsubsection{\texorpdfstring{set\_Power()}{set\_Power()}}
+{\footnotesize\ttfamily static void Rn\+SSCPI\+::set\+\_\+\+Power (\begin{DoxyParamCaption}\item[{string \&}]{request\+\_\+buffer,  }\item[{double}]{value,  }\item[{int \&}]{err,  }\item[{int}]{unit = {\ttfamily 0},  }\item[{int}]{sour\+\_\+hw = {\ttfamily 1} }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}}
+
+
+
+Метод, позволяющий установить мощность. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em request\+\_\+buffer} & -\/ ссылка на переменную, которая будет хранить сформированную команду. \\
+\hline
+{\em value} & -\/ значение устанавливаемой мощности. \\
+\hline
+{\em err} & -\/ ссылка на переменную, которая будет храненить номер ошибки {\ttfamily \mbox{\hyperlink{class_rn_s_s_c_p_i_aee285965f23238ad16a04e8e2f01607b}{errors}}}. \\
+\hline
+{\em unit} & -\/ значение единицы измерения устанавливаемой мощности {\ttfamily \mbox{\hyperlink{class_rn_s_s_c_p_i_a7cb5bd17f8c08e2b03dd709062f3eb8a}{units\+Power}}} (по умолчанию 0). \\
+\hline
+{\em sour\+\_\+hw} & -\/ номер источника (по умолчанию 1). \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{class_rn_s_s_c_p_i_a5f0ae31f586ae4872974427edee1f8fb}\label{class_rn_s_s_c_p_i_a5f0ae31f586ae4872974427edee1f8fb}} 
+\index{RnSSCPI@{RnSSCPI}!set\_SweepFreqDwell@{set\_SweepFreqDwell}}
+\index{set\_SweepFreqDwell@{set\_SweepFreqDwell}!RnSSCPI@{RnSSCPI}}
+\doxysubsubsection{\texorpdfstring{set\_SweepFreqDwell()}{set\_SweepFreqDwell()}}
+{\footnotesize\ttfamily static void Rn\+SSCPI\+::set\+\_\+\+Sweep\+Freq\+Dwell (\begin{DoxyParamCaption}\item[{string \&}]{request\+\_\+buffer,  }\item[{double}]{value,  }\item[{int \&}]{err,  }\item[{int}]{unit = {\ttfamily 0},  }\item[{int}]{sour\+\_\+hw = {\ttfamily 1} }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}}
+
+
+
+Установка времени задержки для шага развертки по частоте. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em request\+\_\+buffer} & -\/ ссылка на переменную, которая будет хранить сформированную команду. \\
+\hline
+{\em value} & -\/ значение задержки шага. \\
+\hline
+{\em err} & -\/ ссылка на переменную, которая будет храненить номер ошибки {\ttfamily \mbox{\hyperlink{class_rn_s_s_c_p_i_aee285965f23238ad16a04e8e2f01607b}{errors}}}. \\
+\hline
+{\em unit} & -\/ значение единицы измерения устанавливаемой задержки шага {\ttfamily \mbox{\hyperlink{class_rn_s_s_c_p_i_a1b0766f51fe4fe059de5748e9dc162df}{units\+Time}}} (по умолчанию 3). \\
+\hline
+{\em sour\+\_\+hw} & -\/ номер источника (по умолчанию 1). \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{class_rn_s_s_c_p_i_a5cb466a3f025e8d906fb842ce764bcb0}\label{class_rn_s_s_c_p_i_a5cb466a3f025e8d906fb842ce764bcb0}} 
+\index{RnSSCPI@{RnSSCPI}!set\_SweepFreqMode@{set\_SweepFreqMode}}
+\index{set\_SweepFreqMode@{set\_SweepFreqMode}!RnSSCPI@{RnSSCPI}}
+\doxysubsubsection{\texorpdfstring{set\_SweepFreqMode()}{set\_SweepFreqMode()}}
+{\footnotesize\ttfamily static void Rn\+SSCPI\+::set\+\_\+\+Sweep\+Freq\+Mode (\begin{DoxyParamCaption}\item[{string \&}]{request\+\_\+buffer,  }\item[{int}]{value,  }\item[{int \&}]{err,  }\item[{int}]{sour\+\_\+hw = {\ttfamily 1} }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}}
+
+
+
+Установка циклического режима для развертки по частоте. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em request\+\_\+buffer} & -\/ ссылка на переменную, которая будет хранить сформированную команду. \\
+\hline
+{\em value} & -\/ номер режима, соответствующий номеру из массива режимов развертки по частоте {\ttfamily \mbox{\hyperlink{class_rn_s_s_c_p_i_a5b1f1360a3bb02bedc26a8140f5c642f}{sweep\+\_\+freq\+\_\+mode\+\_\+values}}}. \\
+\hline
+{\em err} & -\/ ссылка на переменную, которая будет храненить номер ошибки {\ttfamily \mbox{\hyperlink{class_rn_s_s_c_p_i_aee285965f23238ad16a04e8e2f01607b}{errors}}}. \\
+\hline
+{\em sour\+\_\+hw} & -\/ номер источника (по умолчанию 1). \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{class_rn_s_s_c_p_i_aec042c1b0de19b242435f3257c3b8f47}\label{class_rn_s_s_c_p_i_aec042c1b0de19b242435f3257c3b8f47}} 
+\index{RnSSCPI@{RnSSCPI}!set\_SweepPoints@{set\_SweepPoints}}
+\index{set\_SweepPoints@{set\_SweepPoints}!RnSSCPI@{RnSSCPI}}
+\doxysubsubsection{\texorpdfstring{set\_SweepPoints()}{set\_SweepPoints()}}
+{\footnotesize\ttfamily static void Rn\+SSCPI\+::set\+\_\+\+Sweep\+Points (\begin{DoxyParamCaption}\item[{string \&}]{request\+\_\+buffer,  }\item[{int}]{value,  }\item[{int \&}]{err,  }\item[{int}]{sour\+\_\+hw = {\ttfamily 1} }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}}
+
+
+
+Установка количества шагов в пределах диапазона развертки. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em request\+\_\+buffer} & -\/ ссылка на переменную, которая будет хранить сформированную команду. \\
+\hline
+{\em value} & -\/ значение количества шагов. \\
+\hline
+{\em err} & -\/ ссылка на переменную, которая будет храненить номер ошибки {\ttfamily \mbox{\hyperlink{class_rn_s_s_c_p_i_aee285965f23238ad16a04e8e2f01607b}{errors}}}. \\
+\hline
+{\em sour\+\_\+hw} & -\/ номер источника (по умолчанию 1). \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{class_rn_s_s_c_p_i_a8f0403ed3aa295183e0a86f6d24b8bb8}\label{class_rn_s_s_c_p_i_a8f0403ed3aa295183e0a86f6d24b8bb8}} 
+\index{RnSSCPI@{RnSSCPI}!set\_SweepRetrace@{set\_SweepRetrace}}
+\index{set\_SweepRetrace@{set\_SweepRetrace}!RnSSCPI@{RnSSCPI}}
+\doxysubsubsection{\texorpdfstring{set\_SweepRetrace()}{set\_SweepRetrace()}}
+{\footnotesize\ttfamily static void Rn\+SSCPI\+::set\+\_\+\+Sweep\+Retrace (\begin{DoxyParamCaption}\item[{string \&}]{request\+\_\+buffer,  }\item[{bool}]{value,  }\item[{int}]{sour\+\_\+hw = {\ttfamily 1} }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}, {\ttfamily [noexcept]}}
+
+
+
+Активировация/деактивация изменения начальной частоты в ожидании следующего триггера 
+
+
+\begin{DoxyParams}{Parameters}
+{\em request\+\_\+buffer} & -\/ ссылка на переменную, которая будет хранить сформированную команду. \\
+\hline
+{\em value} & -\/ переменная активации/деактивации изменения начальной частоты. \\
+\hline
+{\em sour\+\_\+hw} & -\/ номер источника (по умолчанию 1). \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{class_rn_s_s_c_p_i_af211ff7f145dff5cb4bb954efb8fca0b}\label{class_rn_s_s_c_p_i_af211ff7f145dff5cb4bb954efb8fca0b}} 
+\index{RnSSCPI@{RnSSCPI}!set\_SweepShape@{set\_SweepShape}}
+\index{set\_SweepShape@{set\_SweepShape}!RnSSCPI@{RnSSCPI}}
+\doxysubsubsection{\texorpdfstring{set\_SweepShape()}{set\_SweepShape()}}
+{\footnotesize\ttfamily static void Rn\+SSCPI\+::set\+\_\+\+Sweep\+Shape (\begin{DoxyParamCaption}\item[{string \&}]{request\+\_\+buffer,  }\item[{int}]{value,  }\item[{int \&}]{err,  }\item[{int}]{sour\+\_\+hw = {\ttfamily 1} }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}}
+
+
+
+Установка формы сигнала для развертки. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em request\+\_\+buffer} & -\/ ссылка на переменную, которая будет хранить сформированную команду. \\
+\hline
+{\em value} & -\/ номер режима, соответствующий номеру из массива форм сигналов {\ttfamily \mbox{\hyperlink{class_rn_s_s_c_p_i_a172a4b55fb7de457665a254a26a22a85}{sweep\+\_\+shape\+\_\+values}}}. \\
+\hline
+{\em err} & -\/ ссылка на переменную, которая будет храненить номер ошибки {\ttfamily \mbox{\hyperlink{class_rn_s_s_c_p_i_aee285965f23238ad16a04e8e2f01607b}{errors}}}. \\
+\hline
+{\em sour\+\_\+hw} & -\/ номер источника (по умолчанию 1). \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{class_rn_s_s_c_p_i_af5b596030f7fdf67244287e54e20d352}\label{class_rn_s_s_c_p_i_af5b596030f7fdf67244287e54e20d352}} 
+\index{RnSSCPI@{RnSSCPI}!set\_SweepSpacing@{set\_SweepSpacing}}
+\index{set\_SweepSpacing@{set\_SweepSpacing}!RnSSCPI@{RnSSCPI}}
+\doxysubsubsection{\texorpdfstring{set\_SweepSpacing()}{set\_SweepSpacing()}}
+{\footnotesize\ttfamily static void Rn\+SSCPI\+::set\+\_\+\+Sweep\+Spacing (\begin{DoxyParamCaption}\item[{string \&}]{request\+\_\+buffer,  }\item[{int}]{value,  }\item[{int \&}]{err,  }\item[{int}]{sour\+\_\+hw = {\ttfamily 1} }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}}
+
+
+
+Установка режима расчета частотных интервалов. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em request\+\_\+buffer} & -\/ ссылка на переменную, которая будет хранить сформированную команду. \\
+\hline
+{\em value} & -\/ номер режима, соответствующий номеру из массива режимов расчета частотных интервалов {\ttfamily \mbox{\hyperlink{class_rn_s_s_c_p_i_a7f526aca0bc9dbb5fba996d3da56478b}{sweep\+\_\+spacing\+\_\+values}}}. \\
+\hline
+{\em err} & -\/ ссылка на переменную, которая будет храненить номер ошибки {\ttfamily \mbox{\hyperlink{class_rn_s_s_c_p_i_aee285965f23238ad16a04e8e2f01607b}{errors}}}. \\
+\hline
+{\em sour\+\_\+hw} & -\/ номер источника (по умолчанию 1). \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{class_rn_s_s_c_p_i_a4a545668df27f2022cca1ad923f6c3aa}\label{class_rn_s_s_c_p_i_a4a545668df27f2022cca1ad923f6c3aa}} 
+\index{RnSSCPI@{RnSSCPI}!set\_SweepStepLinear@{set\_SweepStepLinear}}
+\index{set\_SweepStepLinear@{set\_SweepStepLinear}!RnSSCPI@{RnSSCPI}}
+\doxysubsubsection{\texorpdfstring{set\_SweepStepLinear()}{set\_SweepStepLinear()}}
+{\footnotesize\ttfamily static void Rn\+SSCPI\+::set\+\_\+\+Sweep\+Step\+Linear (\begin{DoxyParamCaption}\item[{string \&}]{request\+\_\+buffer,  }\item[{double}]{value,  }\item[{double}]{freq\+\_\+start,  }\item[{double}]{freq\+\_\+stop,  }\item[{int \&}]{err,  }\item[{int}]{unit = {\ttfamily 3},  }\item[{int}]{sour\+\_\+hw = {\ttfamily 1} }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}}
+
+
+
+Установка линейно определяемой ширины шага для развертки по частоте (значения от 0.\+01Гц до значения STOP -\/ START). 
+
+
+\begin{DoxyParams}{Parameters}
+{\em request\+\_\+buffer} & -\/ ссылка на переменную, которая будет хранить сформированную команду. \\
+\hline
+{\em value} & -\/ значение ширины шага для линейного режима. \\
+\hline
+{\em freq\+\_\+start} & -\/ ответ от устройства после запроса текущего значения начальной частоты {\ttfamily \mbox{\hyperlink{class_rn_s_s_c_p_i_a399d211eb204ed1a1dc0dfc3a55beb6b}{request\+\_\+\+Freq\+Start}}}. \\
+\hline
+{\em freq\+\_\+stop} & -\/ ответ от устройства после запроса текущего значения конечной частоты {\ttfamily \mbox{\hyperlink{class_rn_s_s_c_p_i_a0f1a1e537478188e339f0f769392669f}{request\+\_\+\+Freq\+Stop}}}. \\
+\hline
+{\em err} & -\/ ссылка на переменную, которая будет храненить номер ошибки {\ttfamily \mbox{\hyperlink{class_rn_s_s_c_p_i_aee285965f23238ad16a04e8e2f01607b}{errors}}}. \\
+\hline
+{\em unit} & -\/ значение единицы измерения устанавливаемой ширины шага для линейно развертки {\ttfamily \mbox{\hyperlink{class_rn_s_s_c_p_i_a461412d45b52ff3bc40525d6897acf25}{units\+Freq}}} (по умолчанию 3). \\
+\hline
+{\em sour\+\_\+hw} & -\/ номер источника (по умолчанию 1). \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{class_rn_s_s_c_p_i_ad806c5b1795aa62308fa3fa340f34980}\label{class_rn_s_s_c_p_i_ad806c5b1795aa62308fa3fa340f34980}} 
+\index{RnSSCPI@{RnSSCPI}!set\_SweepStepLogarithmic@{set\_SweepStepLogarithmic}}
+\index{set\_SweepStepLogarithmic@{set\_SweepStepLogarithmic}!RnSSCPI@{RnSSCPI}}
+\doxysubsubsection{\texorpdfstring{set\_SweepStepLogarithmic()}{set\_SweepStepLogarithmic()}}
+{\footnotesize\ttfamily static void Rn\+SSCPI\+::set\+\_\+\+Sweep\+Step\+Logarithmic (\begin{DoxyParamCaption}\item[{string \&}]{request\+\_\+buffer,  }\item[{double}]{value,  }\item[{int \&}]{err,  }\item[{int}]{sour\+\_\+hw = {\ttfamily 1} }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}}
+
+
+
+Установка логарифмически определяемой ширины шага для развертки по частоте. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em request\+\_\+buffer} & -\/ ссылка на переменную, которая будет хранить сформированную команду. \\
+\hline
+{\em value} & -\/ значение ширины шага для логарифмического режима (Задается в \%(PCT)). \\
+\hline
+{\em err} & -\/ ссылка на переменную, которая будет храненить номер ошибки {\ttfamily \mbox{\hyperlink{class_rn_s_s_c_p_i_aee285965f23238ad16a04e8e2f01607b}{errors}}}. \\
+\hline
+{\em sour\+\_\+hw} & -\/ номер источника (по умолчанию 1). \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{class_rn_s_s_c_p_i_a783ec6d242106c8af19a289efa262fa2}\label{class_rn_s_s_c_p_i_a783ec6d242106c8af19a289efa262fa2}} 
+\index{RnSSCPI@{RnSSCPI}!set\_SymbolRate@{set\_SymbolRate}}
+\index{set\_SymbolRate@{set\_SymbolRate}!RnSSCPI@{RnSSCPI}}
+\doxysubsubsection{\texorpdfstring{set\_SymbolRate()}{set\_SymbolRate()}}
+{\footnotesize\ttfamily static void Rn\+SSCPI\+::set\+\_\+\+Symbol\+Rate (\begin{DoxyParamCaption}\item[{string \&}]{request\+\_\+buffer,  }\item[{double}]{value,  }\item[{int \&}]{err,  }\item[{int}]{unit = {\ttfamily 3},  }\item[{int}]{sour\+\_\+hw = {\ttfamily 1} }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}}
+
+
+
+Установка скорости передачи символов. Задавать необходимо в единицах измерения Hz(sym/s можно не указывать), k\+Hz(k\+Sym/s), MHz(MSym/s). 
+
+
+\begin{DoxyParams}{Parameters}
+{\em request\+\_\+buffer} & -\/ ссылка на переменную, которая будет хранить сформированную команду. \\
+\hline
+{\em value} & -\/ значение устанавливаемой скорости передачи символов. \\
+\hline
+{\em err} & -\/ ссылка на переменную, которая будет храненить номер ошибки {\ttfamily \mbox{\hyperlink{class_rn_s_s_c_p_i_aee285965f23238ad16a04e8e2f01607b}{errors}}}. \\
+\hline
+{\em unit} & -\/ значение единицы измерения устанавливаемой скорости {\ttfamily \mbox{\hyperlink{class_rn_s_s_c_p_i_a461412d45b52ff3bc40525d6897acf25}{units\+Freq}}} (по умолчанию 3). \\
+\hline
+{\em sour\+\_\+hw} & -\/ номер источника (по умолчанию 1). \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{class_rn_s_s_c_p_i_ad499b6a81bf4d93273c07e86fdc3aa32}\label{class_rn_s_s_c_p_i_ad499b6a81bf4d93273c07e86fdc3aa32}} 
+\index{RnSSCPI@{RnSSCPI}!set\_TriggerForSweeps@{set\_TriggerForSweeps}}
+\index{set\_TriggerForSweeps@{set\_TriggerForSweeps}!RnSSCPI@{RnSSCPI}}
+\doxysubsubsection{\texorpdfstring{set\_TriggerForSweeps()}{set\_TriggerForSweeps()}}
+{\footnotesize\ttfamily static void Rn\+SSCPI\+::set\+\_\+\+Trigger\+For\+Sweeps (\begin{DoxyParamCaption}\item[{string \&}]{request\+\_\+buffer,  }\item[{int}]{value,  }\item[{int \&}]{err,  }\item[{int}]{trig\+\_\+hw = {\ttfamily 1} }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}}
+
+
+
+Установка режима триггера для разверток. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em request\+\_\+buffer} & -\/ ссылка на переменную, которая будет хранить сформированную команду. \\
+\hline
+{\em value} & -\/ номер режима, соответствующий номеру из массива режимов триггера для разверток {\ttfamily \mbox{\hyperlink{class_rn_s_s_c_p_i_acf3d9c988dfc236da80b2ff4f113cf4e}{trigger\+\_\+for\+\_\+sweeps\+\_\+values}}}. \\
+\hline
+{\em err} & -\/ ссылка на переменную, которая будет храненить номер ошибки {\ttfamily \mbox{\hyperlink{class_rn_s_s_c_p_i_aee285965f23238ad16a04e8e2f01607b}{errors}}}. \\
+\hline
+{\em trig\+\_\+hw} & -\/ номер триггера (по умолчанию 1). \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{class_rn_s_s_c_p_i_aff41e30cc0690ec8b192f6a776f262c1}\label{class_rn_s_s_c_p_i_aff41e30cc0690ec8b192f6a776f262c1}} 
+\index{RnSSCPI@{RnSSCPI}!sweepFreqExecute@{sweepFreqExecute}}
+\index{sweepFreqExecute@{sweepFreqExecute}!RnSSCPI@{RnSSCPI}}
+\doxysubsubsection{\texorpdfstring{sweepFreqExecute()}{sweepFreqExecute()}}
+{\footnotesize\ttfamily static void Rn\+SSCPI\+::sweep\+Freq\+Execute (\begin{DoxyParamCaption}\item[{string \&}]{request\+\_\+buffer,  }\item[{int}]{sour\+\_\+hw = {\ttfamily 1} }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}, {\ttfamily [noexcept]}}
+
+
+
+Запуск развертки. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em request\+\_\+buffer} & -\/ ссылка на переменную, которая будет хранить сформированную команду. \\
+\hline
+{\em sour\+\_\+hw} & -\/ номер источника (по умолчанию 1). \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{class_rn_s_s_c_p_i_a268162c324aaa14603415e59d5266e4d}\label{class_rn_s_s_c_p_i_a268162c324aaa14603415e59d5266e4d}} 
+\index{RnSSCPI@{RnSSCPI}!sweepResetAll@{sweepResetAll}}
+\index{sweepResetAll@{sweepResetAll}!RnSSCPI@{RnSSCPI}}
+\doxysubsubsection{\texorpdfstring{sweepResetAll()}{sweepResetAll()}}
+{\footnotesize\ttfamily static void Rn\+SSCPI\+::sweep\+Reset\+All (\begin{DoxyParamCaption}\item[{string \&}]{request\+\_\+buffer,  }\item[{int}]{sour\+\_\+hw = {\ttfamily 1} }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}, {\ttfamily [noexcept]}}
+
+
+
+Сброс всех активных разверток в начальную точку (альтернатива {\ttfamily \mbox{\hyperlink{class_rn_s_s_c_p_i_a8f0403ed3aa295183e0a86f6d24b8bb8}{set\+\_\+\+Sweep\+Retrace}}}). 
+
+
+\begin{DoxyParams}{Parameters}
+{\em request\+\_\+buffer} & -\/ ссылка на переменную, которая будет хранить сформированную команду. \\
+\hline
+{\em sour\+\_\+hw} & -\/ номер источника (по умолчанию 1). \\
+\hline
+\end{DoxyParams}
+
+
+The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+C\+:/\+Users/lunin.\+ag/\+Documents/doxygen/\+Source/header rnsscpi/rnsscpi.\+h\end{DoxyCompactItemize}

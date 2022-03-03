@@ -1,0 +1,220 @@
+\hypertarget{rnsscpi_8h_source}{}\doxysection{rnsscpi.\+h}
+\label{rnsscpi_8h_source}\index{C:/Users/lunin.ag/Documents/doxygen/Source/header rnsscpi/rnsscpi.h@{C:/Users/lunin.ag/Documents/doxygen/Source/header rnsscpi/rnsscpi.h}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{1 \textcolor{preprocessor}{\#ifndef RNSSCPI\_H}}
+\DoxyCodeLine{2 \textcolor{preprocessor}{\#define RNSSCPI\_H}}
+\DoxyCodeLine{3 }
+\DoxyCodeLine{4 \textcolor{preprocessor}{\#include <string>}}
+\DoxyCodeLine{5 \textcolor{preprocessor}{\#include <math.h>}}
+\DoxyCodeLine{6 \textcolor{preprocessor}{\#include <regex>}}
+\DoxyCodeLine{7 \textcolor{preprocessor}{\#include <array>}}
+\DoxyCodeLine{8 }
+\DoxyCodeLine{13 \textcolor{preprocessor}{\#define MAX\_FREQ 12.75 * pow(10,9)}}
+\DoxyCodeLine{14 }
+\DoxyCodeLine{19 \textcolor{preprocessor}{\#define MIN\_FREQ 100 * pow(10,3)}}
+\DoxyCodeLine{20 }
+\DoxyCodeLine{25 \textcolor{preprocessor}{\#define MIN\_CENTER\_FREQ 300000}}
+\DoxyCodeLine{26 }
+\DoxyCodeLine{31 \textcolor{preprocessor}{\#define MAX\_POW\_DBM 30}}
+\DoxyCodeLine{32 }
+\DoxyCodeLine{37 \textcolor{preprocessor}{\#define MIN\_POW\_DBM -\/145}}
+\DoxyCodeLine{38 }
+\DoxyCodeLine{43 \textcolor{preprocessor}{\#define MIN\_POW\_V 12.57/pow(10,9)}}
+\DoxyCodeLine{44 }
+\DoxyCodeLine{49 \textcolor{preprocessor}{\#define MAX\_POW\_V 7.071}}
+\DoxyCodeLine{50 }
+\DoxyCodeLine{55 \textcolor{preprocessor}{\#define MIN\_SRATE 50}}
+\DoxyCodeLine{56 }
+\DoxyCodeLine{61 \textcolor{preprocessor}{\#define MAX\_SRATE 300000000}}
+\DoxyCodeLine{62 }
+\DoxyCodeLine{63 \textcolor{keyword}{using namespace }std;}
+\DoxyCodeLine{64 }
+\DoxyCodeLine{68 \textcolor{keyword}{class }\mbox{\hyperlink{class_rn_s_s_c_p_i}{RnSSCPI}}}
+\DoxyCodeLine{69 \{}
+\DoxyCodeLine{70     \textcolor{keyword}{public}:}
+\DoxyCodeLine{75         \textcolor{keyword}{static} array<string, 8> \mbox{\hyperlink{class_rn_s_s_c_p_i_a91503ceccaec4d82f5f0f1ce8177678a}{standard\_sheet\_apco}};}
+\DoxyCodeLine{76 }
+\DoxyCodeLine{81         \textcolor{keyword}{static} array<string, 16> \mbox{\hyperlink{class_rn_s_s_c_p_i_ae42fbce0becf4468413e8d96b150c678}{standard\_sheet}};}
+\DoxyCodeLine{82 }
+\DoxyCodeLine{87         \textcolor{keyword}{static} array<string, 12> \mbox{\hyperlink{class_rn_s_s_c_p_i_a8ac7cbdc8436c96140f4a0393539187f}{mod\_type\_sheet\_PSK}};}
+\DoxyCodeLine{88 }
+\DoxyCodeLine{93         \textcolor{keyword}{static} array<string, 11> \mbox{\hyperlink{class_rn_s_s_c_p_i_a75101c640efd15a6e48be0e2eaafb5bb}{mod\_type\_sheet\_QAM}};}
+\DoxyCodeLine{94 }
+\DoxyCodeLine{99         \textcolor{keyword}{static} array<string, 8> \mbox{\hyperlink{class_rn_s_s_c_p_i_a1f91d2ad8403675a5ad940e8a52c98ae}{mod\_type\_sheet\_FSK}};}
+\DoxyCodeLine{100 }
+\DoxyCodeLine{105         \textcolor{keyword}{static} array<string, 2> \mbox{\hyperlink{class_rn_s_s_c_p_i_a720b59c80f17f395d722fcb404c9bb1d}{mod\_type\_sheet\_APSK}};}
+\DoxyCodeLine{106 }
+\DoxyCodeLine{107         \textcolor{comment}{//  Массивы команд для частотной развертки}}
+\DoxyCodeLine{112 \textcolor{comment}{}        \textcolor{keyword}{static} array<string, 6> \mbox{\hyperlink{class_rn_s_s_c_p_i_acf3d9c988dfc236da80b2ff4f113cf4e}{trigger\_for\_sweeps\_values}};}
+\DoxyCodeLine{113 }
+\DoxyCodeLine{118         \textcolor{keyword}{static} array<string, 3> \mbox{\hyperlink{class_rn_s_s_c_p_i_a5b1f1360a3bb02bedc26a8140f5c642f}{sweep\_freq\_mode\_values}};}
+\DoxyCodeLine{119 }
+\DoxyCodeLine{124         \textcolor{keyword}{static} array<string, 2> \mbox{\hyperlink{class_rn_s_s_c_p_i_a7f526aca0bc9dbb5fba996d3da56478b}{sweep\_spacing\_values}};}
+\DoxyCodeLine{125 }
+\DoxyCodeLine{130         \textcolor{keyword}{static} array<string, 2> \mbox{\hyperlink{class_rn_s_s_c_p_i_a172a4b55fb7de457665a254a26a22a85}{sweep\_shape\_values}};}
+\DoxyCodeLine{131 }
+\DoxyCodeLine{136         \textcolor{keyword}{static} array<string, 5> \mbox{\hyperlink{class_rn_s_s_c_p_i_a10ee3e0cd38ce42e01782630b2433d80}{freq\_mode\_values}};}
+\DoxyCodeLine{137 }
+\DoxyCodeLine{141         \textcolor{keyword}{enum} \mbox{\hyperlink{class_rn_s_s_c_p_i_a461412d45b52ff3bc40525d6897acf25}{unitsFreq}} \{}
+\DoxyCodeLine{142             eGHz,}
+\DoxyCodeLine{143             eMHz,}
+\DoxyCodeLine{144             ekHz,}
+\DoxyCodeLine{145             eHZ}
+\DoxyCodeLine{146         \};}
+\DoxyCodeLine{147 }
+\DoxyCodeLine{151         \textcolor{keyword}{enum} \mbox{\hyperlink{class_rn_s_s_c_p_i_a7cb5bd17f8c08e2b03dd709062f3eb8a}{unitsPower}}\{}
+\DoxyCodeLine{152             edBM,}
+\DoxyCodeLine{153             edBUV,}
+\DoxyCodeLine{154             eV,}
+\DoxyCodeLine{155             emV,}
+\DoxyCodeLine{156             euV,}
+\DoxyCodeLine{157             enV}
+\DoxyCodeLine{158         \};}
+\DoxyCodeLine{159 }
+\DoxyCodeLine{163         \textcolor{keyword}{enum} \mbox{\hyperlink{class_rn_s_s_c_p_i_a1b0766f51fe4fe059de5748e9dc162df}{unitsTime}}\{}
+\DoxyCodeLine{164             s,}
+\DoxyCodeLine{165             ms,}
+\DoxyCodeLine{166             us}
+\DoxyCodeLine{167         \};}
+\DoxyCodeLine{168 }
+\DoxyCodeLine{172         \textcolor{keyword}{enum} \mbox{\hyperlink{class_rn_s_s_c_p_i_aee285965f23238ad16a04e8e2f01607b}{errors}}\{}
+\DoxyCodeLine{173             No\_error,}
+\DoxyCodeLine{174             Value\_out\_of\_range,}
+\DoxyCodeLine{175             Wrong\_unit\_of\_measure,}
+\DoxyCodeLine{176             Invalid\_type\_number,}
+\DoxyCodeLine{177             Element\_not\_found}
+\DoxyCodeLine{178         \};}
+\DoxyCodeLine{179 }
+\DoxyCodeLine{180     \textcolor{keyword}{public}:}
+\DoxyCodeLine{185         \mbox{\hyperlink{class_rn_s_s_c_p_i}{RnSSCPI}}();}
+\DoxyCodeLine{186 }
+\DoxyCodeLine{192         \textcolor{keyword}{static} \textcolor{keywordtype}{void} \mbox{\hyperlink{class_rn_s_s_c_p_i_a2aee79f92efb511c90b39226f6400a7a}{Preset}}(\textcolor{keywordtype}{string} \&request\_buffer) \textcolor{keyword}{noexcept};}
+\DoxyCodeLine{193         \textcolor{comment}{/*-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/ Поиск параметров -\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/*/}}
+\DoxyCodeLine{201         \textcolor{keyword}{static} \textcolor{keywordtype}{int} \mbox{\hyperlink{class_rn_s_s_c_p_i_a96255e6741275b89eff9db1cc8d3ad71}{search\_StandardAPCO}}(\textcolor{keywordtype}{string} \&device\_response, \textcolor{keywordtype}{int} \&number\_standard);}
+\DoxyCodeLine{202 }
+\DoxyCodeLine{210         \textcolor{keyword}{static} \textcolor{keywordtype}{int} \mbox{\hyperlink{class_rn_s_s_c_p_i_a3f8f76ce72a49ecc7c2346d4289a71cd}{search\_Standard}}(\textcolor{keywordtype}{string} \&device\_response, \textcolor{keywordtype}{int} \&number\_standard);}
+\DoxyCodeLine{211 }
+\DoxyCodeLine{219         \textcolor{keyword}{static} \textcolor{keywordtype}{int} \mbox{\hyperlink{class_rn_s_s_c_p_i_ac12963dfc6e5b9aa374675b19177f762}{search\_ModPSK}}(\textcolor{keywordtype}{string} \&device\_response, \textcolor{keywordtype}{int} \&number\_mod);}
+\DoxyCodeLine{220 }
+\DoxyCodeLine{228         \textcolor{keyword}{static} \textcolor{keywordtype}{int} \mbox{\hyperlink{class_rn_s_s_c_p_i_a6e05249fd60ebc375730acd37c99b52a}{search\_ModQAM}}(\textcolor{keywordtype}{string} \&device\_response, \textcolor{keywordtype}{int} \&number\_mod);}
+\DoxyCodeLine{229 }
+\DoxyCodeLine{237         \textcolor{keyword}{static} \textcolor{keywordtype}{int} \mbox{\hyperlink{class_rn_s_s_c_p_i_a1051aa122f22a0366666849a002395f9}{search\_ModFSK}}(\textcolor{keywordtype}{string} \&device\_response, \textcolor{keywordtype}{int} \&number\_mod);}
+\DoxyCodeLine{238 }
+\DoxyCodeLine{246         \textcolor{keyword}{static} \textcolor{keywordtype}{int} \mbox{\hyperlink{class_rn_s_s_c_p_i_a22533c6d4b0472e54d6efc6908793d3d}{search\_Mod\_APSK}}(\textcolor{keywordtype}{string} \&device\_response, \textcolor{keywordtype}{int} \&number\_mod);}
+\DoxyCodeLine{247         \textcolor{comment}{/*-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/*/}}
+\DoxyCodeLine{248 }
+\DoxyCodeLine{249         \textcolor{comment}{/*-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/ Основные запросы -\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/*/}}
+\DoxyCodeLine{255         \textcolor{keyword}{static} \textcolor{keywordtype}{void} \mbox{\hyperlink{class_rn_s_s_c_p_i_ac84fb3da02b84ce2f522cf6003a8c47a}{request\_IDN}}(\textcolor{keywordtype}{string} \&request\_buffer) \textcolor{keyword}{noexcept};}
+\DoxyCodeLine{256 }
+\DoxyCodeLine{262         \textcolor{keyword}{static} \textcolor{keywordtype}{void} \mbox{\hyperlink{class_rn_s_s_c_p_i_ac4a7dfb550a6256f7448e13bb1ee6ba7}{request\_LastError}}(\textcolor{keywordtype}{string} \&request\_buffer) \textcolor{keyword}{noexcept};}
+\DoxyCodeLine{263 }
+\DoxyCodeLine{270         \textcolor{keyword}{static} \textcolor{keywordtype}{void} \mbox{\hyperlink{class_rn_s_s_c_p_i_a74f89ecbba0f6d76be88db84532bc2ce}{request\_Frequency}}(\textcolor{keywordtype}{string} \&request\_buffer, \textcolor{keywordtype}{int} sour\_hw = 1);}
+\DoxyCodeLine{271 }
+\DoxyCodeLine{278         \textcolor{keyword}{static} \textcolor{keywordtype}{void} \mbox{\hyperlink{class_rn_s_s_c_p_i_a0a1b1c3edf087a2d892ddbc58ca47ac8}{request\_Level}}(\textcolor{keywordtype}{string} \&request\_buffer, \textcolor{keywordtype}{int} sour\_hw = 1);}
+\DoxyCodeLine{279 }
+\DoxyCodeLine{286         \textcolor{keyword}{static} \textcolor{keywordtype}{void} \mbox{\hyperlink{class_rn_s_s_c_p_i_a2305447b6b140298407ebd75566f74c3}{request\_PEP}}(\textcolor{keywordtype}{string} \&request\_buffer, \textcolor{keywordtype}{int} sour\_hw = 1);}
+\DoxyCodeLine{287         \textcolor{comment}{/*-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/*/}}
+\DoxyCodeLine{288 }
+\DoxyCodeLine{289         \textcolor{comment}{/*-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/ Запросы модуляции -\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/*/}}
+\DoxyCodeLine{296         \textcolor{keyword}{static} \textcolor{keywordtype}{void} \mbox{\hyperlink{class_rn_s_s_c_p_i_aa55363cc6eff7970bde2c89a21e135f1}{request\_Standard}}(\textcolor{keywordtype}{string} \&request\_buffer, \textcolor{keywordtype}{int} sour\_hw = 1);}
+\DoxyCodeLine{297 }
+\DoxyCodeLine{304         \textcolor{keyword}{static} \textcolor{keywordtype}{void} \mbox{\hyperlink{class_rn_s_s_c_p_i_a7cbbc985fd12bd298c470ff27e5fb36a}{request\_ModType}}(\textcolor{keywordtype}{string} \&request\_buffer, \textcolor{keywordtype}{int} sour\_hw = 1);}
+\DoxyCodeLine{305 }
+\DoxyCodeLine{312         \textcolor{keyword}{static} \textcolor{keywordtype}{void} \mbox{\hyperlink{class_rn_s_s_c_p_i_a5f3b4427768d79f08b0c9d8adac9b66a}{request\_SymbolRate}}(\textcolor{keywordtype}{string} \&request\_buffer, \textcolor{keywordtype}{int} sour\_hw = 1);}
+\DoxyCodeLine{313         \textcolor{comment}{/*-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/*/}}
+\DoxyCodeLine{314 }
+\DoxyCodeLine{315         \textcolor{comment}{/*-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/ Запросы для частотной развертки -\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/*/}}
+\DoxyCodeLine{322         \textcolor{keyword}{static} \textcolor{keywordtype}{void} \mbox{\hyperlink{class_rn_s_s_c_p_i_a7b43db5d86603ffe653188e7c37bdeb8}{request\_TriggerForSweeps}}(\textcolor{keywordtype}{string} \&request\_buffer, \textcolor{keywordtype}{int} trig\_hw = 1);}
+\DoxyCodeLine{323 }
+\DoxyCodeLine{330         \textcolor{keyword}{static} \textcolor{keywordtype}{void} \mbox{\hyperlink{class_rn_s_s_c_p_i_a0f06cfbd0a607eb5b283626afc7b7fd3}{request\_SweepFreqMod}}(\textcolor{keywordtype}{string} \&request\_buffer, \textcolor{keywordtype}{int} sour\_hw = 1);}
+\DoxyCodeLine{331 }
+\DoxyCodeLine{338         \textcolor{keyword}{static} \textcolor{keywordtype}{void} \mbox{\hyperlink{class_rn_s_s_c_p_i_a96e52b07ec6ff40fcc29d061b2075e90}{request\_FreqSpan}}(\textcolor{keywordtype}{string} \&request\_buffer, \textcolor{keywordtype}{int} sour\_hw = 1);}
+\DoxyCodeLine{339 }
+\DoxyCodeLine{346         \textcolor{keyword}{static} \textcolor{keywordtype}{void} \mbox{\hyperlink{class_rn_s_s_c_p_i_a498abf168c5bac22645ddaa507e3a5bf}{request\_FreqCenter}}(\textcolor{keywordtype}{string} \&request\_buffer, \textcolor{keywordtype}{int} sour\_hw = 1);}
+\DoxyCodeLine{347 }
+\DoxyCodeLine{354         \textcolor{keyword}{static} \textcolor{keywordtype}{void} \mbox{\hyperlink{class_rn_s_s_c_p_i_a399d211eb204ed1a1dc0dfc3a55beb6b}{request\_FreqStart}}(\textcolor{keywordtype}{string} \&request\_buffer, \textcolor{keywordtype}{int} sour\_hw = 1);}
+\DoxyCodeLine{355 }
+\DoxyCodeLine{362         \textcolor{keyword}{static} \textcolor{keywordtype}{void} \mbox{\hyperlink{class_rn_s_s_c_p_i_a0f1a1e537478188e339f0f769392669f}{request\_FreqStop}}(\textcolor{keywordtype}{string} \&request\_buffer, \textcolor{keywordtype}{int} sour\_hw = 1);}
+\DoxyCodeLine{363 }
+\DoxyCodeLine{370         \textcolor{keyword}{static} \textcolor{keywordtype}{void} \mbox{\hyperlink{class_rn_s_s_c_p_i_a84aed04ddd8a2314a976dadac91c56b7}{request\_SweepSpacing}}(\textcolor{keywordtype}{string} \&request\_buffer, \textcolor{keywordtype}{int} sour\_hw = 1);}
+\DoxyCodeLine{371 }
+\DoxyCodeLine{378         \textcolor{keyword}{static} \textcolor{keywordtype}{void} \mbox{\hyperlink{class_rn_s_s_c_p_i_ad8fd04c4f6051d4fdc0585d57353fa44}{request\_SweepShape}}(\textcolor{keywordtype}{string} \&request\_buffer, \textcolor{keywordtype}{int} sour\_hw = 1);}
+\DoxyCodeLine{379 }
+\DoxyCodeLine{386         \textcolor{keyword}{static} \textcolor{keywordtype}{void} \mbox{\hyperlink{class_rn_s_s_c_p_i_a0fcf8e33f8ce936c5f761c5e3e7be3cb}{request\_SweepRetrace}}(\textcolor{keywordtype}{string} \&request\_buffer, \textcolor{keywordtype}{int} sour\_hw = 1);}
+\DoxyCodeLine{387 }
+\DoxyCodeLine{394         \textcolor{keyword}{static} \textcolor{keywordtype}{void} \mbox{\hyperlink{class_rn_s_s_c_p_i_ab16c6e60cf58489c0329bb700c86d480}{request\_SweepStepLinear}}(\textcolor{keywordtype}{string} \&request\_buffer, \textcolor{keywordtype}{int} sour\_hw = 1);}
+\DoxyCodeLine{395 }
+\DoxyCodeLine{402         \textcolor{keyword}{static} \textcolor{keywordtype}{void} \mbox{\hyperlink{class_rn_s_s_c_p_i_a187e4a272b83fe0895697d90feb61fd9}{request\_SweepStepLog}}(\textcolor{keywordtype}{string} \&request\_buffer, \textcolor{keywordtype}{int} sour\_hw = 1);}
+\DoxyCodeLine{403 }
+\DoxyCodeLine{410         \textcolor{keyword}{static} \textcolor{keywordtype}{void} \mbox{\hyperlink{class_rn_s_s_c_p_i_a3836f083da725d5d74c79d2f409e7ebc}{request\_SweepPoints}}(\textcolor{keywordtype}{string} \&request\_buffer, \textcolor{keywordtype}{int} sour\_hw = 1);}
+\DoxyCodeLine{411 }
+\DoxyCodeLine{418         \textcolor{keyword}{static} \textcolor{keywordtype}{void} \mbox{\hyperlink{class_rn_s_s_c_p_i_adb040286a0b9c276d161aa63ac6e34fe}{request\_FrequencyMode}}(\textcolor{keywordtype}{string} \&request\_buffer, \textcolor{keywordtype}{int} sour\_hw = 1);}
+\DoxyCodeLine{419 }
+\DoxyCodeLine{426         \textcolor{keyword}{static} \textcolor{keywordtype}{void} \mbox{\hyperlink{class_rn_s_s_c_p_i_aa210f2fb414a722e75ae9a6e01a2649a}{request\_SweepFreqDwell}}(\textcolor{keywordtype}{string} \&request\_buffer, \textcolor{keywordtype}{int} sour\_hw = 1);}
+\DoxyCodeLine{427 }
+\DoxyCodeLine{434         \textcolor{keyword}{static} \textcolor{keywordtype}{void} \mbox{\hyperlink{class_rn_s_s_c_p_i_a01c7379bd08adc8ad89b61785ca0a1aa}{request\_SweepFreqRun}}(\textcolor{keywordtype}{string} \&request\_buffer, \textcolor{keywordtype}{int} sour\_hw = 1);}
+\DoxyCodeLine{435 }
+\DoxyCodeLine{442         \textcolor{keyword}{static} \textcolor{keywordtype}{void} \mbox{\hyperlink{class_rn_s_s_c_p_i_a268162c324aaa14603415e59d5266e4d}{sweepResetAll}}(\textcolor{keywordtype}{string} \&request\_buffer, \textcolor{keywordtype}{int} sour\_hw = 1) noexcept;}
+\DoxyCodeLine{443         \textcolor{comment}{/*-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/*/}}
+\DoxyCodeLine{444 }
+\DoxyCodeLine{445         \textcolor{comment}{/*-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/ Основные настройки -\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/*/}}
+\DoxyCodeLine{446         \textcolor{comment}{// Установка частоты через число}}
+\DoxyCodeLine{455 \textcolor{comment}{}        static \textcolor{keywordtype}{void} \mbox{\hyperlink{class_rn_s_s_c_p_i_a7f9ce650dcdf460beb4267d0215a8664}{set\_Frequency}}(\textcolor{keywordtype}{string} \&request\_buffer, \textcolor{keywordtype}{double} value, \textcolor{keywordtype}{int} \&err, \textcolor{keywordtype}{int} unit = 3, \textcolor{keywordtype}{int} sour\_hw = 1);}
+\DoxyCodeLine{456 }
+\DoxyCodeLine{457         \textcolor{comment}{// Устанавливает частотный режим для генерации выходного ВЧ-\/сигнала.}}
+\DoxyCodeLine{465 \textcolor{comment}{}        static \textcolor{keywordtype}{void} \mbox{\hyperlink{class_rn_s_s_c_p_i_a0b3f286591aa9aae2c63742e2aa34e9a}{set\_FrequencyMode}}(\textcolor{keywordtype}{string} \&request\_buffer, \textcolor{keywordtype}{int} value, \textcolor{keywordtype}{int} \&err, \textcolor{keywordtype}{int} sour\_hw = 1);}
+\DoxyCodeLine{466 }
+\DoxyCodeLine{475         static \textcolor{keywordtype}{void} \mbox{\hyperlink{class_rn_s_s_c_p_i_a78e65d8ea331bbce5f8fddcca2e4ba3d}{set\_Power}}(\textcolor{keywordtype}{string} \&request\_buffer, \textcolor{keywordtype}{double} value, \textcolor{keywordtype}{int} \&err, \textcolor{keywordtype}{int} unit = 0, \textcolor{keywordtype}{int} sour\_hw = 1) ;}
+\DoxyCodeLine{476 }
+\DoxyCodeLine{485         static \textcolor{keywordtype}{void} \mbox{\hyperlink{class_rn_s_s_c_p_i_a95d2ffcbf5125c32190f44c5915f8eeb}{set\_Level}}(\textcolor{keywordtype}{string} \&request\_buffer, \textcolor{keywordtype}{double} value, \textcolor{keywordtype}{int} \&err, \textcolor{keywordtype}{int} unit = 0, \textcolor{keywordtype}{int} sour\_hw = 1);}
+\DoxyCodeLine{486 }
+\DoxyCodeLine{493         static \textcolor{keywordtype}{void} \mbox{\hyperlink{class_rn_s_s_c_p_i_ab5db5c29273d9e3225319c918e5b10a0}{set\_BasebandState}}(\textcolor{keywordtype}{string} \&request\_buffer, \textcolor{keywordtype}{bool} value, \textcolor{keywordtype}{int} sour\_hw = 1) noexcept;}
+\DoxyCodeLine{494         \textcolor{comment}{/*-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/*/}}
+\DoxyCodeLine{495 }
+\DoxyCodeLine{496         \textcolor{comment}{/*-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/ Настройки модуляции -\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/*/}}
+\DoxyCodeLine{505         static \textcolor{keywordtype}{void} \mbox{\hyperlink{class_rn_s_s_c_p_i_ab2ef8059843305e361f58145a777c163}{set\_AccordingToStandard}}(\textcolor{keywordtype}{string} \&request\_buffer, \textcolor{keywordtype}{int} standard\_number, \textcolor{keywordtype}{bool} isAPCO, \textcolor{keywordtype}{int} \&err, \textcolor{keywordtype}{int} sour\_hw = 1);}
+\DoxyCodeLine{506 }
+\DoxyCodeLine{516         static \textcolor{keywordtype}{void} \mbox{\hyperlink{class_rn_s_s_c_p_i_a82bc8e43c910982f80c86272b1fecff7}{set\_ModulationType}}(\textcolor{keywordtype}{string} \&request\_buffer, \textcolor{keywordtype}{int} num\_type, \textcolor{keywordtype}{int} num\_subtype, \textcolor{keywordtype}{int} \&err, \textcolor{keywordtype}{int} sour\_hw = 1);}
+\DoxyCodeLine{517 }
+\DoxyCodeLine{526         static \textcolor{keywordtype}{void} \mbox{\hyperlink{class_rn_s_s_c_p_i_a783ec6d242106c8af19a289efa262fa2}{set\_SymbolRate}}(\textcolor{keywordtype}{string} \&request\_buffer, \textcolor{keywordtype}{double} value, \textcolor{keywordtype}{int} \&err, \textcolor{keywordtype}{int} unit = 3, \textcolor{keywordtype}{int} sour\_hw = 1);}
+\DoxyCodeLine{527         \textcolor{comment}{/*-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/*/}}
+\DoxyCodeLine{528 }
+\DoxyCodeLine{529         \textcolor{comment}{/*-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/ Настройки частотной развертки -\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/*/}}
+\DoxyCodeLine{537         static \textcolor{keywordtype}{void} \mbox{\hyperlink{class_rn_s_s_c_p_i_ad499b6a81bf4d93273c07e86fdc3aa32}{set\_TriggerForSweeps}}(\textcolor{keywordtype}{string} \&request\_buffer, \textcolor{keywordtype}{int} value, \textcolor{keywordtype}{int} \&err, \textcolor{keywordtype}{int} trig\_hw = 1);}
+\DoxyCodeLine{538 }
+\DoxyCodeLine{546         static \textcolor{keywordtype}{void} \mbox{\hyperlink{class_rn_s_s_c_p_i_a5cb466a3f025e8d906fb842ce764bcb0}{set\_SweepFreqMode}}(\textcolor{keywordtype}{string} \&request\_buffer, \textcolor{keywordtype}{int} value, \textcolor{keywordtype}{int} \&err, \textcolor{keywordtype}{int} sour\_hw = 1);}
+\DoxyCodeLine{547 }
+\DoxyCodeLine{556         static \textcolor{keywordtype}{void} \mbox{\hyperlink{class_rn_s_s_c_p_i_a397551caaecf6b4b76a85aab7665b56f}{set\_FreqSpan}}(\textcolor{keywordtype}{string} \&request\_buffer, \textcolor{keywordtype}{double} value, \textcolor{keywordtype}{int} \&err, \textcolor{keywordtype}{int} unit = 3, \textcolor{keywordtype}{int} sour\_hw = 1);}
+\DoxyCodeLine{557 }
+\DoxyCodeLine{566         static \textcolor{keywordtype}{void} \mbox{\hyperlink{class_rn_s_s_c_p_i_a0734d471496f9893527bf80cd1defdb3}{set\_FreqCenter}}(\textcolor{keywordtype}{string} \&request\_buffer, \textcolor{keywordtype}{double} value, \textcolor{keywordtype}{int} \&err, \textcolor{keywordtype}{int} unit = 3, \textcolor{keywordtype}{int} sour\_hw = 1);}
+\DoxyCodeLine{567 }
+\DoxyCodeLine{576         static \textcolor{keywordtype}{void} \mbox{\hyperlink{class_rn_s_s_c_p_i_ad3df2b0b5cae80b926028dcacfc68876}{set\_FreqStart}}(\textcolor{keywordtype}{string} \&request\_buffer, \textcolor{keywordtype}{double} value, \textcolor{keywordtype}{int} \&err, \textcolor{keywordtype}{int} unit = 3, \textcolor{keywordtype}{int} sour\_hw = 1);}
+\DoxyCodeLine{577 }
+\DoxyCodeLine{586         static \textcolor{keywordtype}{void} \mbox{\hyperlink{class_rn_s_s_c_p_i_ab8235bf65bd1df39ffe0f55980a487e3}{set\_FreqStop}}(\textcolor{keywordtype}{string} \&request\_buffer, \textcolor{keywordtype}{double} value, \textcolor{keywordtype}{int} \&err, \textcolor{keywordtype}{int} unit = 3, \textcolor{keywordtype}{int} sour\_hw = 1);}
+\DoxyCodeLine{587 }
+\DoxyCodeLine{588         \textcolor{comment}{/*-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/ Установка диапазона чатот развертки -\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/*/}}
+\DoxyCodeLine{599         static \textcolor{keywordtype}{void} \mbox{\hyperlink{class_rn_s_s_c_p_i_a1b54e0cf58bfebaf66cec7f8c42f3347}{set\_freqSweepRange}}(\textcolor{keywordtype}{string} \&start\_freq\_buffer, \textcolor{keywordtype}{string} \&stop\_freq\_buffer, \textcolor{keywordtype}{double} start\_freq, \textcolor{keywordtype}{double} stop\_freq, \textcolor{keywordtype}{int} \&err, \textcolor{keywordtype}{int} unit = 3, \textcolor{keywordtype}{int} sour\_hw = 1);}
+\DoxyCodeLine{600         \textcolor{comment}{/*-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/*/}}
+\DoxyCodeLine{601 }
+\DoxyCodeLine{609         static \textcolor{keywordtype}{void} \mbox{\hyperlink{class_rn_s_s_c_p_i_af5b596030f7fdf67244287e54e20d352}{set\_SweepSpacing}}(\textcolor{keywordtype}{string} \&request\_buffer, \textcolor{keywordtype}{int} value, \textcolor{keywordtype}{int} \&err, \textcolor{keywordtype}{int} sour\_hw = 1);}
+\DoxyCodeLine{610 }
+\DoxyCodeLine{618         static \textcolor{keywordtype}{void} \mbox{\hyperlink{class_rn_s_s_c_p_i_af211ff7f145dff5cb4bb954efb8fca0b}{set\_SweepShape}}(\textcolor{keywordtype}{string} \&request\_buffer, \textcolor{keywordtype}{int} value, \textcolor{keywordtype}{int} \&err, \textcolor{keywordtype}{int} sour\_hw = 1);}
+\DoxyCodeLine{619 }
+\DoxyCodeLine{626         static \textcolor{keywordtype}{void} \mbox{\hyperlink{class_rn_s_s_c_p_i_a8f0403ed3aa295183e0a86f6d24b8bb8}{set\_SweepRetrace}}(\textcolor{keywordtype}{string} \&request\_buffer, \textcolor{keywordtype}{bool} value, \textcolor{keywordtype}{int} sour\_hw = 1) noexcept;}
+\DoxyCodeLine{627 }
+\DoxyCodeLine{638         static \textcolor{keywordtype}{void} \mbox{\hyperlink{class_rn_s_s_c_p_i_a4a545668df27f2022cca1ad923f6c3aa}{set\_SweepStepLinear}}(\textcolor{keywordtype}{string} \&request\_buffer, \textcolor{keywordtype}{double} value, \textcolor{keywordtype}{double} freq\_start, \textcolor{keywordtype}{double} freq\_stop, \textcolor{keywordtype}{int} \&err, \textcolor{keywordtype}{int} unit = 3, \textcolor{keywordtype}{int} sour\_hw = 1);}
+\DoxyCodeLine{639 }
+\DoxyCodeLine{647         static \textcolor{keywordtype}{void} \mbox{\hyperlink{class_rn_s_s_c_p_i_ad806c5b1795aa62308fa3fa340f34980}{set\_SweepStepLogarithmic}}(\textcolor{keywordtype}{string} \&request\_buffer, \textcolor{keywordtype}{double} value, \textcolor{keywordtype}{int} \&err, \textcolor{keywordtype}{int} sour\_hw = 1);}
+\DoxyCodeLine{648 }
+\DoxyCodeLine{656         static \textcolor{keywordtype}{void} \mbox{\hyperlink{class_rn_s_s_c_p_i_aec042c1b0de19b242435f3257c3b8f47}{set\_SweepPoints}}(\textcolor{keywordtype}{string} \&request\_buffer, \textcolor{keywordtype}{int} value, \textcolor{keywordtype}{int} \&err, \textcolor{keywordtype}{int} sour\_hw = 1);}
+\DoxyCodeLine{657 }
+\DoxyCodeLine{666         static \textcolor{keywordtype}{void} \mbox{\hyperlink{class_rn_s_s_c_p_i_a5f0ae31f586ae4872974427edee1f8fb}{set\_SweepFreqDwell}}(\textcolor{keywordtype}{string} \&request\_buffer, \textcolor{keywordtype}{double} value, \textcolor{keywordtype}{int} \&err, \textcolor{keywordtype}{int} unit = 0, \textcolor{keywordtype}{int} sour\_hw = 1);}
+\DoxyCodeLine{667 }
+\DoxyCodeLine{673         static \textcolor{keywordtype}{void} \mbox{\hyperlink{class_rn_s_s_c_p_i_aff41e30cc0690ec8b192f6a776f262c1}{sweepFreqExecute}}(\textcolor{keywordtype}{string} \&request\_buffer, \textcolor{keywordtype}{int} sour\_hw = 1) noexcept;}
+\DoxyCodeLine{674         \textcolor{comment}{/*-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/*/}}
+\DoxyCodeLine{675 \};}
+\DoxyCodeLine{676 }
+\DoxyCodeLine{677 \textcolor{preprocessor}{\#endif }\textcolor{comment}{// RNSSCPI\_H}}
+
+\end{DoxyCode}
