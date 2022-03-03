@@ -403,15 +403,15 @@ void MainWindow::slotConnected()
     // Стандартные запросы
     RnSSCPI::request_IDN(request_buffer);
     ui->te_Log->append(QTime::currentTime().toString() + " -  Выполнена команда IDN: " + QString::fromStdString(request_buffer));
-    slotSendToServer(request_buffer);
+    emit signalSendToServer(request_buffer);
     RnSSCPI::request_LastError(request_buffer);
     ui->te_Log->append(QTime::currentTime().toString() + " -  Проверка наличия ошибок: " + QString::fromStdString(request_buffer));
-    slotSendToServer(request_buffer);
+    emit signalSendToServer(request_buffer);
 
     // Подгрузка текущей частоты
     RnSSCPI::request_Frequency(request_buffer);
     ui->te_Log->append(QTime::currentTime().toString() + " -  Запрос текущей частоты: " + QString::fromStdString(request_buffer));
-    slotSendToServer(request_buffer);
+    emit signalSendToServer(request_buffer);
     double result = 0;
     switch(ui->cb_FrequencyUnits->currentIndex())
     {
@@ -438,14 +438,14 @@ void MainWindow::slotConnected()
     // Подгрузка текущего значения PEP
     RnSSCPI::request_PEP(request_buffer);
     ui->te_Log->append(QTime::currentTime().toString() + " -  Запрос значения PEP: " + QString::fromStdString(request_buffer));
-    slotSendToServer(request_buffer);
+    emit signalSendToServer(request_buffer);
     double val_PEP = delSpace(response_From_Device).toDouble();
     ui->le_PEP->setText(QString::number(val_PEP));
 
     // Подгрузка текущего значения Level
     RnSSCPI::request_Level(request_buffer);
     ui->te_Log->append(QTime::currentTime().toString() + " -  Запрос значения LEVEL: " + QString::fromStdString(request_buffer));
-    slotSendToServer(request_buffer);
+    emit signalSendToServer(request_buffer);
     double val_Level = delSpace(response_From_Device).toDouble();
     ui->le_Level->setText(QString::number(val_Level));
 
@@ -495,7 +495,7 @@ void MainWindow::slotRunFreqSweep(QStringList data)
     if(error_buffer == RnSSCPI::No_error)
     {
         ui->te_Log->append(QTime::currentTime().toString() + " -  Установлен триггер для развертки: " + QString::fromStdString(request_buffer));
-        slotSendToServer(request_buffer);
+        emit signalSendToServer(request_buffer);
     }else
     {
         QMessageBox::critical(this, "Ошибка данных!", "Введен не существующий индекс TriggerForSweeps.", QMessageBox::Ok);
@@ -507,7 +507,7 @@ void MainWindow::slotRunFreqSweep(QStringList data)
     if(error_buffer == RnSSCPI::No_error)
     {
         ui->te_Log->append(QTime::currentTime().toString() + " -  Установлен режим развертки: " + QString::fromStdString(request_buffer));
-        slotSendToServer(request_buffer);
+        emit signalSendToServer(request_buffer);
     }
     else
     {
@@ -520,7 +520,7 @@ void MainWindow::slotRunFreqSweep(QStringList data)
     if(error_buffer == RnSSCPI::No_error)
     {
         ui->te_Log->append(QTime::currentTime().toString() + " -  Установлен режим расчета частотных интервалов: " + QString::fromStdString(request_buffer));
-        slotSendToServer(request_buffer);
+        emit signalSendToServer(request_buffer);
     }
     else
     {
@@ -533,7 +533,7 @@ void MainWindow::slotRunFreqSweep(QStringList data)
     if(error_buffer == RnSSCPI::No_error)
     {
         ui->te_Log->append(QTime::currentTime().toString() + " -  Установлена форма сигнала: " + QString::fromStdString(request_buffer));
-        slotSendToServer(request_buffer);
+        emit signalSendToServer(request_buffer);
     }
     else
     {
@@ -546,7 +546,7 @@ void MainWindow::slotRunFreqSweep(QStringList data)
     if(error_buffer == RnSSCPI::No_error)
     {
         ui->te_Log->append(QTime::currentTime().toString() + " -  Установлена началная частота: " + QString::fromStdString(request_buffer));
-        slotSendToServer(request_buffer);
+        emit signalSendToServer(request_buffer);
     }
     else
     {
@@ -559,7 +559,7 @@ void MainWindow::slotRunFreqSweep(QStringList data)
     if(error_buffer == RnSSCPI::No_error)
     {
         ui->te_Log->append(QTime::currentTime().toString() + " -  Установлена конечная частота: " + QString::fromStdString(request_buffer));
-        slotSendToServer(request_buffer);
+        emit signalSendToServer(request_buffer);
     }
     else
     {
@@ -570,19 +570,19 @@ void MainWindow::slotRunFreqSweep(QStringList data)
     // Активация изменения начальной частоты в ожидании следующего триггера
     RnSSCPI::set_SweepRetrace(request_buffer, true);
     ui->te_Log->append(QTime::currentTime().toString() + " -  Активация изменения начальной частоты в ожидании следущего триггера: " + QString::fromStdString(request_buffer));
-    slotSendToServer(request_buffer);
+    emit signalSendToServer(request_buffer);
 
 /*------------------------------------------------ Пока без этого -------------------------------------------------------------------------*/
 // Сброс всех активных разверток в начальную точку (альтернатива SetSweepRetrace())
 //    RnSSCPI::sweepResetAll(request_buffer);
-//    slotSendToServer(request_buffer);
+//    emit signalSendToServer(request_buffer);
 
 // Установка диапазона частотной развертки
 //    RnSSCPI::set_FreqSpan(request_buffer, data.at(8).toDouble(), error_buffer, data.at(9).toInt());
 //    switch(error_buffer)
 //    {
 //        case RnSSCPI::No_error:
-//            slotSendToServer(request_buffer);
+//            emit signalSendToServer(request_buffer);
 //        break;
 
 //        case RnSSCPI::Value_out_of_range:
@@ -599,7 +599,7 @@ void MainWindow::slotRunFreqSweep(QStringList data)
 //    switch(error_buffer)
 //        {
 //            case RnSSCPI::No_error:
-//                slotSendToServer(request_buffer);
+//                emit signalSendToServer(request_buffer);
 //            break;
 
 //            case RnSSCPI::Value_out_of_range:
@@ -612,8 +612,8 @@ void MainWindow::slotRunFreqSweep(QStringList data)
 //        }
 /*------------------------------------------------ Пока без этого -------------------------------------------------------------------------*/
 
-
-    if(ui->cb_SweepSpacing->currentText() == "Linear")
+//"Linear"
+    if(ui->cb_SweepSpacing->currentText().toLower() == QString::fromStdString(RnSSCPI::sweep_spacing_values.at(0)).toLower())
     {
         // Установка ширины шага для линейной развертки (значения от 0.01Гц до значения STOP - START)
         RnSSCPI::set_SweepStepLinear(request_buffer, data.at(12).toDouble(), data.at(4).toDouble(), data.at(6).toDouble(), error_buffer);
@@ -621,7 +621,7 @@ void MainWindow::slotRunFreqSweep(QStringList data)
         {
         case RnSSCPI::No_error:
             ui->te_Log->append(QTime::currentTime().toString() + " -  Установлен шаг для линейного режима: " + QString::fromStdString(request_buffer));
-            slotSendToServer(request_buffer);
+            emit signalSendToServer(request_buffer);
             break;
 
         case RnSSCPI::Value_out_of_range:
@@ -642,7 +642,7 @@ void MainWindow::slotRunFreqSweep(QStringList data)
         if(error_buffer == RnSSCPI::No_error)
         {
             ui->te_Log->append(QTime::currentTime().toString() + " -  Установлен шаг для логарифмического режима: " + QString::fromStdString(request_buffer));
-            slotSendToServer(request_buffer);
+            emit signalSendToServer(request_buffer);
         }
         else
         {
@@ -656,7 +656,7 @@ void MainWindow::slotRunFreqSweep(QStringList data)
     if(error_buffer == RnSSCPI::No_error)
     {
         ui->te_Log->append(QTime::currentTime().toString() + " -  Установлено количество шагов: " + QString::fromStdString(request_buffer));
-        slotSendToServer(request_buffer);
+        emit signalSendToServer(request_buffer);
     }
     else
     {
@@ -669,7 +669,7 @@ void MainWindow::slotRunFreqSweep(QStringList data)
     if(error_buffer == RnSSCPI::No_error)
     {
         ui->te_Log->append(QTime::currentTime().toString() + " -  Установлена задержка шага: " + QString::fromStdString(request_buffer));
-        slotSendToServer(request_buffer);
+        emit signalSendToServer(request_buffer);
     }
     else
     {
@@ -682,7 +682,7 @@ void MainWindow::slotRunFreqSweep(QStringList data)
     if(error_buffer == RnSSCPI::No_error)
     {
         ui->te_Log->append(QTime::currentTime().toString() + " -  Установлен режим Sweep для частоты : " + QString::fromStdString(request_buffer));
-        slotSendToServer(request_buffer);
+        emit signalSendToServer(request_buffer);
     }
     else
     {
@@ -692,7 +692,7 @@ void MainWindow::slotRunFreqSweep(QStringList data)
 
     // Запуск развертки
     RnSSCPI::sweepFreqExecute(request_buffer);
-    slotSendToServer(request_buffer);
+    emit signalSendToServer(request_buffer);
 }
 
 // Текущие данные для частотной развертки
@@ -701,7 +701,7 @@ void MainWindow::slotGetSweepData()
     ui->te_Log->append(QTime::currentTime().toString() + " -  Текущие параметры частотной развертки.");
     RnSSCPI::request_TriggerForSweeps(request_buffer);
     ui->te_Log->append(QTime::currentTime().toString() + " -  Запрос источника запуска развертки: " + QString::fromStdString(request_buffer));
-    slotSendToServer(request_buffer);
+    emit signalSendToServer(request_buffer);
     if(delSpace(response_From_Device) == "AUTO")
     {
         ui->cb_TriggerSource->setCurrentIndex(0);
@@ -728,7 +728,7 @@ void MainWindow::slotGetSweepData()
     // Режим развертки по частоте
     RnSSCPI::request_SweepFreqMod(request_buffer);
     ui->te_Log->append(QTime::currentTime().toString() + " -  Запрос режима развертки: " + QString::fromStdString(request_buffer));
-    slotSendToServer(request_buffer);
+    emit signalSendToServer(request_buffer);
     if(delSpace(response_From_Device) == "AUTO")
     {
         ui->cb_SweepFreqMode->setCurrentIndex(0);
@@ -743,7 +743,7 @@ void MainWindow::slotGetSweepData()
     //Режим расчета частотных интервалов
     RnSSCPI::request_SweepSpacing(request_buffer);
     ui->te_Log->append(QTime::currentTime().toString() + " -  Запрос режима расчета частотных интервалов: " + QString::fromStdString(request_buffer));
-    slotSendToServer(request_buffer);
+    emit signalSendToServer(request_buffer);
     if(delSpace(response_From_Device) == "LIN")
     {
         ui->cb_SweepSpacing->setCurrentIndex(0);
@@ -754,7 +754,7 @@ void MainWindow::slotGetSweepData()
     // Форма сигнала
     RnSSCPI::request_SweepShape(request_buffer);
     ui->te_Log->append(QTime::currentTime().toString() + " -  Запрос формы сигнала: " + QString::fromStdString(request_buffer));
-    slotSendToServer(request_buffer);
+    emit signalSendToServer(request_buffer);
     if(delSpace(response_From_Device) == "SAWT")
     {
         ui->cb_SweepShape->setCurrentIndex(0);
@@ -765,7 +765,7 @@ void MainWindow::slotGetSweepData()
     // Текущая начальная частота
     RnSSCPI::request_FreqStart(request_buffer);
     ui->te_Log->append(QTime::currentTime().toString() + " -  Запрос начальной частоты: " + QString::fromStdString(request_buffer));
-    slotSendToServer(request_buffer);
+    emit signalSendToServer(request_buffer);
     double translate_Freq = 0;
     switch (ui->cb_UninsStartFreq->currentIndex())
     {
@@ -790,7 +790,7 @@ void MainWindow::slotGetSweepData()
     // Текущая конечная частота
     RnSSCPI::request_FreqStop(request_buffer);
     ui->te_Log->append(QTime::currentTime().toString() + " -  Запрос конечной частоты: " + QString::fromStdString(request_buffer));
-    slotSendToServer(request_buffer);
+    emit signalSendToServer(request_buffer);
     switch (ui->cb_UnitsStopFreq->currentIndex())
     {
         case 0:
@@ -815,7 +815,7 @@ void MainWindow::slotGetSweepData()
     // Текущий диапазон
     RnSSCPI::request_FreqSpan(request_buffer);
     ui->te_Log->append(QTime::currentTime().toString() + " -  Запрос диапазона развертки: " + QString::fromStdString(request_buffer));
-    slotSendToServer(request_buffer);
+    emit signalSendToServer(request_buffer);
     switch (ui->cb_UnitsRange->currentIndex())
     {
         case 0:
@@ -839,7 +839,7 @@ void MainWindow::slotGetSweepData()
     // Текущая центральная частота
     RnSSCPI::request_FreqCenter(request_buffer);
     ui->te_Log->append(QTime::currentTime().toString() + " -  Запрос центральной частоты: " + QString::fromStdString(request_buffer));
-    slotSendToServer(request_buffer);
+    emit signalSendToServer(request_buffer);
     switch (ui->cb_UninsCenter->currentIndex())
     {
         case 0:
@@ -866,7 +866,7 @@ void MainWindow::slotGetSweepData()
     {
         RnSSCPI::request_SweepStepLinear(request_buffer);
         ui->te_Log->append(QTime::currentTime().toString() + " -  Запрос значения шага для линейного режима: " + QString::fromStdString(request_buffer));
-        slotSendToServer(request_buffer);
+        emit signalSendToServer(request_buffer);
         switch (ui->cb_UnitsLinStep->currentIndex())
         {
             case 0:
@@ -891,20 +891,20 @@ void MainWindow::slotGetSweepData()
     {
         RnSSCPI::request_SweepStepLog(request_buffer);
         ui->te_Log->append(QTime::currentTime().toString() + " -  Запрос значения шага для логарифмического режима: " + QString::fromStdString(request_buffer));
-        slotSendToServer(request_buffer);
+        emit signalSendToServer(request_buffer);
         ui->le_StepSweep->setText(delSpace(response_From_Device));
     }
 
     // Текущее количество точек
     RnSSCPI::request_SweepPoints(request_buffer);
     ui->te_Log->append(QTime::currentTime().toString() + " -  Запрос количества шагов: " + QString::fromStdString(request_buffer));
-    slotSendToServer(request_buffer);
+    emit signalSendToServer(request_buffer);
     ui->le_SweepPoints->setText(delSpace(response_From_Device));
 
     // Текущее время задержки
     RnSSCPI::request_SweepFreqDwell(request_buffer);
     ui->te_Log->append(QTime::currentTime().toString() + " -  Запрос времени задержки: " + QString::fromStdString(request_buffer));
-    slotSendToServer(request_buffer);
+    emit signalSendToServer(request_buffer);
     ui->le_SweepDwell->setText(delSpace(response_From_Device));
 }
 
@@ -915,17 +915,17 @@ void MainWindow::slotGetModData()
     // Текущий стандарт
     RnSSCPI::request_Standard(request_buffer);
     ui->te_Log->append(QTime::currentTime().toString() + " -  Запрос стандартной настройки: " + QString::fromStdString(request_buffer));
-    slotSendToServer(request_buffer);
+    emit signalSendToServer(request_buffer);
     UpdateStandard(response_From_Device);
 
     RnSSCPI::request_ModType(request_buffer);
     ui->te_Log->append(QTime::currentTime().toString() + " -  Запрос режима модуляции: " + QString::fromStdString(request_buffer));
-    slotSendToServer(request_buffer);
+    emit signalSendToServer(request_buffer);
     UpdateModulation(response_From_Device);
 
     RnSSCPI::request_SymbolRate(request_buffer);
     ui->te_Log->append(QTime::currentTime().toString() + " -  Запрос символьной скорости: " + QString::fromStdString(request_buffer));
-    slotSendToServer(request_buffer);
+    emit signalSendToServer(request_buffer);
     UpdateSymbolRate(response_From_Device);
 
 }
@@ -1128,7 +1128,7 @@ void MainWindow::on_pb_StopFreqSweep_clicked()
     RnSSCPI::set_FrequencyMode(request_buffer, 0, error_buffer);
     if(error_buffer == RnSSCPI::No_error)
     {
-        slotSendToServer(request_buffer);
+        emit signalSendToServer(request_buffer);
     }
     else QMessageBox::critical(this, "Ошибка", "Недопустимое значение для FrequencyMode.", QMessageBox::Ok);
 }
@@ -1141,7 +1141,7 @@ void MainWindow::on_pb_ResetFreqSweep_clicked()
     switch (error_buffer)
     {
         case RnSSCPI::No_error:
-            slotSendToServer(request_buffer);
+            emit signalSendToServer(request_buffer);
         break;
 
         case RnSSCPI::Value_out_of_range:
@@ -1163,7 +1163,7 @@ void MainWindow::on_le_Frequency_editingFinished()
     {
         case RnSSCPI::No_error:
             ui->te_Log->append(QTime::currentTime().toString() + " -  Установлено значение частоты : " + QString::fromStdString(request_buffer));
-            slotSendToServer(request_buffer);
+            emit signalSendToServer(request_buffer);
         break;
 
         case RnSSCPI::Value_out_of_range:
@@ -1185,10 +1185,10 @@ void MainWindow::on_le_PEP_editingFinished()
     {
         case RnSSCPI::No_error:
             ui->te_Log->append(QTime::currentTime().toString() + " -  Установлено значение PEP : " + QString::fromStdString(request_buffer));
-            slotSendToServer(request_buffer);
+            emit signalSendToServer(request_buffer);
             RnSSCPI::request_Level(request_buffer);
             ui->te_Log->append(QTime::currentTime().toString() + " -  Обновлено значение Level: " + QString::fromStdString(request_buffer));
-            slotSendToServer(request_buffer);
+            emit signalSendToServer(request_buffer);
             val_Level = delSpace(response_From_Device).toDouble();
             ui->le_Level->setText(QString::number(val_Level, 'g', 4));
         break;
@@ -1212,10 +1212,10 @@ void MainWindow::on_le_Level_editingFinished()
     {
         case RnSSCPI::No_error:
             ui->te_Log->append(QTime::currentTime().toString() + " -  Установлено значение Level : " + QString::fromStdString(request_buffer));
-            slotSendToServer(request_buffer);
+            emit signalSendToServer(request_buffer);
             RnSSCPI::request_PEP(request_buffer);
             ui->te_Log->append(QTime::currentTime().toString() + " -  Обновлено значение PEP: " + QString::fromStdString(request_buffer));
-            slotSendToServer(request_buffer);
+            emit signalSendToServer(request_buffer);
             val_PEP = delSpace(response_From_Device).toDouble();
             ui->le_PEP->setText(QString::number(val_PEP, 'g', 4));
         break;
@@ -1293,17 +1293,16 @@ void MainWindow::on_cb_AccordingToStandard_currentIndexChanged(int index)
         if(error_buffer == RnSSCPI::No_error)
         {
             ui->te_Log->append(QTime::currentTime().toString() + " -  Выполнена команда: " + QString::fromStdString(request_buffer));
-            slotSendToServer(request_buffer);
+            emit signalSendToServer(request_buffer);
         }
-        else QMessageBox::critical(this, "Ошибка!", "Введена несуществующая стандартная настройка.", QMessageBox::Ok);
         RnSSCPI::request_ModType(request_buffer);
         ui->te_Log->append(QTime::currentTime().toString() + " -  Выполнена команда: " + QString::fromStdString(request_buffer));
-        slotSendToServer(request_buffer);
+        emit signalSendToServer(request_buffer);
         UpdateModulation(response_From_Device);
 
         RnSSCPI::request_SymbolRate(request_buffer);
         ui->te_Log->append(QTime::currentTime().toString() + " -  Выполнена команда: " + QString::fromStdString(request_buffer));
-        slotSendToServer(request_buffer);
+        emit signalSendToServer(request_buffer);
         UpdateSymbolRate(response_From_Device);
     }
     else ui->lw_AccordingToStandard->setEnabled(false);
@@ -1314,18 +1313,17 @@ void MainWindow::on_lw_AccordingToStandard_currentRowChanged(int currentRow)
     if(error_buffer == RnSSCPI::No_error)
     {
         ui->te_Log->append(QTime::currentTime().toString() + " -  Выполнена команда: " + QString::fromStdString(request_buffer));
-        slotSendToServer(request_buffer);
+        emit signalSendToServer(request_buffer);
     }
-    else QMessageBox::critical(this, "Ошибка!", "Введена несуществующая стандартная настройка.", QMessageBox::Ok);
 
     RnSSCPI::request_ModType(request_buffer);
     ui->te_Log->append(QTime::currentTime().toString() + " -  Выполнена команда: " + QString::fromStdString(request_buffer));
-    slotSendToServer(request_buffer);
+    emit signalSendToServer(request_buffer);
     UpdateModulation(response_From_Device);
 
     RnSSCPI::request_SymbolRate(request_buffer);
     ui->te_Log->append(QTime::currentTime().toString() + " -  Выполнена команда: " + QString::fromStdString(request_buffer));
-    slotSendToServer(request_buffer);
+    emit signalSendToServer(request_buffer);
     UpdateSymbolRate(response_From_Device);
 }
 
@@ -1347,7 +1345,7 @@ void MainWindow::on_cb_ModType_currentIndexChanged(int index)
             {
                 case RnSSCPI::No_error:
                     ui->te_Log->append(QTime::currentTime().toString() + " -  Выполнена команда: " + QString::fromStdString(request_buffer));
-                    slotSendToServer(request_buffer);
+                    emit signalSendToServer(request_buffer);
                 break;
 
                 case RnSSCPI::Value_out_of_range:
@@ -1361,12 +1359,12 @@ void MainWindow::on_cb_ModType_currentIndexChanged(int index)
 
             RnSSCPI::request_Standard(request_buffer);
             ui->te_Log->append(QTime::currentTime().toString() + " -  Выполнена команда: " + QString::fromStdString(request_buffer));
-            slotSendToServer(request_buffer);
+            emit signalSendToServer(request_buffer);
             UpdateStandard(response_From_Device);
 
             RnSSCPI::request_SymbolRate(request_buffer);
             ui->te_Log->append(QTime::currentTime().toString() + " -  Выполнена команда: " + QString::fromStdString(request_buffer));
-            slotSendToServer(request_buffer);
+            emit signalSendToServer(request_buffer);
             UpdateSymbolRate(response_From_Device);
         break;
 
@@ -1433,11 +1431,11 @@ void MainWindow::on_lw_ModType_currentRowChanged(int currentRow)
     {
         case RnSSCPI::No_error:
             ui->te_Log->append(QTime::currentTime().toString() + " -  Выполнена команда: " + QString::fromStdString(request_buffer));
-            slotSendToServer(request_buffer);
+            emit signalSendToServer(request_buffer);
         break;
 
         case RnSSCPI::Value_out_of_range:
-            QMessageBox::critical(this, "Ошибка!", "Указан неверный номер sub_type.2", QMessageBox::Ok);
+            //QMessageBox::critical(this, "Ошибка!", "Указан неверный номер sub_type.2", QMessageBox::Ok);
         break;
 
         case RnSSCPI::Invalid_type_number:
@@ -1447,11 +1445,11 @@ void MainWindow::on_lw_ModType_currentRowChanged(int currentRow)
 
     RnSSCPI::request_Standard(request_buffer);
     ui->te_Log->append(QTime::currentTime().toString() + " -  Выполнена команда: " + QString::fromStdString(request_buffer));
-    slotSendToServer(request_buffer);
+    emit signalSendToServer(request_buffer);
     UpdateStandard(response_From_Device);
 
     RnSSCPI::request_SymbolRate(request_buffer);
     ui->te_Log->append(QTime::currentTime().toString() + " -  Выполнена команда: " + QString::fromStdString(request_buffer));
-    slotSendToServer(request_buffer);
+    emit signalSendToServer(request_buffer);
     UpdateSymbolRate(response_From_Device);
 }
