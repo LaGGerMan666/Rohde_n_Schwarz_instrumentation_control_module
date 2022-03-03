@@ -12,10 +12,7 @@
 #include <QTime>
 #include <QFile>
 #include <QDir>
-//#include <QMdiArea>
-//#include <QMdiSubWindow>
 #include "rnsscpi.h"
-#include "setting_freq_sweep.h"
 
 
 QT_BEGIN_NAMESPACE
@@ -76,8 +73,6 @@ private slots:
 
     void on_le_Level_editingFinished();
 
-    void on_action_FreqSweep_triggered();
-
     void on_tw_Settings_tabBarClicked(int index);
 
     void on_cb_SweepSpacing_currentIndexChanged(const QString &arg1);
@@ -106,7 +101,6 @@ private:
     QFile *log_commands;
     int countPressBut = 0;
     RnSSCPI *SMW200A;
-    Setting_Freq_Sweep *set_FreqSweep;
 
 
 

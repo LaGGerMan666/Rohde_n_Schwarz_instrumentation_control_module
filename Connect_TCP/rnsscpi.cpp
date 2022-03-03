@@ -147,7 +147,7 @@ void RnSSCPI::sweepResetAll(string &request_buffer, int sour_hw) noexcept
 // Установка частоты
 void RnSSCPI::set_Frequency(string &request_buffer, double value, int &err, int unit, int sour_hw)
 {
-    err = error::No_error;
+    err = errors::No_error;
     switch (unit)
     {
         case unitsFreq::eGHz:
@@ -155,7 +155,7 @@ void RnSSCPI::set_Frequency(string &request_buffer, double value, int &err, int 
             {
                 request_buffer = "SOURce" + to_string(sour_hw) + ":FREQuency:CW " + to_string(value) + " GHz\n";
             }
-            else err = error::Value_out_of_range;
+            else err = errors::Value_out_of_range;
         break;
 
         case unitsFreq::eMHz:
@@ -163,7 +163,7 @@ void RnSSCPI::set_Frequency(string &request_buffer, double value, int &err, int 
             {
                 request_buffer = "SOURce" + to_string(sour_hw) + ":FREQuency:CW " + to_string(value) + " MHz\n";
             }
-            else err = error::Value_out_of_range;
+            else err = errors::Value_out_of_range;
         break;
 
         case unitsFreq::ekHz:
@@ -171,7 +171,7 @@ void RnSSCPI::set_Frequency(string &request_buffer, double value, int &err, int 
             {
                 request_buffer = "SOURce" + to_string(sour_hw) + ":FREQuency:CW " + to_string(value) + " kHz\n";
             }
-            else err = error::Value_out_of_range;
+            else err = errors::Value_out_of_range;
         break;
 
         case unitsFreq::eHZ:
@@ -179,11 +179,11 @@ void RnSSCPI::set_Frequency(string &request_buffer, double value, int &err, int 
             {
                 request_buffer = "SOURce" + to_string(sour_hw) + ":FREQuency:CW " + to_string(value) + "Hz\n";
             }
-            else err = error::Value_out_of_range;
+            else err = errors::Value_out_of_range;
         break;
 
         default:
-            err = error::Wrong_unit_of_measure;
+            err = errors::Wrong_unit_of_measure;
 
     }
 }
@@ -192,19 +192,19 @@ void RnSSCPI::set_Frequency(string &request_buffer, double value, int &err, int 
 // 0 ="CW", 1 = "FIXed", 2 = "SWEep", 3 = "LIST", 4 = "COMBined"
 void RnSSCPI::set_FrequencyMode(string &request_buffer, int value, int &err, int sour_hw)
 {
-    err = error::No_error;
+    err = errors::No_error;
     int count_values = sizeof(freq_mode_values)/sizeof(freq_mode_values[0]);
     if(value >= 0 && value <= count_values - 1)
     {
         request_buffer = "SOURce" + to_string(sour_hw) + ":FREQuency:MODE " + freq_mode_values.at(value) + "\n";
     }
-    else err = error::Value_out_of_range;
+    else err = errors::Value_out_of_range;
 }
 
 // Установка мощности
 void RnSSCPI::set_Power(string &request_buffer, double value, int &err, int unit, int sour_hw)
 {
-    err = error::No_error;
+    err = errors::No_error;
     switch (unit)
     {
         case unitsPower::edBM:
@@ -212,7 +212,7 @@ void RnSSCPI::set_Power(string &request_buffer, double value, int &err, int unit
             {
                 request_buffer = "SOURce" + to_string(sour_hw) + ":POWer:POWer " + to_string(value) + " dBm\n";
             }
-            else err = error::Value_out_of_range;
+            else err = errors::Value_out_of_range;
         break;
 
         case unitsPower::edBUV:
@@ -220,7 +220,7 @@ void RnSSCPI::set_Power(string &request_buffer, double value, int &err, int unit
             {
                 request_buffer = "SOURce" + to_string(sour_hw) + ":POWer:POWer " + to_string(value) + " dBUV\n";
             }
-            else err = error::Value_out_of_range;
+            else err = errors::Value_out_of_range;
         break;
 
         case unitsPower::eV:
@@ -228,7 +228,7 @@ void RnSSCPI::set_Power(string &request_buffer, double value, int &err, int unit
             {
                 request_buffer = "SOURce" + to_string(sour_hw) + ":POWer:POWer " + to_string(value) + " V\n";
             }
-            else err = error::Value_out_of_range;
+            else err = errors::Value_out_of_range;
         break;
 
         case unitsPower::emV:
@@ -236,7 +236,7 @@ void RnSSCPI::set_Power(string &request_buffer, double value, int &err, int unit
             {
                 request_buffer = "SOURce" + to_string(sour_hw) + ":POWer:POWer " + to_string(value) + " mV\n";
             }
-            else err = error::Value_out_of_range;
+            else err = errors::Value_out_of_range;
         break;
 
         case unitsPower::euV:
@@ -244,7 +244,7 @@ void RnSSCPI::set_Power(string &request_buffer, double value, int &err, int unit
             {
                 request_buffer = "SOURce" + to_string(sour_hw) + ":POWer:POWer " + to_string(value) + " uV\n";
             }
-            else err = error::Value_out_of_range;
+            else err = errors::Value_out_of_range;
         break;
 
         case unitsPower::enV:
@@ -255,14 +255,14 @@ void RnSSCPI::set_Power(string &request_buffer, double value, int &err, int unit
         break;
 
         default:
-            err = error::Wrong_unit_of_measure;
+            err = errors::Wrong_unit_of_measure;
     }
 }
 
 // Установка уровня
 void RnSSCPI::set_Level(string &request_buffer, double value, int &err, int unit, int sour_hw)
 {
-    err = error::No_error;
+    err = errors::No_error;
     switch (unit)
     {
         case unitsPower::edBM:
@@ -270,7 +270,7 @@ void RnSSCPI::set_Level(string &request_buffer, double value, int &err, int unit
             {
                 request_buffer = "SOURce" + to_string(sour_hw) + ":POWer:LEVel:IMMediate:AMPLitude " + to_string(value) + " dBm\n";
             }
-            else err = error::Value_out_of_range;
+            else err = errors::Value_out_of_range;
         break;
 
         case unitsPower::edBUV:
@@ -278,7 +278,7 @@ void RnSSCPI::set_Level(string &request_buffer, double value, int &err, int unit
             {
                 request_buffer = "SOURce" + to_string(sour_hw) + ":POWer:LEVel:IMMediate:AMPLitude " + to_string(value) + " dBUV\n";
             }
-            else err = error::Value_out_of_range;
+            else err = errors::Value_out_of_range;
         break;
 
         case unitsPower::eV:
@@ -286,7 +286,7 @@ void RnSSCPI::set_Level(string &request_buffer, double value, int &err, int unit
             {
                 request_buffer = "SOURce" + to_string(sour_hw) + ":POWer:LEVel:IMMediate:AMPLitude " + to_string(value) + " V\n";
             }
-            else err = error::Value_out_of_range;
+            else err = errors::Value_out_of_range;
         break;
 
         case unitsPower::emV:
@@ -294,7 +294,7 @@ void RnSSCPI::set_Level(string &request_buffer, double value, int &err, int unit
             {
                 request_buffer = "SOURce" + to_string(sour_hw) + ":POWer:LEVel:IMMediate:AMPLitude " + to_string(value) + " mV\n";
             }
-            else err = error::Value_out_of_range;
+            else err = errors::Value_out_of_range;
         break;
 
         case unitsPower::euV:
@@ -302,7 +302,7 @@ void RnSSCPI::set_Level(string &request_buffer, double value, int &err, int unit
              {
                  request_buffer = "SOURce" + to_string(sour_hw) + ":POWer:LEVel:IMMediate:AMPLitude " + to_string(value) + " uV\n";
              }
-             else err = error::Value_out_of_range;
+             else err = errors::Value_out_of_range;
         break;
 
         case unitsPower::enV:
@@ -310,18 +310,18 @@ void RnSSCPI::set_Level(string &request_buffer, double value, int &err, int unit
             {
                 request_buffer = "SOURce" + to_string(sour_hw) + ":POWer:LEVel:IMMediate:AMPLitude " + to_string(value) + " nV\n";
             }
-            else err = error::Value_out_of_range;
+            else err = errors::Value_out_of_range;
         break;
 
         default:
-            err = error::Wrong_unit_of_measure;
+            err = errors::Wrong_unit_of_measure;
     }
 }
 
 // Установка стандартных режимов
 void RnSSCPI::set_AccordingToStandard(string &request_buffer, int standard_number, bool isAPCO, int &err, int sour_hw)
 {
-    err = error::No_error;
+    err = errors::No_error;
     if(!isAPCO)
     {
         int count_StandardSheet = sizeof(standard_sheet)/sizeof(standard_sheet[0]);
@@ -329,7 +329,7 @@ void RnSSCPI::set_AccordingToStandard(string &request_buffer, int standard_numbe
         {
             request_buffer = "SOURce" + to_string(sour_hw) + ":BB:DM:STANdard " + standard_sheet.at(standard_number) + "\n";
         }
-        else err = error::Value_out_of_range;
+        else err = errors::Value_out_of_range;
     }
     else
     {
@@ -338,14 +338,14 @@ void RnSSCPI::set_AccordingToStandard(string &request_buffer, int standard_numbe
         {
             request_buffer = "SOURce" + to_string(sour_hw) + ":BB:DM:STANdard " + standard_sheet_apco.at(standard_number) + "\n";
         }
-        else err = error::Value_out_of_range;
+        else err = errors::Value_out_of_range;
     }
 }
 
 // Установка типа модуляции
 void RnSSCPI::set_ModulationType(string &request_buffer, int num_type, int num_subtype, int &err, int sour_hw)
 {
-    err = error::No_error;
+    err = errors::No_error;
     int count_modType = 0;
     switch (num_type)
     {
@@ -359,7 +359,7 @@ void RnSSCPI::set_ModulationType(string &request_buffer, int num_type, int num_s
             {
                 request_buffer = "SOURce" + to_string(sour_hw) + ":BB:DM:FORMat " + mod_type_sheet_PSK.at(num_subtype) + "\n";
             }
-            else err = error::Value_out_of_range;
+            else err = errors::Value_out_of_range;
         break;
 
         case 2: // QAM
@@ -376,7 +376,7 @@ void RnSSCPI::set_ModulationType(string &request_buffer, int num_type, int num_s
             {
                 request_buffer = "SOURce" + to_string(sour_hw) + ":BB:DM:FORMat " + mod_type_sheet_FSK.at(num_subtype) + "\n";
             }
-            else err = error::Value_out_of_range;
+            else err = errors::Value_out_of_range;
         break;
 
         case 4: // APSK
@@ -385,11 +385,11 @@ void RnSSCPI::set_ModulationType(string &request_buffer, int num_type, int num_s
             {
                 request_buffer = "SOURce" + to_string(sour_hw) + ":BB:DM:FORMat " + mod_type_sheet_APSK.at(num_subtype) + "\n";
             }
-            else err = error::Value_out_of_range;
+            else err = errors::Value_out_of_range;
         break;
 
         default:
-            err = error::Invalid_type_number;
+            err = errors::Invalid_type_number;
     }
 }
 
@@ -397,7 +397,7 @@ void RnSSCPI::set_ModulationType(string &request_buffer, int num_type, int num_s
 // Задавать в единицах измерения Hz(sym/s можно не указывать), kHz(kSym/s), MHz(MSym/s)
 void RnSSCPI::set_SymbolRate(string &request_buffer, double value, int &err, int unit, int sour_hw)
 {
-    err = error::No_error;
+    err = errors::No_error;
     switch (unit)
     {
         case unitsFreq::eHZ:
@@ -405,7 +405,7 @@ void RnSSCPI::set_SymbolRate(string &request_buffer, double value, int &err, int
             {
                 request_buffer = "SOURce" + to_string(sour_hw) + ":BB:DM:SRATe " + to_string(value) + "Hz\n";
             }
-            else err = error::Value_out_of_range;
+            else err = errors::Value_out_of_range;
         break;
 
         case unitsFreq::ekHz:
@@ -413,7 +413,7 @@ void RnSSCPI::set_SymbolRate(string &request_buffer, double value, int &err, int
             {
                 request_buffer = "SOURce" + to_string(sour_hw) + ":BB:DM:SRATe " + to_string(value) + "kHz\n";
             }
-            else err = error::Value_out_of_range;
+            else err = errors::Value_out_of_range;
         break;
 
         case unitsFreq::eMHz:
@@ -421,11 +421,11 @@ void RnSSCPI::set_SymbolRate(string &request_buffer, double value, int &err, int
             {
                 request_buffer = "SOURce" + to_string(sour_hw) + ":BB:DM:SRATe " + to_string(value) + "MHz\n";
             }
-            else err = error::Value_out_of_range;
+            else err = errors::Value_out_of_range;
         break;
 
         default:
-            err = error::Wrong_unit_of_measure;
+            err = errors::Wrong_unit_of_measure;
     }
 }
 
@@ -448,11 +448,11 @@ int RnSSCPI::search_StandardAPCO(string &device_response, int &number_standard)
         if(device_response == standard_sheet_apco.at(i))
         {
             number_standard = i;
-            return error::No_error;
+            return errors::No_error;
             break;
         }
     }
-    return error::Element_not_found;
+    return errors::Element_not_found;
 }
 
 
@@ -464,11 +464,11 @@ int RnSSCPI::search_Standard(string &device_response, int &number_standard)
         if(device_response == standard_sheet.at(i))
         {
             number_standard = i;
-            return error::No_error;
+            return errors::No_error;
             break;
         }
     }
-    return error::Element_not_found;
+    return errors::Element_not_found;
 }
 
 
@@ -480,11 +480,11 @@ int RnSSCPI::search_ModPSK(string &device_response, int &number_mod)
         if(device_response == mod_type_sheet_PSK.at(i))
         {
             number_mod = i;
-            return error::No_error;
+            return errors::No_error;
             break;
         }
     }
-    return error::Element_not_found;
+    return errors::Element_not_found;
 }
 
 
@@ -496,11 +496,11 @@ int RnSSCPI::search_ModQAM(string &device_response, int &number_mod)
         if(device_response == mod_type_sheet_QAM.at(i))
         {
             number_mod = i;
-            return error::No_error;
+            return errors::No_error;
             break;
         }
     }
-    return error::Element_not_found;
+    return errors::Element_not_found;
 }
 
 
@@ -512,11 +512,11 @@ int RnSSCPI::search_ModFSK(string &device_response, int &number_mod)
         if(device_response == mod_type_sheet_FSK.at(i))
         {
             number_mod = i;
-            return error::No_error;
+            return errors::No_error;
             break;
         }
     }
-    return error::Element_not_found;
+    return errors::Element_not_found;
 }
 
 
@@ -528,23 +528,23 @@ int RnSSCPI::search_Mod_APSK(string &device_response, int &number_mod)
         if(device_response == mod_type_sheet_APSK.at(i))
         {
             number_mod = i;
-            return error::No_error;
+            return errors::No_error;
             break;
         }
     }
-    return error::Element_not_found;
+    return errors::Element_not_found;
 }
 
 // Выбор триггера для разверток
 void RnSSCPI::set_TriggerForSweeps(string &request_buffer, int value, int &err, int trig_hw)
 {
-    err = error::No_error;
+    err = errors::No_error;
     int count_value = sizeof(trigger_for_sweeps_values)/sizeof(trigger_for_sweeps_values[0]);
     if(value >= 0 && value <= count_value - 1)
     {
         request_buffer = "TRIGger" + to_string(trig_hw) + ":FSWeep:SOURce " + trigger_for_sweeps_values.at(value) + "\n";
     }
-    else err = error::Value_out_of_range;
+    else err = errors::Value_out_of_range;
 }
 
 // Установка циклического режима для развертки по частоте
@@ -555,13 +555,13 @@ void RnSSCPI::set_SweepFreqMode(string &request_buffer, int value, int &err, int
     {
         request_buffer = "SOURce" + to_string(sour_hw) + ":SWEep:FREQuency:MODE " + sweep_freq_mode_values.at(value) + "\n";
     }
-    else err = error::Value_out_of_range;
+    else err = errors::Value_out_of_range;
 }
 
 // Установка диапазона частотной развертки
 void RnSSCPI::set_FreqSpan(string &request_buffer, double value, int &err, int unit, int sour_hw)
 {
-    err = error::No_error;
+    err = errors::No_error;
     switch (unit)
     {
         case unitsFreq::eHZ:
@@ -569,7 +569,7 @@ void RnSSCPI::set_FreqSpan(string &request_buffer, double value, int &err, int u
             {
                 request_buffer = "SOURce" + to_string(sour_hw) + ":FREQuency:SPAN " + to_string(value) + "Hz\n";
             }
-            else err = error::Value_out_of_range;
+            else err = errors::Value_out_of_range;
         break;
 
         case unitsFreq::ekHz:
@@ -577,7 +577,7 @@ void RnSSCPI::set_FreqSpan(string &request_buffer, double value, int &err, int u
             {
                 request_buffer = "SOURce" + to_string(sour_hw) + ":FREQuency:SPAN " + to_string(value) + "kHz\n";
             }
-            else err = error::Value_out_of_range;
+            else err = errors::Value_out_of_range;
         break;
 
         case unitsFreq::eMHz:
@@ -585,7 +585,7 @@ void RnSSCPI::set_FreqSpan(string &request_buffer, double value, int &err, int u
             {
                request_buffer = "SOURce" + to_string(sour_hw) + ":FREQuency:SPAN " + to_string(value) + "MHz\n";
             }
-            else err = error::Value_out_of_range;
+            else err = errors::Value_out_of_range;
         break;
 
         case unitsFreq::eGHz:
@@ -593,18 +593,18 @@ void RnSSCPI::set_FreqSpan(string &request_buffer, double value, int &err, int u
             {
                 request_buffer = "SOURce" + to_string(sour_hw) + ":FREQuency:SPAN " + to_string(value) + "GHz\n";
             }
-            else err = error::Value_out_of_range;
+            else err = errors::Value_out_of_range;
         break;
 
         default:
-            err = error::Wrong_unit_of_measure;
+            err = errors::Wrong_unit_of_measure;
     }    
 }
 
 // Установка центральной частоты развертки через число
 void RnSSCPI::set_FreqCenter(string &request_buffer, double value, int &err, int unit, int sour_hw)
 {
-    err = error::No_error;
+    err = errors::No_error;
     switch (unit)
     {
         case unitsFreq::eHZ:
@@ -612,7 +612,7 @@ void RnSSCPI::set_FreqCenter(string &request_buffer, double value, int &err, int
             {
                 request_buffer = "SOURce" + to_string(sour_hw) + ":FREQuency:CENTer " + to_string(value) + "Hz\n";
             }
-            else err = error::Value_out_of_range;
+            else err = errors::Value_out_of_range;
         break;
 
         case unitsFreq::ekHz:
@@ -620,7 +620,7 @@ void RnSSCPI::set_FreqCenter(string &request_buffer, double value, int &err, int
             {
                 request_buffer = "SOURce" + to_string(sour_hw) + ":FREQuency:CENTer " + to_string(value) + "kHz\n";
             }
-            else err = error::Value_out_of_range;
+            else err = errors::Value_out_of_range;
         break;
 
         case unitsFreq::eMHz:
@@ -628,7 +628,7 @@ void RnSSCPI::set_FreqCenter(string &request_buffer, double value, int &err, int
             {
                 request_buffer = "SOURce" + to_string(sour_hw) + ":FREQuency:CENTer " + to_string(value) + "MHz\n";
             }
-            else err = error::Value_out_of_range;
+            else err = errors::Value_out_of_range;
         break;
 
         case unitsFreq::eGHz:
@@ -636,18 +636,18 @@ void RnSSCPI::set_FreqCenter(string &request_buffer, double value, int &err, int
             {
                 request_buffer = "SOURce" + to_string(sour_hw) + ":FREQuency:CENTer " + to_string(value) + "GHz\n";
             }
-            else err = error::Value_out_of_range;
+            else err = errors::Value_out_of_range;
         break;
 
         default:
-            err = error::Wrong_unit_of_measure;
+            err = errors::Wrong_unit_of_measure;
     }
 }
 
 // Установка начальной частоты развертки
 void RnSSCPI::set_FreqStart(string &request_buffer, double value, int &err, int unit, int sour_hw)
 {
-    err = error::No_error;
+    err = errors::No_error;
     switch(unit)
     {
         case unitsFreq::eHZ:
@@ -655,7 +655,7 @@ void RnSSCPI::set_FreqStart(string &request_buffer, double value, int &err, int 
             {
                 request_buffer = "SOURce" + to_string(sour_hw) + ":FREQuency:STARt " + to_string(value) + "Hz\n";
             }
-            else err = error::Value_out_of_range;
+            else err = errors::Value_out_of_range;
         break;
 
         case unitsFreq::ekHz:
@@ -663,7 +663,7 @@ void RnSSCPI::set_FreqStart(string &request_buffer, double value, int &err, int 
             {
                 request_buffer = "SOURce" + to_string(sour_hw) + ":FREQuency:STARt " + to_string(value) + "kHz\n";
             }
-            else err = error::Value_out_of_range;
+            else err = errors::Value_out_of_range;
         break;
 
         case unitsFreq::eMHz:
@@ -671,7 +671,7 @@ void RnSSCPI::set_FreqStart(string &request_buffer, double value, int &err, int 
             {
                 request_buffer = "SOURce" + to_string(sour_hw) + ":FREQuency:STARt " + to_string(value) + "MHz\n";
             }
-            else err = error::Value_out_of_range;
+            else err = errors::Value_out_of_range;
         break;
 
         case unitsFreq::eGHz:
@@ -679,11 +679,11 @@ void RnSSCPI::set_FreqStart(string &request_buffer, double value, int &err, int 
             {
                 request_buffer = "SOURce" + to_string(sour_hw) + ":FREQuency:STARt " + to_string(value) + "GHz\n";
             }
-            else err = error::Value_out_of_range;
+            else err = errors::Value_out_of_range;
         break;
 
         default:
-            err = error::Wrong_unit_of_measure;
+            err = errors::Wrong_unit_of_measure;
     }
 }
 
@@ -691,7 +691,7 @@ void RnSSCPI::set_FreqStart(string &request_buffer, double value, int &err, int 
 /*-------------------------------- Нужна нормальная проверка граничных значений ----------------------------------*/
 void RnSSCPI::set_FreqStop(string &request_buffer, double value, int &err, int unit, int sour_hw)
 {
-    err = error::No_error;
+    err = errors::No_error;
     switch (unit)
     {
         case unitsFreq::eHZ:
@@ -699,7 +699,7 @@ void RnSSCPI::set_FreqStop(string &request_buffer, double value, int &err, int u
             {
                 request_buffer = "SOURce" + to_string(sour_hw) + ":FREQuency:STOP " + to_string(value) + "Hz\n";
             }
-            else err = error::Value_out_of_range;
+            else err = errors::Value_out_of_range;
         break;
 
         case unitsFreq::ekHz:
@@ -707,7 +707,7 @@ void RnSSCPI::set_FreqStop(string &request_buffer, double value, int &err, int u
             {
                 request_buffer = "SOURce" + to_string(sour_hw) + ":FREQuency:STOP " + to_string(value) + "kHz\n";
             }
-            else err = error::Value_out_of_range;
+            else err = errors::Value_out_of_range;
         break;
 
         case unitsFreq::eMHz:
@@ -715,7 +715,7 @@ void RnSSCPI::set_FreqStop(string &request_buffer, double value, int &err, int u
             {
                 request_buffer = "SOURce" + to_string(sour_hw) + ":FREQuency:STOP " + to_string(value) + "MHz\n";
             }
-            else err = error::Value_out_of_range;
+            else err = errors::Value_out_of_range;
         break;
 
         case unitsFreq::eGHz:
@@ -723,18 +723,18 @@ void RnSSCPI::set_FreqStop(string &request_buffer, double value, int &err, int u
             {
                 request_buffer = "SOURce" + to_string(sour_hw) + ":FREQuency:STOP " + to_string(value) + "GHz\n";
             }
-            else err = error::Value_out_of_range;
+            else err = errors::Value_out_of_range;
         break;
 
         default:
-            err = error::Wrong_unit_of_measure;
+            err = errors::Wrong_unit_of_measure;
     }
 }
 
 // Установка диапазона чатот развертки
 void RnSSCPI::set_freqSweepRange(string &start_freq_buffer, string &stop_freq_buffer, double start_freq, double stop_freq, int &err, int unit, int sour_hw)
 {
-    err = error::No_error;
+    err = errors::No_error;
     switch(unit)
     {
         case unitsFreq::eHZ:
@@ -743,7 +743,7 @@ void RnSSCPI::set_freqSweepRange(string &start_freq_buffer, string &stop_freq_bu
                 start_freq_buffer = "SOURce" + to_string(sour_hw) + ":FREQuency:STARt " + to_string(start_freq) + "Hz\n";
                 stop_freq_buffer = "SOURce" + to_string(sour_hw) + ":FREQuency:STOP " + to_string(stop_freq) + "Hz\n";
             }
-            else err = error::Value_out_of_range;
+            else err = errors::Value_out_of_range;
         break;
 
         case unitsFreq::ekHz:
@@ -752,7 +752,7 @@ void RnSSCPI::set_freqSweepRange(string &start_freq_buffer, string &stop_freq_bu
                 start_freq_buffer = "SOURce" + to_string(sour_hw) + ":FREQuency:STARt " + to_string(start_freq) + "kHz\n";
                 stop_freq_buffer = "SOURce" + to_string(sour_hw) + ":FREQuency:STOP " + to_string(stop_freq) + "kHz\n";
             }
-            else err = error::Value_out_of_range;
+            else err = errors::Value_out_of_range;
         break;
 
         case unitsFreq::eMHz:
@@ -761,7 +761,7 @@ void RnSSCPI::set_freqSweepRange(string &start_freq_buffer, string &stop_freq_bu
                 start_freq_buffer = "SOURce" + to_string(sour_hw) + ":FREQuency:STARt " + to_string(start_freq) + "MHz\n";
                 stop_freq_buffer = "SOURce" + to_string(sour_hw) + ":FREQuency:STOP " + to_string(stop_freq) + "MHz\n";
             }
-            else err = error::Value_out_of_range;
+            else err = errors::Value_out_of_range;
         break;
 
         case unitsFreq::eGHz:
@@ -770,36 +770,36 @@ void RnSSCPI::set_freqSweepRange(string &start_freq_buffer, string &stop_freq_bu
                 start_freq_buffer = "SOURce" + to_string(sour_hw) + ":FREQuency:STARt " + to_string(start_freq) + "GHz\n";
                 stop_freq_buffer = "SOURce" + to_string(sour_hw) + ":FREQuency:STOP " + to_string(stop_freq) + "GHz\n";
             }
-            else err = error::Value_out_of_range;
+            else err = errors::Value_out_of_range;
         break;
 
         default:
-            err = error::Wrong_unit_of_measure;
+            err = errors::Wrong_unit_of_measure;
     }
 }
 
 // Установка режима расчета частотных интервалов
 void RnSSCPI::set_SweepSpacing(string &request_buffer, int value, int &err, int sour_hw)
 {
-    err = error::No_error;
+    err = errors::No_error;
     int count_spasing = sizeof(sweep_spacing_values) / sizeof(sweep_spacing_values[0]);
     if(value >= 0 && value <= count_spasing - 1)
     {
         request_buffer = "SOURce" + to_string(sour_hw) + ":SWEep:FREQuency:SPACing " + sweep_spacing_values.at(value) + "\n";
     }
-    else err = error::Invalid_type_number;
+    else err = errors::Invalid_type_number;
 }
 
 // Установка формы сигнала для последовательности развертки частоты
 void RnSSCPI::set_SweepShape(string &request_buffer, int value, int &err, int sour_hw)
 {
-    err = error::No_error;
+    err = errors::No_error;
     int count_shape = sizeof(sweep_shape_values)/sizeof(sweep_shape_values[0]);
     if(value >= 0 && value <= count_shape - 1)
     {
         request_buffer = "SOURce" + to_string(sour_hw) + ":SWEep:FREQuency:SHAPe " + sweep_shape_values.at(value) + "\n";
     }
-    else err = error::Invalid_type_number;
+    else err = errors::Invalid_type_number;
 }
 
 // Активировать изменение начальной частоты в ожидании следующего триггера
@@ -815,7 +815,7 @@ void RnSSCPI::set_SweepRetrace(string &request_buffer, bool value, int sour_hw) 
 // Установка ширины шага для линейной развертки (значения от 0.01Гц до значения STOP - START) через строку
 void RnSSCPI::set_SweepStepLinear(string &request_buffer, double value, double freq_start, double freq_stop, int &err, int unit, int sour_hw)
 {
-    err = error::No_error;
+    err = errors::No_error;
     switch(unit)
     {
         case unitsFreq::eHZ:
@@ -823,7 +823,7 @@ void RnSSCPI::set_SweepStepLinear(string &request_buffer, double value, double f
             {
                 request_buffer = "SOURce" + to_string(sour_hw) + ":SWEep:FREQuency:STEP:LINear " + to_string(value) + "Hz\n";
             }
-            else err = error::Value_out_of_range;
+            else err = errors::Value_out_of_range;
         break;
 
         case unitsFreq::ekHz:
@@ -831,7 +831,7 @@ void RnSSCPI::set_SweepStepLinear(string &request_buffer, double value, double f
             {
                 request_buffer = "SOURce" + to_string(sour_hw) + ":SWEep:FREQuency:STEP:LINear " + to_string(value) + "kHz\n";
             }
-            else err = error::Value_out_of_range;
+            else err = errors::Value_out_of_range;
         break;
 
         case unitsFreq::eMHz:
@@ -839,7 +839,7 @@ void RnSSCPI::set_SweepStepLinear(string &request_buffer, double value, double f
             {
                 request_buffer = "SOURce" + to_string(sour_hw) + ":SWEep:FREQuency:STEP:LINear " + to_string(value) + "MHz\n";
             }
-            else err = error::Value_out_of_range;
+            else err = errors::Value_out_of_range;
         break;
 
         case unitsFreq::eGHz:
@@ -847,41 +847,41 @@ void RnSSCPI::set_SweepStepLinear(string &request_buffer, double value, double f
             {
                 request_buffer = "SOURce" + to_string(sour_hw) + ":SWEep:FREQuency:STEP:LINear " + to_string(value) + "GHz\n";
             }
-            else err = error::Value_out_of_range;
+            else err = errors::Value_out_of_range;
         break;
 
         default:
-            err = error::Wrong_unit_of_measure;
+            err = errors::Wrong_unit_of_measure;
     }
 }
 
 // Установка логарифмически определяемой ширины шага для развертки по частоте (Задается в %(PCT))
 void RnSSCPI::set_SweepStepLogarithmic(string &request_buffer, double value, int &err, int sour_hw)
 {
-    err = error::No_error;
+    err = errors::No_error;
     if(value >= 0.01 && value <= 100)
     {
         request_buffer = "SOURce" + to_string(sour_hw) + ":SWEep:FREQuency:STEP:LOGarithmic " + to_string(value) + "PCT\n";
     }
-    else err = error::Value_out_of_range;
+    else err = errors::Value_out_of_range;
 }
 
 // Установка количества шагов в пределах диапазона развертки
 void RnSSCPI::set_SweepPoints(string &request_buffer, int value, int &err, int sour_hw)
 {
-    err = error::No_error;
+    err = errors::No_error;
     if(value >= 2)
     {
         request_buffer = "SOURce" + to_string(sour_hw) + ":SWEep:FREQuency:POINts " + to_string(value) + "\n";
     }
-    else err = error::Value_out_of_range;
+    else err = errors::Value_out_of_range;
 }
 
 // Установка времени задержки для шага развертки по частоте
 /*------------------------------ Разобраться с граничными значениями ---------------------------------------*/
 void RnSSCPI::set_SweepFreqDwell(string &request_buffer, double value, int &err, int unit, int sour_hw)
 {
-    err = error::No_error;
+    err = errors::No_error;
     switch(unit)
     {
         case unitsTime::s:
@@ -897,7 +897,7 @@ void RnSSCPI::set_SweepFreqDwell(string &request_buffer, double value, int &err,
         break;
 
         default:
-            err = error::Wrong_unit_of_measure;
+            err = errors::Wrong_unit_of_measure;
     }
 }
 
